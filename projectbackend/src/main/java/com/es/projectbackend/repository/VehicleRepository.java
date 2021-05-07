@@ -1,11 +1,11 @@
 package com.es.projectbackend.repository;
-
+/*
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.es.projectbackend.model.Plane;
+import com.es.projectbackend.model.Vehicle;
 
 @Repository
-public interface PlaneRepository extends JpaRepository<Plane, String>{
+public interface VehicleRepository extends JpaRepository<Vehicle, String>{
 
-}
+}*/

@@ -10,29 +10,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.es.projectbackend.service.OpenSkyService;
+import com.es.projectbackend.service.LAMetroService;
 import com.google.gson.Gson;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/")
-public class PlaneController {
+public class VehiclesController {
 	@Autowired
-	private OpenSkyService openSkyService;
+	private LAMetroService laMetroService;
 	
-	private static final Logger logger = LogManager.getLogger(PlaneController.class);
+	private static final Logger logger = LogManager.getLogger(VehiclesController.class);
 	
-	@GetMapping("/planes")
+	@GetMapping("/vehicles")
 	public String getAllPlanes(){
-		logger.info("Request for live plane information");
-		String planes = new Gson().toJson(openSkyService.getAllPlanes());
+		logger.info("Request for live vehicles information");
+		String planes = new Gson().toJson(laMetroService.getAllVehicles());
 		return planes;
-	}	
-	
-	@GetMapping("/history")
-	public String getHistory(){
-		logger.info("Request for altitude history");
-		String history = new Gson().toJson(openSkyService.getHistory());
-		return history;
 	}	
 }

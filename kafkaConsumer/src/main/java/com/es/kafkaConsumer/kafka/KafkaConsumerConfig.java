@@ -20,7 +20,7 @@ public class KafkaConsumerConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(
           ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, 
-          "172.0.0.6:9092");
+          "172.0.0.16:9092");
         props.put(
           ConsumerConfig.GROUP_ID_CONFIG, 
           "opensky_group");
