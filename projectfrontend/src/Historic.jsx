@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FlightService from './PlaneService';
+import MetroService from './MetroService';
     
 class Historic extends Component {
     intervalID;
@@ -14,7 +14,7 @@ class Historic extends Component {
         this.getData();
     }
     getData(){
-        FlightService.getHistory().then((res) => {
+        MetroService.getHistory().then((res) => {
             this.setState({history: res.data});
         }
         );

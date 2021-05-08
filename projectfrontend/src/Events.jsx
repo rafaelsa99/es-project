@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FlightService from './PlaneService';
+import MetroService from './MetroService';
     
 class Events extends Component {
     intervalID;
@@ -17,7 +17,7 @@ class Events extends Component {
         clearTimeout(this.intervalID);
     }
     getData(){
-        FlightService.getEvents().then((res) => {
+        MetroService.getEvents().then((res) => {
             this.setState({events: res.data});
             this.intervalID = setTimeout(this.getData.bind(this), 5000);
         }

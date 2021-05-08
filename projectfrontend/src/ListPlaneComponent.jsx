@@ -1,7 +1,7 @@
 import ReactMapGL from 'react-map-gl';
 import {useState} from 'react';
 import React, { Component }from 'react';
-import FlightService from './PlaneService';
+import MetroService from './MetroService';
 import {Marker, Popup} from 'react-map-gl';
 
     function Map(Component){
@@ -13,8 +13,8 @@ import {Marker, Popup} from 'react-map-gl';
             height: '100vh',
             zoom: 9.5
         });
-        const [selectedPlane, setSelectedPlane] = useState(null);
-        return <Component {...props} viewport={[viewport, setViewport]} seleted={[selectedPlane, setSelectedPlane]} />;
+        const [selectedVehicle, setSelectedVehicle] = useState(null);
+        return <Component {...props} viewport={[viewport, setViewport]} seleted={[selectedVehicle, setSelectedVehicle]} />;
     }
     }
 
@@ -23,7 +23,7 @@ import {Marker, Popup} from 'react-map-gl';
         constructor(){
             super();
             this.state = {
-                planes :[]
+                vehicles :[]
             }
         }   
     
@@ -34,8 +34,8 @@ import {Marker, Popup} from 'react-map-gl';
             clearTimeout(this.intervalID);
         }
         getData(){
-            FlightService.getPlanes().then((res) => {
-                this.setState({planes: res.data});
+            MetroService.getVehicles().then((res) => {
+                this.setState({vehicles: res.data});
                 this.intervalID = setTimeout(this.getData.bind(this), 5000);
             }
             
@@ -43,10 +43,10 @@ import {Marker, Popup} from 'react-map-gl';
         }
         render() {
             const [viewport, setViewport] = this.props.viewport;
-            const [selectedPlane, setSelectedPlane] = this.props.seleted;
+            const [selectedVehicle, setSelectedVehicle] = this.props.seleted;
             return (
                 <div>
-                    <h1 className="text-center">Planes in Metropolitan Los Angeles</h1>
+                    <h1 className="text-center">Metro Bus in Metropolitan Los Angeles</h1>
                     <ReactMapGL 
                     mapStyle={'mapbox://styles/mapbox/dark-v9'}
                     mapboxApiAccessToken={
@@ -58,69 +58,37 @@ import {Marker, Popup} from 'react-map-gl';
                     }}
                     >
                     {
-                        this.state.planes.map(planes=> ( 
+                        this.state.vehicles.map(vehicles=> ( 
                         <Marker 
-                            key={planes.callsign} 
-                            latitude={planes.latitude}
-                            longitude={planes.longitude}
+                            key={vehicles.callsign} 
+                            latitude={vehicles.latitude}
+                            longitude={vehicles.longitude}
                         >
                           <button class="marker-btn"
                             onClick={e => {
                                 e.preventDefault();
-                                setSelectedPlane(planes);
+                                setSelectedVehicle(vehicles);
                             }}>
-                            <img src="/plane_white.svg" alt="Plane Icon"/>
+                            <img src="/Bus.png" alt="Bus Icon"/>
                           </button>
                         </Marker>
                      ))} 
                         
-                    {selectedPlane ? (
-                        <Popup latitude={selectedPlane.latitude} longitude={selectedPlane.longitude}
+                    {selectedVehicle ? (
+                        <Popup latitude={selectedVehicle.latitude} longitude={selectedVehicle.longitude}
                         onClose={() => {
-                            setSelectedPlane(null);
+                            setSelectedVehicle(null);
                         }}>
                             <div>
-                                <h4>{selectedPlane.callsign}</h4>
-                                <p><b>Origin Country: </b>{selectedPlane.origin_country}</p>
-                                <p><b>Geometric Altitude: </b>{selectedPlane.geo_altitude} meters</p>
-                                <p><b>Velocity: </b>{selectedPlane.velocity} m/s</p>
-                                <p><b>Latitude: </b>{selectedPlane.latitude}</p>
-                                <p><b>Longitude: </b>{selectedPlane.longitude}</p>
+                                
+                                <p><b>Latitude: </b>{selectedVehicle.latitude}</p>
+                                <p><b>Longitude: </b>{selectedVehicle.longitude}</p>
                             </div>
                         </Popup>
                     ) : null}
 
                     </ReactMapGL>
-                    <h5><b>Total of planes:</b> {this.state.planes.length}</h5>
-                    <div className="row">
-                        <table className="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Callsign</th>
-                                    <th>Origin Country</th>
-                                    <th>Geometric Altitude (meters)</th>
-                                    <th>Velocity (m/s)</th>
-                                    <th>Latitude</th>
-                                    <th>Longitude</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.state.planes.map(
-                                        planes=>
-                                        <tr key={planes.callsign}>
-                                            <td>{planes.callsign}</td>
-                                            <td>{planes.origin_country}</td>
-                                            <td>{planes.geo_altitude}</td>
-                                            <td>{planes.velocity}</td>
-                                            <td>{planes.latitude}</td>
-                                            <td>{planes.longitude}</td>
-                                        </tr>
-                                    )
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                   
                     
                     </div>
                 
