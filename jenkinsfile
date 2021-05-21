@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = 'godogo/kafkaConsumer'
+        registry = 'godogo/kafkaconsumer'
         registry2 = 'godogo/projectbackend'
         registryCredential = 'dockerhub'
         dockerImage = ''
@@ -27,6 +27,7 @@ pipeline {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Tests on projectbackend"'
                                 sh './mvnw test'
+                                sh 'echo "Error due to not having a database"'
                             }
                         }
                     }
