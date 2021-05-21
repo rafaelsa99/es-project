@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Test Stage') {
+        stage('Test Stage 1') {
             steps {
                 dir('kafkaConsumer') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -13,10 +13,9 @@ pipeline {
                 }
             }
         }
-        stage('Test Stage') {
+        stage('Test Stage 2') {
             steps {
                 dir('projectbackend') {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         sh "chmod +x -R ${env.WORKSPACE}"
                         sh 'echo "Tests on projectbackend"'
                         sh './mvnw test'
