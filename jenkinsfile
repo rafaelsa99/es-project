@@ -16,6 +16,7 @@ pipeline {
         stage('Test Stage 2') {
             steps {
                 dir('projectbackend') {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         sh "chmod +x -R ${env.WORKSPACE}"
                         sh 'echo "Tests on projectbackend"'
                         sh './mvnw test'
