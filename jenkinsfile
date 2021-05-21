@@ -2,35 +2,67 @@ pipeline {
     agent any
 
     stages {
-        stage('Compilation 1') {
+        stage('Test Stage') {
             steps {
-                    dir('kafkaConsumer') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
-                            sh 'echo "Clean install on kafkaConsumer"'
-                            sh './mvnw clean install -DskipTests'
+                dir('kafkaConsumer') {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        sh "chmod +x -R ${env.WORKSPACE}"
+                        sh 'echo "Tests on kafkaConsumer"'
+                        sh './mvnw test'
+                    }
                 }
             }
         }
-        stage('Compilation 2') {
-                    steps {
-                        dir('projectbackend') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
-                            sh 'echo "Clean install on projectbackend"'
-                            sh './mvnw clean install -DskipTests'
+        stage('Test Stage') {
+            steps {
+                dir('projectbackend') {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        sh "chmod +x -R ${env.WORKSPACE}"
+                        sh 'echo "Tests on projectbackend"'
+                        sh './mvnw test'
+                    }
+                }
+            }
+        }
+        stage('Compilation kafkaConsumer') {
+            steps {
+                dir('kafkaConsumer') {
+                        sh "chmod +x -R ${env.WORKSPACE}"
+                        sh 'echo "Clean install on kafkaConsumer"'
+                        sh './mvnw clean install -DskipTests'
+                }
+            }
+        }
+        stage('Compilation projectbackend') {
+            steps {
+                dir('projectbackend') {
+                    sh "chmod +x -R ${env.WORKSPACE}"
+                    sh 'echo "Clean install on projectbackend"'
+                    sh './mvnw clean install -DskipTests'
+                }
+            }
+        }
+        stage('Create Docker Image kafkaConsumer') {
+                steps {
+                    dir('kafkaConsumer') {
+                        sh "chmod +x -R ${env.WORKSPACE}"
+                        sh 'echo "Creating Docker Image on kafkaConsumer"'
+                        script {
+                            dockerImage = docker.build registry
                         }
                     }
+                }
         }
-        stage('Build') {
-            steps {
-                sh "chmod +x -R ${env.WORKSPACE}"
-                sh './mvnw package'
-            }
-        }
-        stage('Tests') {
-            steps {
-                sh "chmod +x -R ${env.WORKSPACE}"
-                sh './mvnw test -Punit'
-            }
+        stage('Create Docker Image projectbackend') {
+                steps {
+                    dir('projectbackend') {
+                        sh "chmod +x -R ${env.WORKSPACE}"
+                        sh 'echo "Creating Docker Image on projectbackend"'
+                        script {
+                            dockerImage = docker.build registry
+                        }
+                    }
+                }
         }
     }
 }
