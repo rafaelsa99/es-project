@@ -8,10 +8,10 @@ pipeline {
     }
 
     stages {
-        stage('Test Stage 1') {
+        stage('Test Stage') {
             steps {
                 parallel(
-                    a: {
+                    kafkaConsumer: {
                         dir('kafkaConsumer') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "chmod +x -R ${env.WORKSPACE}"
@@ -20,8 +20,14 @@ pipeline {
                             }
                         }
                     },
-                    b: {
-                        echo 'This is branch b'
+                    projectbackend: {
+                        dir('projectbackend') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Tests on projectbackend"'
+                                sh './mvnw test'
+                            }
+                        }
                     }
                 )
             }
