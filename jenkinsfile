@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Compilation') {
+            steps{
+                sh "chmod +x -R ${env.WORKSPACE}"
+                sh './mvnw clean install -DskipTests'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh "chmod +x -R ${env.WORKSPACE}"
+                sh './mvnw package'
+                }
+            }
+        stage('Tests') {
+            steps{
+                sh "chmod +x -R ${env.WORKSPACE}"
+                sh './mvnw test -Punit'
+            }
+        } 
+    }
+}
+
