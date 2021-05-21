@@ -50,17 +50,17 @@ pipeline {
                 }
             }
         }
-        stage('Create Docker Image kafkaConsumer') {
+        stage('Create Docker Image') {
             steps {
                 parallel(
                     kafkaConsumer: {
                         dir('kafkaConsumer') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "chmod +x -R ${env.WORKSPACE}"
-                        sh 'echo "Creating Docker Image on kafkaConsumer"'
-                        script {
-                            dockerImage = docker.build registry
-                        }
+                                sh 'echo "Creating Docker Image on kafkaConsumer"'
+                                script {
+                                    dockerImage = docker.build registry
+                                }
                             }
                         }
                     },
@@ -68,10 +68,68 @@ pipeline {
                         dir('projectbackend') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "chmod +x -R ${env.WORKSPACE}"
-                                sh 'echo "Creating Docker Image on kafkaConsumer"'
+                                sh 'echo "Creating Docker Image on projectbackend"'
                                 script {
                                     dockerImage = docker.build registry
                                 }
+                            }
+                        }
+                    }
+                )
+            }
+        }
+        stage('Pushing Docker Image') {
+            steps {
+                parallel(
+                    kafkaConsumer: {
+                        dir('kafkaConsumer') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Pushing Docker Image on kafkaConsumer"'
+                                script {
+                                    docker.withRegistry( '', registryCredential ) {
+                                        dockerImage.push("$BUILD_NUMBER")
+                                        dockerImage.push('latest')
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    projectbackend: {
+                        dir('projectbackend') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Pushing Docker Image on projectbackend"'
+                                script {
+                                    docker.withRegistry( '', registryCredential ) {
+                                        dockerImage.push("$BUILD_NUMBER")
+                                        dockerImage.push('latest')
+                                    }
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        }
+        stage('Pushing Docker Image') {
+            steps {
+                parallel(
+                    kafkaConsumer: {
+                        dir('kafkaConsumer') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Removing docker image on kafkaConsumer"'
+                                sh "docker rmi $registry:$BUILD_NUMBER"
+                            }
+                        }
+                    },
+                    projectbackend: {
+                        dir('projectbackend') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Removing docker image on projectbackend"'
+                                sh "docker rmi $registry:$BUILD_NUMBER"
                             }
                         }
                     }
