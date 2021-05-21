@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        registry = 'godogo/barcelonajenkins'
+        registry = 'godogo/kafkaConsumer'
+        registry2 = 'godogo/projectbackend'
         registryCredential = 'dockerhub'
         dockerImage = ''
     }
@@ -70,7 +71,7 @@ pipeline {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Creating Docker Image on projectbackend"'
                                 script {
-                                    dockerImage = docker.build registry
+                                    dockerImage2 = docker.build registry2
                                 }
                             }
                         }
@@ -102,8 +103,8 @@ pipeline {
                                 sh 'echo "Pushing Docker Image on projectbackend"'
                                 script {
                                     docker.withRegistry( '', registryCredential ) {
-                                        dockerImage.push("$BUILD_NUMBER")
-                                        dockerImage.push('latest')
+                                        dockerImage2.push("$BUILD_NUMBER")
+                                        dockerImage2.push('latest')
                                     }
                                 }
                             }
@@ -129,7 +130,7 @@ pipeline {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Removing docker image on projectbackend"'
-                                sh "docker rmi $registry:$BUILD_NUMBER"
+                                sh "docker rmi $registry2:$BUILD_NUMBER"
                             }
                         }
                     }
