@@ -51,26 +51,32 @@ pipeline {
             }
         }
         stage('Create Docker Image kafkaConsumer') {
-                steps {
-                    dir('kafkaConsumer') {
-                        sh "chmod +x -R ${env.WORKSPACE}"
+            steps {
+                parallel(
+                    kafkaConsumer: {
+                        dir('kafkaConsumer') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
                         sh 'echo "Creating Docker Image on kafkaConsumer"'
                         script {
                             dockerImage = docker.build registry
                         }
-                    }
-                }
-        }
-        stage('Create Docker Image projectbackend') {
-                steps {
-                    dir('projectbackend') {
-                        sh "chmod +x -R ${env.WORKSPACE}"
-                        sh 'echo "Creating Docker Image on projectbackend"'
-                        script {
-                            dockerImage = docker.build registry
+                            }
+                        }
+                    },
+                    projectbackend: {
+                        dir('projectbackend') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Creating Docker Image on kafkaConsumer"'
+                                script {
+                                    dockerImage = docker.build registry
+                                }
+                            }
                         }
                     }
-                }
+                )
+            }
         }
     }
 }
