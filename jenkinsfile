@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        registry = 'godogo/barcelonajenkins'
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+    }
+
     stages {
         stage('Test Stage 1') {
             steps {
