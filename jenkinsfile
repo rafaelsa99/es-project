@@ -2,15 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Compilation') {
+        stage('Compilation 1') {
             steps {
-                parallel {
                     dir('kafkaConsumer') {
-                        sh "chmod +x -R ${env.WORKSPACE}"
-                        sh './mvnw clean install -DskipTests'
-                    }
+                            sh "chmod +x -R ${env.WORKSPACE}"
+                            sh 'echo "Clean install on kafkaConsumer"'
+                            sh './mvnw clean install -DskipTests'
                 }
             }
+        }
+        stage('Compilation 2') {
+                    steps {
+                        dir('projectbackend') {
+                            sh "chmod +x -R ${env.WORKSPACE}"
+                            sh 'echo "Clean install on projectbackend"'
+                            sh './mvnw clean install -DskipTests'
+                        }
+                    }
         }
         stage('Build') {
             steps {
