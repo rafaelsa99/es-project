@@ -112,7 +112,7 @@ pipeline {
                 )
             }
         }
-        stage('Pushing Docker Image') {
+        stage('Removing Docker Image') {
             steps {
                 parallel(
                     kafkaConsumer: {
