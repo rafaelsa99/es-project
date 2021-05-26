@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'maven36'
+    }
+
     environment {
         registry = 'godogo/kafkaconsumer'
         registry2 = 'godogo/projectbackend'
