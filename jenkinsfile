@@ -8,11 +8,12 @@ pipeline {
     environment {
         registry = 'godogo/kafkaconsumer'
         registry2 = 'godogo/projectbackend'
-        registryCredential = 'dockerhub'
+        registryCredential = 'esp52_credentials'
         dockerImage = ''
     }
 
     stages {
+        
         stage('Test Stage') {
             steps {
                 parallel(
@@ -144,4 +145,3 @@ pipeline {
         }
     }
 }
-
