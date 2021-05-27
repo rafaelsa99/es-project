@@ -132,8 +132,8 @@ pipeline {
 
                     echo "$remote.user"
 
-                    sshCommand remote: remote, command: 'docker stop godogo/kafkaconsumer'
-                    sshCommand remote: remote, command: 'docker rm godogo/kafkaconsumer'
+                    sshCommand remote: remote, command: 'docker stop godogo/kafkaconsumer:latest'
+                    sshCommand remote: remote, command: 'docker rm godogo/kafkaconsumer:latest'
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/godogo/kafkaconsumer'
 
                     //sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
