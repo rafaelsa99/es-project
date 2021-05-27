@@ -63,6 +63,8 @@ pipeline {
                             script {
                                 docker.withRegistry("http://192.168.160.48:5000") {
                                     def dockerImage = docker.build("esp52/kafkaconsumer", "kafkaConsumer")
+
+                                    dockerImage.push()
                                 }
                             }
                         }
@@ -74,6 +76,8 @@ pipeline {
                             script {
                                 docker.withRegistry("http://192.168.160.48:5000") {
                                     def dockerImage2 = docker.build("esp52/projectbackend", "projectbackend")
+
+                                    dockerImage2.push()
                                 }
                             }
                         }
@@ -81,7 +85,7 @@ pipeline {
                 )
             }
         }
-        stage('Pushing Docker Image') {
+/*         stage('Pushing Docker Image') {
             steps {
                 parallel(
                     kafkaConsumer: {
@@ -110,7 +114,7 @@ pipeline {
                     }
                 )
             }
-        }
+        } */
         stage('Deploying') {
             steps {
                 sh "chmod +x -R ${env.WORKSPACE}"
