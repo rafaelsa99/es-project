@@ -129,6 +129,7 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
                 sh 'echo "Deploying"'
                 withCredentials([usernamePassword(credentialsId: 'esp52_ssh_credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    
                     echo "$remote.host"
 
                     script {
