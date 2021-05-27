@@ -2,7 +2,9 @@
 Project of the Software Engineering course of the Masters in Informatics Engineering of the University of Aveiro.
 
 ## Scope
-TODO
+<b>LAMetro</b> is a system that displays information about buses/metro in real time. On a map it will be possible to see the routes and stops available and the position of each bus/metro. In addition, it will be possible to see information about the occupation of some parking lots.
+
+The application's target audience would include all Los Angeles residents and tourists who need to know the nearest bus/metro.
 
 ## Implementation
 The project will cover:
