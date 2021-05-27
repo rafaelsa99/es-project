@@ -129,17 +129,21 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
                 sh 'echo "Deploying"'
                 withCredentials([usernamePassword(credentialsId: 'esp52_ssh_credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    echo "$remote.host"
+
                     script {
                         remote.user = USERNAME
                         remote.password = PASSWORD
                         remote.allowAnyHosts = true
                     }
+
+                    echo "$remote.user"
+
                     sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
                     sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
                     sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
                     sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d'"
                     //sh 'ssh -o StrictHostKeyChecking=no -l Deploying 192.168.160.87 -a "docker stop godogo/kafkaconsumer && docker rm godogo/kafkaconsumer && docker rmi 192.168.160.87:5000/godogo/kafkaconsumer && docker pull 192.168.160.87:5000/godogo/kafkaconsumer && docker create -p 50008:8080 --name godogo/kafkaconsumer 192.168.160.87:5000/godogo/kafkaconsumer && docker start godogo/kafkaconsumer"'
-                    sleep 1000
                 }
             }
         }
