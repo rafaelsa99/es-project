@@ -62,7 +62,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on kafkaConsumer"'
                             script {
                                 docker.withRegistry("http://192.168.160.48:5000") {
-                                    def dockerImage = docker.build("esp52/kafkaconsumer", "kafkaconsumer")
+                                    def dockerImage = docker.build("esp52/kafkaconsumer", "kafkaConsumer")
                                 }
                             }
                         }
