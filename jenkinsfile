@@ -127,6 +127,7 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
                 sh 'echo "Deploying"'
                 withCredentials([usernamePassword(credentialsId: 'esp52_ssh_credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    
                     echo "$remote.host"
 
                     script {
@@ -134,12 +135,13 @@ pipeline {
                         remote.password = PASSWORD
                         remote.allowAnyHosts = true
 
-                        echo "$remote.user"
-
-                        sshCommand remote: remote, command: 'docker stop godogo/kafkaconsumer'
-                        sshCommand remote: remote, command: 'docker rm godogo/kafkaconsumer'
-                        sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/godogo/kafkaconsumer'
                     }
+
+                    echo "$remote.user"
+
+                    sshCommand remote: remote, command: 'docker stop godogo/kafkaconsumer'
+                    sshCommand remote: remote, command: 'docker rm godogo/kafkaconsumer'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/godogo/kafkaconsumer'
 
                 //sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
                 //sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
