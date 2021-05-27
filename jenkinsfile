@@ -12,7 +12,7 @@ pipeline {
     environment {
         registry = 'godogo/kafkaconsumer'
         registry2 = 'godogo/projectbackend'
-        registryCredential = 'esp52_credentials'
+        //registryCredential = 'esp52_credentials'
         dockerImage = ''
     }
 
@@ -126,7 +126,7 @@ pipeline {
             steps {
                 sh "chmod +x -R ${env.WORKSPACE}"
                 sh 'echo "Deploying"'
-                withCredentials([usernamePassword(credentialsId: 'esp52_ssh_credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'esp52_ssh', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     
                     echo "$remote.host"
 
