@@ -125,7 +125,8 @@ pipeline {
                         sshagent (credentials: ['esp52_credentials']) {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Deploying"'
-                                sh 'ssh -o StrictHostKeyChecking=no -l Deploying 192.168.160.87 -a "docker stop godogo/kafkaconsumer && docker rm godogo/kafkaconsumer && docker rmi 192.168.160.87:5000/godogo/kafkaconsumer && docker pull 192.168.160.87:5000/godogo/kafkaconsumer && docker create -p 50008:8080 --name godogo/kafkaconsumer 192.168.160.87:5000/godogo/kafkaconsumer && docker start godogo/kafkaconsumer'
+                                sh 'ssh -o StrictHostKeyChecking=no -l Deploying 192.168.160.87 -a "docker stop godogo/kafkaconsumer && docker rm godogo/kafkaconsumer && docker rmi 192.168.160.87:5000/godogo/kafkaconsumer && docker pull 192.168.160.87:5000/godogo/kafkaconsumer && docker create -p 50008:8080 --name godogo/kafkaconsumer 192.168.160.87:5000/godogo/kafkaconsumer && docker start godogo/kafkaconsumer"'
+                                sleep 1000
                         }
                     }
             }
