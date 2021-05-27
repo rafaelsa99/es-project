@@ -62,7 +62,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on kafkaConsumer"'
                             script {
                                 docker.withRegistry("http://192.168.160.48:5000") {
-                                    def dockerImage = docker.build("esp52/kafkaConsumer", "kafkaConsumer")
+                                    def dockerImage = docker.build("esp52/kafkaconsumer", "kafkaconsumer")
                                 }
                             }
                         }
@@ -128,9 +128,9 @@ pipeline {
 
                     echo "$remote.user"
 
-                    sshCommand remote: remote, command: 'docker stop esp52/kafkaConsumer'
-                    sshCommand remote: remote, command: 'docker rm esp52/kafkaConsumer'
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/esp52/kafkaConsumer'
+                    sshCommand remote: remote, command: 'docker stop esp52/kafkaconsumer'
+                    sshCommand remote: remote, command: 'docker rm esp52/kafkaconsumer'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/esp52/kafkaconsumer'
 
                     //sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
                     //sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
