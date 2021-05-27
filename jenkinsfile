@@ -60,8 +60,8 @@ pipeline {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on kafkaConsumer"'
-                            docker.withRegistry("http://192.168.160.48:5000") {
-                                script {
+                            script {
+                                docker.withRegistry("http://192.168.160.48:5000") {
                                     def dockerImage = docker.build("esp52/kafkaConsumer", "kafkaConsumer")
                                 }
                             }
@@ -71,8 +71,8 @@ pipeline {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on projectbackend"'
-                            docker.withRegistry("http://192.168.160.48:5000") {
-                                script {
+                            script {
+                                docker.withRegistry("http://192.168.160.48:5000") {
                                     def dockerImage2 = docker.build("esp52/projectbackend", "projectbackend")
                                 }
                             }
