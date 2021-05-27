@@ -5,6 +5,10 @@ pipeline {
         maven 'maven36'
     }
 
+    def remote = [:]
+    remote.host = "192.168.160.87"
+    remote.name = "playground"
+
     environment {
         registry = 'godogo/kafkaconsumer'
         registry2 = 'godogo/projectbackend'
@@ -94,7 +98,7 @@ pipeline {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Pushing Docker Image on kafkaConsumer"'
                                 script {
-                                    docker.withRegistry( '', registryCredential ) {
+                                    docker.withRegistry('http://192.168.160.48:5000') {
                                         dockerImage.push("$BUILD_NUMBER")
                                         dockerImage.push('latest')
                                     }
@@ -108,7 +112,7 @@ pipeline {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Pushing Docker Image on projectbackend"'
                                 script {
-                                    docker.withRegistry( '', registryCredential ) {
+                                    docker.withRegistry('http://192.168.160.48:5000') {
                                         dockerImage2.push("$BUILD_NUMBER")
                                         dockerImage2.push('latest')
                                     }
@@ -121,14 +125,21 @@ pipeline {
         }
         stage('Deploying') {
             steps {
-                    dir('kafkaConsumer') {
-                        sshagent (credentials: ['esp52_credentials']) {
-                                sh "chmod +x -R ${env.WORKSPACE}"
-                                sh 'echo "Deploying"'
-                                sh 'ssh -o StrictHostKeyChecking=no -l Deploying 192.168.160.87 -a "docker stop godogo/kafkaconsumer && docker rm godogo/kafkaconsumer && docker rmi 192.168.160.87:5000/godogo/kafkaconsumer && docker pull 192.168.160.87:5000/godogo/kafkaconsumer && docker create -p 50008:8080 --name godogo/kafkaconsumer 192.168.160.87:5000/godogo/kafkaconsumer && docker start godogo/kafkaconsumer"'
-                                sleep 1000
-                        }
+                sh "chmod +x -R ${env.WORKSPACE}"
+                sh 'echo "Deploying"'
+                withCredentials([usernamePassword(credentialsId: 'esp52_ssh_credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    script {
+                        remote.user = USERNAME
+                        remote.password = PASSWORD
+                        remote.allowAnyHosts = true
                     }
+                    sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
+                    sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
+                    sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
+                    sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d'"
+                    //sh 'ssh -o StrictHostKeyChecking=no -l Deploying 192.168.160.87 -a "docker stop godogo/kafkaconsumer && docker rm godogo/kafkaconsumer && docker rmi 192.168.160.87:5000/godogo/kafkaconsumer && docker pull 192.168.160.87:5000/godogo/kafkaconsumer && docker create -p 50008:8080 --name godogo/kafkaconsumer 192.168.160.87:5000/godogo/kafkaconsumer && docker start godogo/kafkaconsumer"'
+                    sleep 1000
+                }
             }
         }
     }
