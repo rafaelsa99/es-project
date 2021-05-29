@@ -47,6 +47,8 @@ class Historic extends Component {
                             </tbody>
                         </table>
                     </div>
+                 
+                
                 </div>
             );
         }

@@ -18,8 +18,10 @@ function App() {
       <Route path="/" exact component={ListPlaneComponent}/>
       <Route path="/historic" component={Historic}/>
       <Route path="/events" component={Events}/>
+              
     </Switch>
     
+
     
     </div>
     </Router>
