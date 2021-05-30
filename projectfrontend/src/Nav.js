@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -8,21 +9,29 @@ import {
   } from "react-router-dom";;
 
 function Nav() {
-    const navStyle = {
-        color: 'white'
-    };
+    
 
     return (
+        
         <nav>
-            <h3>LARadar</h3>
-            <ul className="nav-links"> 
-                
-            <Link style={navStyle} to="/">Live</Link>
-                
-                
-            <Link style={navStyle} to="/historic">Historic</Link>
-                
-            </ul>
+            <link href="template/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all"></link>
+            <div class="wrapper row1"></div>
+                  <header id="header" class="hoc clear"> 
+                    
+                    <div id="logo" class="fl_left">
+                      <h1><Link to="/">LAMetro</Link></h1>
+                    </div>
+                    <nav id="mainav" class="fl_right">
+                      <ul class="clear">
+                        <li class="active"><Link to="/">Home</Link></li>
+                        
+                        <li ><Link to="/live">Live Data</Link></li>
+                        <li ><Link to="/historic">Histórico</Link></li>
+                      </ul>
+                    </nav>
+      
+                    </header>
+            
         </nav>
     )
 }

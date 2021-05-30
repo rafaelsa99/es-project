@@ -21,7 +21,7 @@ class Historic extends Component {
         }
         render() {
             return (
-               <div>
+               <div id="historic">
                     <h2 className="text-center">Geometric Altitude of Planes entering Metropolitan LA</h2>
                     <p><b>Total of planes in history:</b> {this.state.history.length}</p>
                     <div className="row">

@@ -45,8 +45,8 @@ import {Marker, Popup} from 'react-map-gl';
             const [viewport, setViewport] = this.props.viewport;
             const [selectedVehicle, setSelectedVehicle] = this.props.seleted;
             return (
-                <div>
-                    <h1 className="text-center">Metro Bus in Metropolitan Los Angeles </h1>
+                <div id="listcomponent">
+                    <h1 className="text-center">Metro/Bus in Metropolitan Los Angeles </h1>
                     <ReactMapGL 
                     mapStyle={'mapbox://styles/mapbox/dark-v9'}
                     mapboxApiAccessToken={
@@ -89,7 +89,7 @@ import {Marker, Popup} from 'react-map-gl';
 
                     </ReactMapGL>
                     <body>
-                    <a href="template/index2.html">templete</a>
+                    <a href="template/index2.html">template</a>
 
                     </body>
                    
