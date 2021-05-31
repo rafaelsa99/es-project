@@ -136,7 +136,7 @@ pipeline {
                     echo "$remote.user"
 
                     //sshCommand remote: remote, command: 'docker stop es-project/kafkaconsumer:latest'
-                    //sshCommand remote: remote, command: 'docker rm es-project/kafkaconsumer:latest'
+                    sshCommand remote: remote, command: 'docker rm es-project/kafkaconsumer'
                     sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer"
                     sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/kafkaconsumer"
                     sshCommand remote: remote, command: "docker create -p 52020:52020 --name esp52_kafkaconsumer 192.168.160.48:5000/es-project/kafkaconsumer"
