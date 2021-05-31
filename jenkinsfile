@@ -67,7 +67,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on kafkaConsumer"'
                             script {
                                 docker.withRegistry("http://192.168.160.48:5000") {
-                                    dockerImage = docker.build("es-project/kafkaconsumer", "kafkaConsumer")
+                                    dockerImage = docker.build("es-project/kafkaconsumer2", "kafkaConsumer")
                                 }
                             }
                         }
@@ -78,7 +78,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on projectbackend"'
                             script {
                                 docker.withRegistry("http://192.168.160.48:5000") {
-                                    dockerImage2 = docker.build("es-project/projectbackend", "projectbackend")
+                                    dockerImage2 = docker.build("es-project/projectbackend2", "projectbackend")
                                 }
                             }
                         }
@@ -95,8 +95,8 @@ pipeline {
                             sh 'echo "Pushing Docker Image on kafkaConsumer"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage.push("$BUILD_NUMBER")
-                                    dockerImage.push('latest')
+                                    //dockerImage.push("$BUILD_NUMBER")
+                                    dockerImage.push()
                                 }
                             }
                             //sh 'docker rmi es-project/kafkaconsumer'
@@ -108,8 +108,8 @@ pipeline {
                             sh 'echo "Pushing Docker Image on projectbackend"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage2.push("$BUILD_NUMBER")
-                                    dockerImage2.push('latest')
+                                    //dockerImage2.push("$BUILD_NUMBER")
+                                    dockerImage2.push()
                                 }
                             }
                             //sh 'docker rmi es-project/projectbackend'
@@ -136,11 +136,11 @@ pipeline {
                     echo "$remote.user"
 
                     //sshCommand remote: remote, command: 'docker stop 192.168.160.48:5000/es-project/kafkaconsumer:latest'
-                    sshCommand remote: remote, command: 'docker rm 192.168.160.48:5000/es-project/kafkaconsumer || echo "nothing"'
-                    sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer"
-                    sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/kafkaconsumer"
-                    sshCommand remote: remote, command: "docker create -p 52020:52020 --name esp52_kafkaconsumer 192.168.160.48:5000/es-project/kafkaconsumer"
-                    sshCommand remote: remote, command: "docker start esp52_kafkaconsumer"
+                    //sshCommand remote: remote, command: 'docker rm 192.168.160.48:5000/es-project/kafkaconsumer || echo "nothing"'
+                    //sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer"
+                    sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/kafkaconsumer2"
+                    sshCommand remote: remote, command: "docker create -p 52020:52020 --name esp52_kafkaconsumer2 192.168.160.48:5000/es-project/kafkaconsumer2"
+                    sshCommand remote: remote, command: "docker start esp52_kafkaconsumer2"
 
                     //sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
                     //sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
