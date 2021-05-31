@@ -133,16 +133,16 @@ pipeline {
 
                     echo "$remote.user"
 
-                    //sshCommand remote: remote, command: 'docker stop esp52_kafkaconsumer5'
-                    //sshCommand remote: remote, command: 'docker rm esp52_kafkaconsumer5'
-                    //sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer5"
+                    sshCommand remote: remote, command: 'docker stop esp52_kafkaconsumer5'
+                    sshCommand remote: remote, command: 'docker rm esp52_kafkaconsumer5'
+                    sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer5"
                     sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/kafkaconsumer5"
                     sshCommand remote: remote, command: "docker create -p 52025:52025 --name esp52_kafkaconsumer5 192.168.160.48:5000/es-project/kafkaconsumer5"
                     sshCommand remote: remote, command: "docker start esp52_kafkaconsumer5"
 
-                    //sshCommand remote: remote, command: 'docker stop esp52_projectbackend5'
-                    //sshCommand remote: remote, command: 'docker rm esp52_projectbackend5'
-                    //sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/projectbackend5"
+                    sshCommand remote: remote, command: 'docker stop esp52_projectbackend5'
+                    sshCommand remote: remote, command: 'docker rm esp52_projectbackend5'
+                    sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/projectbackend5"
                     sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/projectbackend5"
                     sshCommand remote: remote, command: "docker create -p 52026:52026 --name esp52_projectbackend5 192.168.160.48:5000/es-project/projectbackend5"
                     sshCommand remote: remote, command: "docker start esp52_projectbackend5"
