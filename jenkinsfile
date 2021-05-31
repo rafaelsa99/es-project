@@ -113,10 +113,10 @@ pipeline {
                             }
                         }
                     }
+                    sh 'docker rmi es-project/kafkaconsumer2'
+                    //sh 'docker rmi es-project/projectbackend2'
                 )
             }
-            sh 'docker rmi es-project/kafkaconsumer2'
-            //sh 'docker rmi es-project/projectbackend2'
         }
         stage('Deploying') {
             steps {
