@@ -99,6 +99,7 @@ pipeline {
                                     dockerImage.push()
                                 }
                             }
+                            sh 'docker rmi es-project/kafkaconsumer2'
                         }
                     },
                     projectbackend: {
@@ -111,10 +112,9 @@ pipeline {
                                     dockerImage2.push()
                                 }
                             }
+                            //sh 'docker rmi es-project/projectbackend2'
                         }
                     }
-                    sh 'docker rmi es-project/kafkaconsumer2'
-                    //sh 'docker rmi es-project/projectbackend2'
                 )
             }
         }
