@@ -11,7 +11,7 @@ pipeline {
 
     environment {
         dockerImage = ""
-        //dockerImage2 = ""
+        dockerImage2 = ""
     }
 
     stages {
@@ -49,7 +49,7 @@ pipeline {
                 }
             }
         }
-        /* stage('Compilation projectbackend') {
+        stage('Compilation projectbackend') {
             steps {
                 dir('projectbackend') {
                     sh "chmod +x -R ${env.WORKSPACE}"
@@ -57,39 +57,39 @@ pipeline {
                     sh './mvnw clean install -DskipTests'
                 }
             }
-        } */
+        }
         stage('Create Docker Image') {
             steps {
-                //parallel(
-                //kafkaConsumer: {
+                parallel(
+                kafkaConsumer: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on kafkaConsumer"'
                             script {
                                 docker.withRegistry("http://192.168.160.48:5000") {
-                                    dockerImage = docker.build("es-project/kafkaconsumer4", "kafkaConsumer")
+                                    dockerImage = docker.build("es-project/kafkaconsumer5", "kafkaConsumer")
                                 }
                             }
                         }
-                    //},
-                    //projectbackend: {
-                    //    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    //        sh "chmod +x -R ${env.WORKSPACE}"
-                    //        sh 'echo "Creating Docker Image on projectbackend"'
-                    //        script {
-                    //            docker.withRegistry("http://192.168.160.48:5000") {
-                    //                dockerImage2 = docker.build("es-project/projectbackend3", "projectbackend")
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                //)
+                    },
+                    projectbackend: {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh "chmod +x -R ${env.WORKSPACE}"
+                            sh 'echo "Creating Docker Image on projectbackend"'
+                            script {
+                                docker.withRegistry("http://192.168.160.48:5000") {
+                                    dockerImage2 = docker.build("es-project/projectbackend5", "projectbackend")
+                                }
+                            }
+                        }
+                    }
+                )
             }
         }
          stage('Pushing Docker Image') {
             steps {
-                //parallel(
-                    //kafkaConsumer: {
+                parallel(
+                    kafkaConsumer: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on kafkaConsumer"'
@@ -100,21 +100,20 @@ pipeline {
                                 }
                             }
                         }
-                    //},
-                    //projectbackend: {
-                    //    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    //        sh "chmod +x -R ${env.WORKSPACE}"
-                    //        sh 'echo "Pushing Docker Image on projectbackend"'
-                    //        script {
-                    //            docker.withRegistry('http://192.168.160.48:5000') {
+                    },
+                    projectbackend: {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh "chmod +x -R ${env.WORKSPACE}"
+                            sh 'echo "Pushing Docker Image on projectbackend"'
+                            script {
+                                docker.withRegistry('http://192.168.160.48:5000') {
                                     //dockerImage2.push("$BUILD_NUMBER")
-                    //                dockerImage2.push()
-                    //            }
-                    //        }
-                    //        //sh 'docker rmi es-project/projectbackend2'
-                    //    }
-                    //}
-                //)
+                                    dockerImage2.push()
+                                }
+                            }
+                        }
+                    }
+                )
             }
         }
         stage('Deploying') {
@@ -134,18 +133,19 @@ pipeline {
 
                     echo "$remote.user"
 
-                    sshCommand remote: remote, command: 'docker stop esp52_kafkaconsumer4 || echo "nothing"'
-                    sshCommand remote: remote, command: 'docker rm esp52_kafkaconsumer4 || echo "nothing"'
-                    sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer4"
-                    sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/kafkaconsumer4"
-                    sshCommand remote: remote, command: "docker create -p 52022:52022 --name esp52_kafkaconsumer4 192.168.160.48:5000/es-project/kafkaconsumer4"
-                    sshCommand remote: remote, command: "docker start esp52_kafkaconsumer4"
+                    //sshCommand remote: remote, command: 'docker stop esp52_kafkaconsumer5'
+                    //sshCommand remote: remote, command: 'docker rm esp52_kafkaconsumer5'
+                    //sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer5"
+                    sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/kafkaconsumer5"
+                    sshCommand remote: remote, command: "docker create -p 52025:52025 --name esp52_kafkaconsumer5 192.168.160.48:5000/es-project/kafkaconsumer5"
+                    sshCommand remote: remote, command: "docker start esp52_kafkaconsumer5"
 
-                    //sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
-                    //sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
-                    //sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
-                    //sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d'"
-                    //sh 'ssh -o StrictHostKeyChecking=no -l Deploying 192.168.160.87 -a "docker stop godogo/kafkaconsumer && docker rm godogo/kafkaconsumer && docker rmi 192.168.160.87:5000/godogo/kafkaconsumer && docker pull 192.168.160.87:5000/godogo/kafkaconsumer && docker create -p 50008:8080 --name godogo/kafkaconsumer 192.168.160.87:5000/godogo/kafkaconsumer && docker start godogo/kafkaconsumer"'
+                    //sshCommand remote: remote, command: 'docker stop esp52_projectbackend5'
+                    //sshCommand remote: remote, command: 'docker rm esp52_projectbackend5'
+                    //sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/projectbackend5"
+                    sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/projectbackend5"
+                    sshCommand remote: remote, command: "docker create -p 52026:52026 --name esp52_projectbackend5 192.168.160.48:5000/es-project/projectbackend5"
+                    sshCommand remote: remote, command: "docker start esp52_projectbackend5"
                 }
             }
         }
