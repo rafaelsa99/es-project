@@ -3,6 +3,17 @@ import {useState} from 'react';
 import React, { Component }from 'react';
 import MetroService from './MetroService';
 import {Marker, Popup} from 'react-map-gl';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles({
+                    root: {
+                      width: 50,
+                    },
+              });
+function valuetext(value) {
+                return `${value}°C`;
+              }
 
     function Map(Component){
         return function WrappedComponent(props){
@@ -14,12 +25,17 @@ import {Marker, Popup} from 'react-map-gl';
             zoom: 9.5
         });
         const [selectedVehicle, setSelectedVehicle] = useState(null);
+        
         return <Component {...props} viewport={[viewport, setViewport]} seleted={[selectedVehicle, setSelectedVehicle]} />;
     }
     }
+    
+    
 
     class ListPlaneComponent extends Component {
         intervalID;
+        
+        
         constructor(){
             super();
             this.state = {
@@ -41,12 +57,14 @@ import {Marker, Popup} from 'react-map-gl';
             
             ); 
         }
+        
         render() {
+
             const [viewport, setViewport] = this.props.viewport;
             const [selectedVehicle, setSelectedVehicle] = this.props.seleted;
             return (
-                <div>
-                    <h1 className="text-center">Metro Bus in Metropolitan Los Angeles</h1>
+                <div id="listcomponent">
+                    <h1 className="text-center">Metro/Bus in Metropolitan Los Angeles </h1>
                     <ReactMapGL 
                     mapStyle={'mapbox://styles/mapbox/dark-v9'}
                     mapboxApiAccessToken={
@@ -88,9 +106,10 @@ import {Marker, Popup} from 'react-map-gl';
                     ) : null}
 
                     </ReactMapGL>
-                   
                     
-                    </div>
+
+                    
+        </div>
                 
             );
             
