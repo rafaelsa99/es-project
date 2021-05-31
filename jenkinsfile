@@ -138,7 +138,7 @@ pipeline {
                     //sshCommand remote: remote, command: 'docker rm 192.168.160.48:5000/es-project/kafkaconsumer3 || echo "nothing"'
                     //sshCommand remote: remote, command: "docker rmi 192.168.160.48:5000/es-project/kafkaconsumer3"
                     sshCommand remote: remote, command: "docker pull 192.168.160.48:5000/es-project/kafkaconsumer3"
-                    sshCommand remote: remote, command: "docker create -p 52020:52020 --name esp52_kafkaconsumer3 192.168.160.48:5000/es-project/kafkaconsumer3"
+                    sshCommand remote: remote, command: "docker create -p 52021:52021 --name esp52_kafkaconsumer3 192.168.160.48:5000/es-project/kafkaconsumer3"
                     sshCommand remote: remote, command: "docker start esp52_kafkaconsumer3"
 
                     //sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
