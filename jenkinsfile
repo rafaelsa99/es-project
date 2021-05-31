@@ -99,7 +99,7 @@ pipeline {
                                     dockerImage.push('latest')
                                 }
                             }
-                            sh 'docker rmi es-project/kafkaConsumer'
+                            sh 'docker rmi es-project/kafkaconsumer'
                         }
                     },
                     projectbackend: {
