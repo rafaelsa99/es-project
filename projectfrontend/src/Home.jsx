@@ -1,32 +1,31 @@
 import React, {Component} from "react";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import ScriptTag from 'react-script-tag';
 
 class Home extends React.Component {
+
+    
     
     render() {
       const headletter = {
         fontSize: 20 
       }
         return (
+    <html lang="en">
+        
+        <body >
+                
             <div id="home">
                 
-                <div class="bgded overlay light">
-                  <img src = "template/images/exelametro.jpg"></img>
-  
-                  <div class="wrapper row0">
-                  <div id="topbar" class="hoc clear"> 
-     
-      
-      
-                  </div>
-                  </div>
+                    <div class="bgded overlay light" style={{backgroundImage:"url('template/images/exelametro.jpg')"}}>
+               
               
-                  <div id="pageintro" class="hoc clear" > 
+                  <div id="pageintro" class="hoc clear" >
+                  
     
                   <article>
                   <h3 class="heading" style={headletter} >LAMetro é um sistema que exibe informação sobre autocarros/metro em tempo real. 
                   É possível ver as rotas e paragens disponíveis e a posição de cada autocarro/metro. Além disso, será possível ver a informação sobre a ocupação de alguns parques de estacionamento.<br></br></h3>
-                  <footer><a class="btn" href="#">Bibendum tellus nullam </a></footer>
                   </article>
               
                   </div>
@@ -36,19 +35,16 @@ class Home extends React.Component {
                       
                       <div class="group excerpt">
                         <article class="one_third first"><a class="imgover btmspace-30" href="#"><img src="template/images/exelametro.jpg" alt=""/></a>
-                          <h6 class="heading">Sapien lorem interdum</h6>
-                          <p>Purus in ornare feugiat ex vivamus bibendum augue nisl sit amet dictum quam aliquet id phasellus interdum leo sit amet&hellip;</p>
-                          <footer><a href="#">Service Details &raquo;</a></footer>
+                          <h6 class="heading">Visualizar Metros</h6>
+                          <footer><a href="#">See Mapping &raquo;</a></footer>
                         </article>
                         <article class="one_third"><a class="imgover btmspace-30" href="#"><img src="template/images/buslametro.jpg" alt=""/></a>
-                          <h6 class="heading">Convallis vulputate mi</h6>
-                          <p>Sem vestibulum lacus sit amet eleifend velit tellus quis ligula nam egestas eros sit amet vulputate porttitor proin leo&hellip;</p>
-                          <footer><a href="#">Service Details &raquo;</a></footer>
+                          <h6 class="heading">Visualizar Autocarros</h6>
+                          <footer><a href="#">See Mapping&raquo;</a></footer>
                         </article>
                         <article class="one_third"><a class="imgover btmspace-30" href="#"><img src="template/images/porto.jpg" alt="" /></a>
-                          <h6 class="heading">Turpis suscipit vitae magna</h6>
-                          <p>At pretium tempus erat ut vel hendrerit velit aliquam feugiat eget velit eu ultrices vivamus mauris leo aenean sagittis&hellip;</p>
-                          <footer><a href="#">Service Details &raquo;</a></footer>
+                          <h6 class="heading">Definir outras coisas</h6>
+                          <footer><a href="#">See Mapping &raquo;</a></footer>
                         </article>
                       </div>
                     
@@ -114,13 +110,16 @@ class Home extends React.Component {
                     </section>
                   </div>
       
-      
-          
+
           
             </div>
-
+        
+        </body>
+        
+    
   
-  
+    </html>
+            
 
         );
     }

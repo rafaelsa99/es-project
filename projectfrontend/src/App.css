@@ -1,4 +1,11 @@
 
+
+@import "template/layout/styles/layout.css";
+@import "template/layout/styles/font-awesome.min.css";
+@import "template/layout/styles/framework.css";
+
+
+
 .App {
   text-align: center;
 }
