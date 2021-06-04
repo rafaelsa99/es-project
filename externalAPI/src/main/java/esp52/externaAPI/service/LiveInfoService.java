@@ -1,6 +1,8 @@
 package esp52.externaAPI.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -20,10 +22,17 @@ import com.google.gson.Gson;
 
 import esp52.externaAPI.kafka.KafkaProducer;
 import esp52.externaAPI.models.Agency;
+import esp52.externaAPI.models.ItemsPredictions;
+import esp52.externaAPI.models.ItemsPredictionsStop;
 import esp52.externaAPI.models.ItemsRoutes;
 import esp52.externaAPI.models.ItemsStops;
+import esp52.externaAPI.models.ItemsVehicles;
+import esp52.externaAPI.models.ItemsVehiclesAgency;
 import esp52.externaAPI.models.ParkingLot;
+import esp52.externaAPI.models.Prediction;
+import esp52.externaAPI.models.PredictionStop;
 import esp52.externaAPI.models.Route;
+import esp52.externaAPI.models.RouteAgency;
 import esp52.externaAPI.models.Stop;
 
 @Service
@@ -38,7 +47,7 @@ public class LiveInfoService {
 	private List<Agency> agencies = null;
 	private List<ParkingLot> parkingLots = null;
 	private HashMap<String, ItemsRoutes> routes = new HashMap<>();
-	private HashMap<String, ItemsStops> stops = new HashMap<>();
+	private HashMap<RouteAgency, ItemsStops> stops = new HashMap<>();
 	@Autowired KafkaProducer kafkaProducer;
 	
 	public LiveInfoService() {
@@ -56,7 +65,7 @@ public class LiveInfoService {
 			for(Route route: iR.getItems()) {
 				String s = getRouteStops(agency.getId(), route.getId());
 				ItemsStops iS = new Gson().fromJson(s, ItemsStops.class);
-				stops.put(route.getId(), iS);
+				stops.put(new RouteAgency(route.getId(), agency.getId()), iS);
 			}
 		}
 	}
@@ -64,24 +73,33 @@ public class LiveInfoService {
 	@Scheduled(fixedRate = 1000)
 	public void updateVehicles() {
 		for(Agency agency:agencies) {
-			String url = BASE_URL + agency.getDisplay_name() + "/vehicles/";
+			String url = BASE_URL + agency.getId() + "/vehicles/";
 			ResponseEntity<String> vehicles = restTemplate.getForEntity(url, String.class);
 		    if(vehicles.getStatusCode() == HttpStatus.OK) {
 				//logger.info("Updating Vehicles Information from Agency " + agency.getDisplay_name());
-			    kafkaProducer.sendMessage(TOPIC_VEHICLES, vehicles.getBody());
+			    ItemsVehicles iV = new Gson().fromJson(vehicles.getBody(), ItemsVehicles.class);
+			    ItemsVehiclesAgency iVA = new ItemsVehiclesAgency(agency.getId(), iV.getItems());
+			    String msg = new Gson().toJson(iVA);
+		    	kafkaProducer.sendMessage(TOPIC_VEHICLES, msg);
 		    }
 		}
 	}
 	
 	@Scheduled(fixedRate = 1000)
 	public void updatePredictions() {
-		for(Entry<String, ItemsStops> e : stops.entrySet()) {
+		for(Entry<RouteAgency, ItemsStops> e : stops.entrySet()) {
 			for(Stop stop: e.getValue().getItems()) {
-				String url = BASE_URL + "lametro/routes/" + e.getKey() + "/stops/" + stop.getId() + "/predictions/";
+				String url = BASE_URL + e.getKey().getAgency_id() + "/routes/" + e.getKey().getRoute_id() + "/stops/" + stop.getId() + "/predictions/";
 				ResponseEntity<String> predictions = restTemplate.getForEntity(url, String.class);
 			    if(predictions.getStatusCode() == HttpStatus.OK) {
 					//logger.info("Updating Predictions Information from Stop " + stop.getDisplay_name());
-					kafkaProducer.sendMessage(TOPIC_PREDICTIONS, predictions.getBody());
+					ItemsPredictions iP = new Gson().fromJson(predictions.getBody(), ItemsPredictions.class);
+					Collection<PredictionStop> cPS = new ArrayList<>();
+					for(Prediction p:iP.getItems()) 
+						cPS.add(new PredictionStop(p, stop.getId()));
+					ItemsPredictionsStop iPa = new ItemsPredictionsStop(e.getKey().getAgency_id(), stop.getId(), cPS);
+					String prediction = new Gson().toJson(iPa);
+			    	kafkaProducer.sendMessage(TOPIC_PREDICTIONS, prediction);
 			    }
 			}
 		}
