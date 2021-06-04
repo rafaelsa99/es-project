@@ -6,6 +6,8 @@ Project of the Software Engineering course of the Masters in Informatics Enginee
 
 The application's target audience would include all Los Angeles residents and tourists who need to know the nearest bus/metro.
 
+More info on: https://sites.google.com/view/p52-lametro/
+
 ## Implementation
 The project will cover:
 - Design, implement and deploy an IT system using current DevOps best practices
