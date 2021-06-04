@@ -23,6 +23,7 @@ public class ParksService {
 	@KafkaListener(topics = "parking", groupId = "lametro")
 	public void listenEvents(String message) {
 		ParkingLotation pl = new Gson().fromJson(message, ParkingLotation.class);
+		pl.setUpdated((int)getUnixTime() - pl.getUpdated());
 		if(lotations.containsKey(pl.getName())) {
 			ParkingLotation old = lotations.replace(pl.getName(), pl);
 			checkParkingEvents(pl, old);
@@ -31,6 +32,11 @@ public class ParksService {
 			checkParkingEvents(pl);
 		}
 		logger.info("Updating Parking Lotations from Parking Lot " + pl.getName());
+	}
+	
+	public long getUnixTime() {
+		long unixTime = System.currentTimeMillis() / 1000L;
+		return unixTime;
 	}
 	
 	public String getLotations() {
