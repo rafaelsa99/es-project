@@ -64,6 +64,20 @@ services:
     networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
       kafka-net:
         ipv4_address: 172.0.0.22
+  # Static info
+  staticinfo:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: StaticInfo # Use an image built from the specified dockerfile in the `app-server` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "8085:8085" # Forward the exposed port 8085 on the container (docker) to port 8085 on the host machine
+    depends_on:
+      - zookeeper
+      - kafka
+    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
+      kafka-net:
+        ipv4_address: 172.0.0.10
   # Frontend Service
   client:
     build:

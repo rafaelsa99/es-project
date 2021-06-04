@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class LiveInfoService {
 	private static final String TOPIC_VEHICLES = "vehicles";
 	private static final String TOPIC_PREDICTIONS = "predictions";
 	private static final String TOPIC_PARKINGLOTS = "parking";
-	private static final Logger logger = LogManager.getLogger(LiveInfoService.class);
+	//private static final Logger logger = LogManager.getLogger(LiveInfoService.class);
 	private RestTemplate restTemplate = new RestTemplate();
 	private static final String  BASE_URL = "https://api.metro.net/agencies/";
 	private List<Agency> agencies = null;
@@ -67,7 +67,7 @@ public class LiveInfoService {
 			String url = BASE_URL + agency.getDisplay_name() + "/vehicles/";
 			ResponseEntity<String> vehicles = restTemplate.getForEntity(url, String.class);
 		    if(vehicles.getStatusCode() == HttpStatus.OK) {
-				logger.info("Updating Vehicles Information from Agency " + agency.getDisplay_name());
+				//logger.info("Updating Vehicles Information from Agency " + agency.getDisplay_name());
 			    kafkaProducer.sendMessage(TOPIC_VEHICLES, vehicles.getBody());
 		    }
 		}
@@ -80,7 +80,7 @@ public class LiveInfoService {
 				String url = BASE_URL + "lametro/routes/" + e.getKey() + "/stops/" + stop.getId() + "/predictions/";
 				ResponseEntity<String> predictions = restTemplate.getForEntity(url, String.class);
 			    if(predictions.getStatusCode() == HttpStatus.OK) {
-					logger.info("Updating Predictions Information from Stop " + stop.getDisplay_name());
+					//logger.info("Updating Predictions Information from Stop " + stop.getDisplay_name());
 					kafkaProducer.sendMessage(TOPIC_PREDICTIONS, predictions.getBody());
 			    }
 			}
@@ -95,7 +95,7 @@ public class LiveInfoService {
 			String reply = lotation.getBody().substring(1, lotation.getBody().length() - 2);
 			reply = reply.replace("\\", "");
 		    if(lotation.getStatusCode() == HttpStatus.OK) {
-				logger.info("Updating Parking Lotations from Parking Lot " + park.getName());
+				//logger.info("Updating Parking Lotations from Parking Lot " + park.getName());
 				kafkaProducer.sendMessage(TOPIC_PARKINGLOTS, reply);
 		    }
 		}
