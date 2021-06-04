@@ -31,7 +31,7 @@ public class LiveInfoService {
 
 	private static final String TOPIC_VEHICLES = "vehicles";
 	private static final String TOPIC_PREDICTIONS = "predictions";
-	private static final String TOPIC_PARKINGLOTS = "parkinglots";
+	private static final String TOPIC_PARKINGLOTS = "parking";
 	private static final Logger logger = LogManager.getLogger(LiveInfoService.class);
 	private RestTemplate restTemplate = new RestTemplate();
 	private static final String  BASE_URL = "https://api.metro.net/agencies/";
@@ -96,7 +96,7 @@ public class LiveInfoService {
 			reply = reply.replace("\\", "");
 		    if(lotation.getStatusCode() == HttpStatus.OK) {
 				logger.info("Updating Parking Lotations from Parking Lot " + park.getName());
-				kafkaProducer.sendMessage(TOPIC_PARKINGLOTS, lotation.getBody());
+				kafkaProducer.sendMessage(TOPIC_PARKINGLOTS, reply);
 		    }
 		}
 	}

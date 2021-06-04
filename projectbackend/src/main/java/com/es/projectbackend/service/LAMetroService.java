@@ -59,7 +59,7 @@ public class LAMetroService {
 		    logger.info("Success on calling the API");
 		    vehicles = lametrovehicles.getBody();
 			logger.info("Updating information on " + vehicles.getItems().size() + " vehicles");
-		    //kafkaProducer.sendMessage("openskyevents", newPlanes + " new planes entering th region");
+		    kafkaProducer.sendMessage("parkinglots", vehicles.getItems().size() + " vehicles updates");
 	    }
 	    else
 	    	logger.error("Error while calling the API: " + lametrovehicles.getStatusCode().toString());
