@@ -62,12 +62,12 @@ public class ManagementService {
 		for(Agency agenc:agencies) {
 			String agency = agenc.getId();
 			List<ItemsPredictionsStop> predictions = new ArrayList<>();
-			List<ItemsVehiclesAgency> vehicles = new ArrayList<>();
+			ItemsVehiclesAgency vehicles = null;
 			try {
 				String response = restTemplate.getForObject(URL_VEHICLES + agency + "/predictions/", String.class);
 				predictions = Arrays.asList(mapper.readValue(response, ItemsPredictionsStop[].class));
 				response = restTemplate.getForObject(URL_VEHICLES + agency + "/vehicles/", String.class);
-				vehicles = Arrays.asList(mapper.readValue(response, ItemsVehiclesAgency[].class));
+				vehicles = new Gson().fromJson(response, ItemsVehiclesAgency.class);
 			} catch (JsonProcessingException e) {
 				System.out.println(e.toString());
 			}
@@ -76,8 +76,8 @@ public class ManagementService {
 				for(Stop itemstop: stops.get(route.getId()).getItems()) {
 					List<PredictionInfo> pi = new ArrayList<>();
 					for(ItemsPredictionsStop p: predictions) {
-						if(p.getStop_id() == itemstop.getId()) {
-							for(PredictionStop s: p.getItems()) {
+						for(PredictionStop s: p.getItems()) {
+							if(s.getStop_id().equals(itemstop.getId())) {
 								PredictionInfo info = new PredictionInfo(route.getDisplay_name(), s.getMinutes(), s.getSeconds());
 								pi.add(info);
 							}
@@ -88,10 +88,8 @@ public class ManagementService {
 				}
 			}
 			List<VehicleInfo> vehiclesInfo = new ArrayList<>();
-			for(ItemsVehiclesAgency vehicle: vehicles) {
-				for(Vehicle v:vehicle.getItems()) {
-					vehiclesInfo.add(new VehicleInfo(v.getId(), getRouteName(agency, v.getRoute_id()), v.getLatitude(), v.getLongitude(), v.getSeconds_since_report(), v.getHeading()));
-				}
+			for(Vehicle v: vehicles.getItems()) {
+				vehiclesInfo.add(new VehicleInfo(v.getId(), getRouteName(agency, v.getRoute_id()), v.getLatitude(), v.getLongitude(), v.getSeconds_since_report(), v.getHeading()));
 			}
 			infos.add(new AgencyInfo(vehiclesInfo, stopsInfo.values()));
 		}
@@ -107,12 +105,12 @@ public class ManagementService {
 			fillRoutesStops();
 		List<AgencyInfo> infos = new ArrayList<>();
 		List<ItemsPredictionsStop> predictions = new ArrayList<>();
-		List<ItemsVehiclesAgency> vehicles = new ArrayList<>();
+		ItemsVehiclesAgency vehicles = null;
 		try {
 			String response = restTemplate.getForObject(URL_VEHICLES + agency + "/predictions/", String.class);
 			predictions = Arrays.asList(mapper.readValue(response, ItemsPredictionsStop[].class));
 			response = restTemplate.getForObject(URL_VEHICLES + agency + "/vehicles/", String.class);
-			vehicles = Arrays.asList(mapper.readValue(response, ItemsVehiclesAgency[].class));
+			vehicles  = new Gson().fromJson(response, ItemsVehiclesAgency.class);
 		} catch (JsonProcessingException e) {
 			System.out.println(e.toString());
 		}
@@ -121,8 +119,8 @@ public class ManagementService {
 			for(Stop itemstop: stops.get(route.getId()).getItems()) {
 				List<PredictionInfo> pi = new ArrayList<>();
 				for(ItemsPredictionsStop p: predictions) {
-					if(p.getStop_id() == itemstop.getId()) {
-						for(PredictionStop s: p.getItems()) {
+					for(PredictionStop s: p.getItems()) {
+						if(s.getStop_id().equals(itemstop.getId())) {
 							PredictionInfo info = new PredictionInfo(route.getDisplay_name(), s.getMinutes(), s.getSeconds());
 							pi.add(info);
 						}
@@ -133,10 +131,8 @@ public class ManagementService {
 			}
 		}
 		List<VehicleInfo> vehiclesInfo = new ArrayList<>();
-		for(ItemsVehiclesAgency vehicle: vehicles) {
-			for(Vehicle v:vehicle.getItems()) {
-				vehiclesInfo.add(new VehicleInfo(v.getId(), getRouteName(agency, v.getRoute_id()), v.getLatitude(), v.getLongitude(), v.getSeconds_since_report(), v.getHeading()));
-			}
+		for(Vehicle v: vehicles.getItems()) {
+			vehiclesInfo.add(new VehicleInfo(v.getId(), getRouteName(agency, v.getRoute_id()), v.getLatitude(), v.getLongitude(), v.getSeconds_since_report(), v.getHeading()));
 		}
 		infos.add(new AgencyInfo(vehiclesInfo, stopsInfo.values()));
 		return new Gson().toJson(infos);
