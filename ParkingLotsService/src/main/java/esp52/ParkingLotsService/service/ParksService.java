@@ -18,11 +18,13 @@ public class ParksService {
 	private static final String TOPIC_EVENTS = "events";
 	private static final Logger logger = LogManager.getLogger(ParksService.class);
 	private HashMap<String, ParkingLotation> lotations = new HashMap<>();
+	private ParkingLotation parklots;
 	@Autowired KafkaProducer kafkaProducer;
 	
 	@KafkaListener(topics = "parking", groupId = "lametro")
 	public void listenEvents(String message) {
 		ParkingLotation pl = new Gson().fromJson(message, ParkingLotation.class);
+		parklots = pl;
 		pl.setUpdated((int)getUnixTime() - pl.getUpdated());
 		if(lotations.containsKey(pl.getName())) {
 			ParkingLotation old = lotations.replace(pl.getName(), pl);
@@ -42,6 +44,10 @@ public class ParksService {
 	public String getLotations() {
 		String lotationsJson =  new Gson().toJson(lotations.values());
 		return lotationsJson;
+	}
+	
+	public int getFree() {
+		return parklots.getFree();
 	}
 	
 	private void checkParkingEvents(ParkingLotation pl) {
