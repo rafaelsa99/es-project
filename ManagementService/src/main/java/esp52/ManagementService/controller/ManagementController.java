@@ -30,6 +30,18 @@ public class ManagementController {
 		return managementService.getAllAgenciesInfo();
 	}
 	
+	@GetMapping("/events")
+	public String getAllEvents(){
+		logger.info("Request for all parking events");
+		return managementService.getEvents(false);
+	}
+	
+	@GetMapping("/events/last")
+	public String getLastEvents(){
+		logger.info("Request for the last parking event");
+		return managementService.getEvents(true);
+	}
+	
 	@GetMapping("/agencies/{agency}")
 	public String getAgency(@PathVariable("agency") String agency){
 		logger.info("Request for informations about the agency " + agency);
