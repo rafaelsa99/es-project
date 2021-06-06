@@ -179,7 +179,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on AlarmsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage3 = docker.build('es-project/alarmsservice6', 'AlarmsService')
+                                    dockerImage3 = docker.build('es-project/alarmsservice7', 'AlarmsService')
                                 }
                             }
                         }
@@ -369,46 +369,46 @@ pipeline {
                     sshCommand remote: remote, command: 'docker start esp52_projectbackend5'
                     */
                     
-                    //sshCommand remote: remote, command: "docker stop esp52_alarmsservice6 || echo 'Do not have that image'"
-                    //sshCommand remote: remote, command: "docker rm esp52_alarmsservice6 || echo 'Do not have that image'"
-                    //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice6'
-                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/alarmsservice6'
-                    sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_alarmsservice6 192.168.160.48:5000/es-project/alarmsservice6'
-                    sshCommand remote: remote, command: 'docker start esp52_alarmsservice6'
+                    //sshCommand remote: remote, command: "docker stop esp52_alarmsservice7 || echo 'Do not have that image'"
+                    //sshCommand remote: remote, command: "docker rm esp52_alarmsservice7 || echo 'Do not have that image'"
+                    //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice7'
+                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/alarmsservice7'
+                    sshCommand remote: remote, command: 'docker create -p 52030:52030 --name esp52_alarmsservice7 192.168.160.48:5000/es-project/alarmsservice7'
+                    sshCommand remote: remote, command: 'docker start esp52_alarmsservice7'
 
                     //sshCommand remote: remote, command: "docker stop esp52_externalapi5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "docker rm esp52_externalapi5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/externalapi5'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/externalapi5'
-                    sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_externalapi5 192.168.160.48:5000/es-project/externalapi5'
+                    sshCommand remote: remote, command: 'docker create -p 52031:52031 --name esp52_externalapi5 192.168.160.48:5000/es-project/externalapi5'
                     sshCommand remote: remote, command: 'docker start esp52_externalapi5'
 
                     //sshCommand remote: remote, command: "docker stop esp52_managementservice5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "docker rm esp52_managementservice5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/managementservice5'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/managementservice5'
-                    sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_managementservice5 192.168.160.48:5000/es-project/managementservice5'
+                    sshCommand remote: remote, command: 'docker create -p 52032:52032 --name esp52_managementservice5 192.168.160.48:5000/es-project/managementservice5'
                     sshCommand remote: remote, command: 'docker start esp52_managementservice5'
 
                     //sshCommand remote: remote, command: "docker stop esp52_parkinglotsservice5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "docker rm esp52_parkinglotsservice5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/parkinglotsservice5'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/parkinglotsservice5'
-                    sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_parkinglotsservice5 192.168.160.48:5000/es-project/parkinglotsservice5'
+                    sshCommand remote: remote, command: 'docker create -p 52033:52033 --name esp52_parkinglotsservice5 192.168.160.48:5000/es-project/parkinglotsservice5'
                     sshCommand remote: remote, command: 'docker start esp52_parkinglotsservice5'
 
                     //sshCommand remote: remote, command: "docker stop esp52_staticinfo5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "docker rm esp52_staticinfo5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/staticinfo5'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/staticinfo5'
-                    sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_staticinfo5 192.168.160.48:5000/es-project/staticinfo5'
+                    sshCommand remote: remote, command: 'docker create -p 52034:52034 --name esp52_staticinfo5 192.168.160.48:5000/es-project/staticinfo5'
                     sshCommand remote: remote, command: 'docker start esp52_staticinfo5'
 
                     //sshCommand remote: remote, command: "docker stop esp52_vehiclesservice5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "docker rm esp52_vehiclesservice5 || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice5'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/vehiclesservice5'
-                    sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_vehiclesservice5 192.168.160.48:5000/es-project/vehiclesservice5'
+                    sshCommand remote: remote, command: 'docker create -p 52035:52035 --name esp52_vehiclesservice5 192.168.160.48:5000/es-project/vehiclesservice5'
                     sshCommand remote: remote, command: 'docker start esp52_vehiclesservice5'
 
                     /*sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
