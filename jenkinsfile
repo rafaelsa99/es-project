@@ -179,7 +179,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on AlarmsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage3 = docker.build('es-project/alarmsservice5', 'AlarmsService')
+                                    dockerImage3 = docker.build('es-project/alarmsservice6', 'AlarmsService')
                                 }
                             }
                         }
