@@ -3,6 +3,7 @@ package esp52.ParkingLotsService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -26,7 +27,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     @When("I ask whether there are free parks")
     public void how_many_spaces() {
 
-        int freePark = 2;
+        int freePark = 52;
 
         if (freePark <= n1 && freePark >= n2) {
             System.out.println("Park space is -> " + freePark);
