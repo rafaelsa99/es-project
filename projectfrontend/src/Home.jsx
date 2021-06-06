@@ -1,31 +1,31 @@
 import React, {Component} from "react";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
-import ScriptTag from 'react-script-tag';
 
 class Home extends React.Component {
-
-    
     
     render() {
       const headletter = {
         fontSize: 20 
       }
         return (
-    <html lang="en">
-        
-        <body >
-                
             <div id="home">
                 
-                    <div class="bgded overlay light" style={{backgroundImage:"url('template/images/exelametro.jpg')"}}>
-               
+                <div class="bgded overlay light" style={{backgroundImage:"url('template/images/exelametro.jpg')"}}>
+  
+                  <div class="wrapper row0">
+                  <div id="topbar" class="hoc clear"> 
+     
+      
+      
+                  </div>
+                  </div>
               
-                  <div id="pageintro" class="hoc clear" >
-                  
+                  <div id="pageintro" class="hoc clear" > 
     
                   <article>
                   <h3 class="heading" style={headletter} >LAMetro é um sistema que exibe informação sobre autocarros/metro em tempo real. 
                   É possível ver as rotas e paragens disponíveis e a posição de cada autocarro/metro. Além disso, será possível ver a informação sobre a ocupação de alguns parques de estacionamento.<br></br></h3>
+                  <footer><a class="btn" href="#">Descobre já!</a></footer>
                   </article>
               
                   </div>
@@ -36,15 +36,18 @@ class Home extends React.Component {
                       <div class="group excerpt">
                         <article class="one_third first"><a class="imgover btmspace-30" href="#"><img src="template/images/exelametro.jpg" alt=""/></a>
                           <h6 class="heading">Visualizar Metros</h6>
-                          <footer><a href="#">See Mapping &raquo;</a></footer>
+                          <p></p>
+                          <footer><a href="#">Verificar &raquo;</a></footer>
                         </article>
                         <article class="one_third"><a class="imgover btmspace-30" href="#"><img src="template/images/buslametro.jpg" alt=""/></a>
                           <h6 class="heading">Visualizar Autocarros</h6>
-                          <footer><a href="#">See Mapping&raquo;</a></footer>
+                          <p></p>
+                          <footer><a href="#">Verificar &raquo;</a></footer>
                         </article>
                         <article class="one_third"><a class="imgover btmspace-30" href="#"><img src="template/images/porto.jpg" alt="" /></a>
-                          <h6 class="heading">Definir outras coisas</h6>
-                          <footer><a href="#">See Mapping &raquo;</a></footer>
+                          <h6 class="heading">Visualizar Parques Estacionamento</h6>
+                          <p></p>
+                          <footer><a href="#">Verificar &raquo;</a></footer>
                         </article>
                       </div>
                     
@@ -58,68 +61,65 @@ class Home extends React.Component {
                     <section class="hoc container clear"> 
                       
                       <div class="sectiontitle">
-                        <h6 class="heading">Porta consequat cras imperdiet</h6>
-                        <p>Lobortis erat at sodales libero malesuada vel curabitur maximus</p>
+                        <h6 class="heading">Sistema LAMetro</h6>
+                        <p>Os utilizadores podem encontrar informações sobre:</p>
                       </div>
                       <ul class="nospace group overview">
                         <li class="one_third">
-                          <article><a href="#"><i class="fa fa-headphones"></i></a>
-                            <h6 class="heading"><a href="#">Arcu eleifend venenatis</a></h6>
-                            <p>Sed non vulputate arcu nullam eu massa vitae urna vulputate efficitur in et&hellip;</p>
-                            <footer><a href="#">View Details &raquo;</a></footer>
+                          <article><a href="#"><i class="fa fa-bus"></i></a>
+                            <h6 class="heading"><a href="#">Autocarros e Paragens</a></h6>
+                            <p>Verificar informação sobre os Autocarros da cidade e das suas paragens!</p>
+                            
                           </article>
                         </li>
                         <li class="one_third">
-                          <article><a href="#"><i class="fa fa-asl-interpreting"></i></a>
-                            <h6 class="heading"><a href="#">Metus porta tincidunt</a></h6>
-                            <p>Mauris eu tristique aenean dapibus facilisis risus sed vestibulum sed vitae&hellip;</p>
-                            <footer><a href="#">View Details &raquo;</a></footer>
+                          <article><a href="#"><i class="fa fa-train"></i></a>
+                            <h6 class="heading"><a href="#">Metro e Estações</a></h6>
+                            <p>Verificar informação sobre os Metros da cidade e das suas Estações!</p>
+                            
                           </article>
                         </li>
                         <li class="one_third">
-                          <article><a href="#"><i class="fa fa-area-chart"></i></a>
-                            <h6 class="heading"><a href="#">Lacus pulvinar euismod</a></h6>
-                            <p>Pulvinar nulla elementum massa ut fermentum accumsan nulla luctus at risus&hellip;</p>
-                            <footer><a href="#">View Details &raquo;</a></footer>
+                          <article><a href="#"><i class="fa fa-info-circle"></i></a>
+                            <h6 class="heading"><a href="#">Parques de Estacionamento</a></h6>
+                            <p>Pesquisar informações sobre os Parques de Estacionamento (Nº lugares disponíveis, ocupados)!</p>
+                            
                           </article>
                         </li>
                         <li class="one_third">
-                          <article><a href="#"><i class="fa fa-balance-scale"></i></a>
-                            <h6 class="heading"><a href="#">Efficitur aliquet morbi</a></h6>
-                            <p>Vitae est eu felis ultrices tristique morbi eget libero ultricies semper enim&hellip;</p>
-                            <footer><a href="#">View Details &raquo;</a></footer>
+                          <article><a href="#"><i class="fa fa-arrows"></i></a>
+                            <h6 class="heading"><a href="#">Rotas e Trajetórias</a></h6>
+                            <p>É possível observar a trajetória dos Autocarros e dos Metros da cidade, bem como ver a rota qu estes vão percorrer!</p>
+                            
                           </article>
                         </li>
                         <li class="one_third">
-                          <article><a href="#"><i class="fa fa-comments-o"></i></a>
-                            <h6 class="heading"><a href="#">Eget tempor interdum</a></h6>
-                            <p>Et malesuada fames ac ante ipsum primis in faucibus duis volutpat gravida nisi&hellip;</p>
-                            <footer><a href="#">View Details &raquo;</a></footer>
+                          <article><a href="#"><i class="fa fa-calendar"></i></a>
+                            <h6 class="heading"><a href="#">Prever Tempo De Viagem</a></h6>
+                            <p>É possível verificar o tempo de duração das viagens dos autocarros em cada paragem!</p>
+                            
                           </article>
                         </li>
                         <li class="one_third">
-                          <article><a href="#"><i class="fa fa-gears"></i></a>
-                            <h6 class="heading"><a href="#">Cursus egestas curabitur</a></h6>
-                            <p>Aliquam lorem lorem ac iaculis eros pulvinar nec vivamus vestibulum nisl sem&hellip;</p>
-                            <footer><a href="#">View Details &raquo;</a></footer>
+                          <article><a href="#"><i class="fa fa-check-square-o"></i></a>
+                            <h6 class="heading"><a href="#">Ajudar o Utilizador</a></h6>
+                            <p>Permite ajudar o utilizador a poupar tempo na procura deste tipo de informação!</p>
+                            
                           </article>
                         </li>
                       </ul>
-                      <footer class="center"><a class="btn" href="#">Quis vehicula nulla</a></footer>
+                      
                       
                     </section>
                   </div>
       
-
+      
+          
           
             </div>
-        
-        </body>
-        
-    
+
   
-    </html>
-            
+  
 
         );
     }

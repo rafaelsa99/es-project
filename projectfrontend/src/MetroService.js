@@ -1,19 +1,21 @@
 import axios from "axios"
-
-const LAMETRO_API_BASE_URL = "http://localhost:8080/";
-const LAMETRO_KAFKA_BASE_URL = "http://localhost:8081/";
+const LAMETRO_API_BASE_URL = "http://localhost:8087/";
 
 class MetroService{
-    getVehicles(){
-        return axios.get(LAMETRO_API_BASE_URL + "vehicles");
+    getParks(){
+        return axios.get(LAMETRO_API_BASE_URL + "parkinglots");
     }
 
-    getHistory(){
-        return axios.get(LAMETRO_API_BASE_URL + "history");
+    getAll(){
+        return axios.get(LAMETRO_API_BASE_URL + "agencies");
     }
 
-    getEvents(){
-        return axios.get(LAMETRO_KAFKA_BASE_URL + "events");
+    getBus(){
+        return axios.get(LAMETRO_API_BASE_URL + "agencies/lametro");
+    }
+
+    getMetro(){
+        return axios.get(LAMETRO_API_BASE_URL + "agencies/lametro-rail");
     }
 }
 

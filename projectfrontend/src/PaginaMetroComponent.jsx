@@ -11,7 +11,6 @@ import {
     Link
   } from "react-router-dom";
 
-
     function Map(Component){
         return function WrappedComponent(props){
         const [viewport, setViewport] = useState({
@@ -28,13 +27,13 @@ import {
     }
     }
 
-    class ListPlaneComponent extends Component {
+    class PaginaMetroComponent extends Component {
         intervalID;
         constructor(){
             super();
             this.state = {
                 vehicles :[],
-                stops :[]
+                stops:[]
             }
         }   
     
@@ -45,7 +44,7 @@ import {
             clearTimeout(this.intervalID);
         }
         getData(){
-            MetroService.getBus().then((res) => {
+            MetroService.getMetro().then((res) => {
                 this.setState({vehicles: res.data});
                 this.setState({stops: res.data});
                 this.intervalID = setTimeout(this.getData.bind(this), 5000);
@@ -80,21 +79,21 @@ import {
                     >
                     {
                         this.state.vehicles.map(agency=> ( 
-                        agency.vehicles.map(vehicles=> ( 
-                        <Marker 
-                            key={vehicles.id} 
-                            latitude={vehicles.latitude}
-                            longitude={vehicles.longitude}
-                        >
+                            agency.vehicles.map(vehicles=> ( 
+                            <Marker 
+                                key={vehicles.id} 
+                                latitude={vehicles.latitude}
+                                longitude={vehicles.longitude}
+                            >
                           <button class="marker-btn"
                             onClick={e => {
                                 e.preventDefault();
                                 setSelectedVehicle(vehicles);
                             }}>
-                            <img src="/Bus.png" alt="Bus Icon"/>
+                            <img src="/metro1.png" alt="Metro Icon"/>
                           </button>
                         </Marker>
-                     ))))} 
+                        ))))} 
                         {
                         this.state.stops.map(agency=> ( 
                         agency.stops.map(stops=> ( 
@@ -108,11 +107,12 @@ import {
                                 e.preventDefault();
                                 setSelectedStop(stops);
                             }}>
-                            <img src="/paragem1.png" alt="Stop Icon"/>
+                            <img src="/estacao1.png" alt="Stop Icon"/>
                           </button>
                         </Marker>
                      ))))} 
-                    {selectedVehicle ? (
+                        
+                        {selectedVehicle ? (
                         <Popup latitude={selectedVehicle.latitude} longitude={selectedVehicle.longitude}
                         onClose={() => {
                             setSelectedVehicle(null);
@@ -125,7 +125,8 @@ import {
                             </div>
                         </Popup>
                     ) : null}
-                    {selectedStop ? (
+
+                        {selectedStop ? (
                         <Popup latitude={selectedStop.latitude} longitude={selectedStop.longitude}
                         onClose={() => {
                             setSelectedStop(null);
@@ -151,4 +152,4 @@ import {
         }
     }
     
-    export default Map(ListPlaneComponent);
+    export default Map(PaginaMetroComponent);

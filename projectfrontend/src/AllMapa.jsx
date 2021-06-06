@@ -22,19 +22,17 @@ import {
             zoom: 9.5
         });
         const [selectedVehicle, setSelectedVehicle] = useState(null);
-        const [selectedStop, setSelectedStop] = useState(null);
         
-        return <Component {...props} viewport={[viewport, setViewport]} seleted={[selectedVehicle, setSelectedVehicle], [selectedStop, setSelectedStop]} />;
+        return <Component {...props} viewport={[viewport, setViewport]} seleted={[selectedVehicle, setSelectedVehicle]} />;
     }
     }
 
-    class ListPlaneComponent extends Component {
+    class AllMapa extends Component {
         intervalID;
         constructor(){
             super();
             this.state = {
-                vehicles :[],
-                stops :[]
+                vehicles :[]
             }
         }   
     
@@ -47,7 +45,6 @@ import {
         getData(){
             MetroService.getBus().then((res) => {
                 this.setState({vehicles: res.data});
-                this.setState({stops: res.data});
                 this.intervalID = setTimeout(this.getData.bind(this), 5000);
             }
             
@@ -56,7 +53,6 @@ import {
         render() {
             const [viewport, setViewport] = this.props.viewport;
             const [selectedVehicle, setSelectedVehicle] = this.props.seleted;
-            const [selectedStop, setSelectedStop] = this.props.seleted;
             
             return (
                 <div id="listcomponent">
@@ -95,23 +91,7 @@ import {
                           </button>
                         </Marker>
                      ))))} 
-                        {
-                        this.state.stops.map(agency=> ( 
-                        agency.stops.map(stops=> ( 
-                        <Marker 
-                            key={stops.display_name} 
-                            latitude={stops.latitude}
-                            longitude={stops.longitude}
-                        >
-                          <button class="marker-btn"
-                            onClick={e => {
-                                e.preventDefault();
-                                setSelectedStop(stops);
-                            }}>
-                            <img src="/paragem1.png" alt="Stop Icon"/>
-                          </button>
-                        </Marker>
-                     ))))} 
+                        
                     {selectedVehicle ? (
                         <Popup latitude={selectedVehicle.latitude} longitude={selectedVehicle.longitude}
                         onClose={() => {
@@ -122,20 +102,6 @@ import {
                                 <p><b>Latitude: </b>{selectedVehicle.latitude}</p>
                                 <p><b>Longitude: </b>{selectedVehicle.longitude}</p>
                                 <p><b>Atualizado à (s): </b>{selectedVehicle.seconds_since_report}</p>
-                            </div>
-                        </Popup>
-                    ) : null}
-                    {selectedStop ? (
-                        <Popup latitude={selectedStop.latitude} longitude={selectedStop.longitude}
-                        onClose={() => {
-                            setSelectedStop(null);
-                        }}>
-                            <div>
-                                
-                                <p><b>Latitude: </b>{selectedStop.latitude}</p>
-                                <p><b>Longitude: </b>{selectedStop.longitude}</p>
-                                <p><b>Nome da Estação: </b>{selectedStop.display_name}</p>
-                                
                             </div>
                         </Popup>
                     ) : null}
@@ -151,4 +117,4 @@ import {
         }
     }
     
-    export default Map(ListPlaneComponent);
+    export default Map(AllMapa);
