@@ -178,7 +178,7 @@ pipeline {
                     sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
                     sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d'"*/
 
-                //sshCommand remote: remote, command: 'docker-compose up -d'
+                    //sshCommand remote: remote, command: 'docker-compose up -d'
                 }
             }
         }
