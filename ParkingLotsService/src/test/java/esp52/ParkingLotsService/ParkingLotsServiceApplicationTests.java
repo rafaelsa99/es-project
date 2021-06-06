@@ -31,7 +31,7 @@ class ParkingLotsServiceApplicationTests {
 
     @Test
     public void getReact() throws Exception {
-        System.out.println("Request React");
+        System.out.println("Request Locations");
         this.mockMvc.perform(get("http://localhost:8083/lotations/")).andDo(print()).andExpect(status().isOk());
     }
 }
