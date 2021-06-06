@@ -4,11 +4,15 @@ import ListPlaneComponent from './ListPlaneComponent';
 import Historic from './Historic';
 import Events from './Events';
 import Home from './Home.jsx';
+import PaginaMetroComponent from './PaginaMetroComponent';
+import AllMapa from './AllMapa';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
+
+
 function App() {
   return (
     <Router>
@@ -17,8 +21,12 @@ function App() {
 
     <Switch>
       <Route path="/" exact component={Home}/>
-      <Route path="/live" component={ListPlaneComponent}/>
-      <Route path="/historic" component={Historic}/>
+      <Route path="/autocarro" component={ListPlaneComponent}/>
+      <Route path="/live" component={AllMapa}/>
+      <Route path="/parques" component={Historic}/>
+      <Route path="/metro" component={PaginaMetroComponent}/>
+      
+
     </Switch>
     
     

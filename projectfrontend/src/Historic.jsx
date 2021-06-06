@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import MetroService from './MetroService';
+import './App.css';
     
 class Historic extends Component {
     intervalID;
     constructor(){
         super();
         this.state = {
-            history :[]
+            parks :[]
         }
     }
 
@@ -14,38 +15,53 @@ class Historic extends Component {
         this.getData();
     }
     getData(){
-        MetroService.getHistory().then((res) => {
-            this.setState({history: res.data});
+        MetroService.getParks().then((res) => {
+            this.setState({parks: res.data});
         }
         );
         }
         render() {
+        
+        
+       
+                      
             return (
-               <div id="historic">
-                    <h2 className="text-center">Geometric Altitude of Planes entering Metropolitan LA</h2>
-                    <p><b>Total of planes in history:</b> {this.state.history.length}</p>
+               <div id="parkinglots">
+                    <h2 className="text-center">Lista dos PArques de Estacionamento da cidade de LA</h2>
+                    <p><b>Número Total de Parques:</b> 3</p>
                     <div className="row">
                         <table className="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Callsign</th>
-                                    <th>Origin Country</th>
-                                    <th>Geometric Altitude (meters)</th>
+                                    <th>Nome do Parque</th>
+                                    <th>Nº Lugares Disponíveis Para Pessoas com Deficiência</th>
+                                    <th>Nº Total Lugares Para Pessoas com Deficiência</th>
+                                    <th>Nº Lugares Disponíveis</th>
+                                    <th>Nº Total Lugares</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    this.state.history.map(
-                                        history=>
-                                        <tr key={history.callsign}>
-                                            <td>{history.callsign}</td>
-                                            <td>{history.origin_country}</td>
-                                            <td>{history.geo_altitude}</td>
+                            {
+                                    this.state.parks.map(
+                                        parks=>
+                                        <tr key={parks.name}>
+                                            <td>{parks.name}</td>
+                                            <td>{parks.disabledfree}</td>
+                                            <td>{parks.disabledtotal}</td>
+                                            <td>{parks.free}</td>
+                                            <td>{parks.total}</td>
                                         </tr>
                                     )
                                 }
                             </tbody>
+                            
                         </table>
+
+
+                        <article class="one_third"><a class="legenda" href="#"><img src="legenda2.png" alt=""/></a>
+                            </article>
+
+                        
                     </div>
                  
                 
