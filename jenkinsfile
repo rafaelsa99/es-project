@@ -38,7 +38,7 @@ pipeline {
                 }
             }
         }
-        stage('Compilation kafkaConsumer') {
+        stage('Compilation') {
             steps {
                 parallel(
                     kafkaConsumer: {
@@ -55,6 +55,42 @@ pipeline {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on projectbackend"'
+                                sh './mvnw clean install -DskipTests'
+                            }
+                        }
+                    },
+                    managementService: {
+                        dir('ManagementService') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Clean install on ManagementService"'
+                                sh './mvnw clean install -DskipTests'
+                            }
+                        }
+                    },
+                    parkingLotsService: {
+                        dir('ParkingLotsService') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Clean install on ParkingLotsService"'
+                                sh './mvnw clean install -DskipTests'
+                            }
+                        }
+                    },
+                    staticInfo: {
+                        dir('StaticInfo') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Clean install on StaticInfo"'
+                                sh './mvnw clean install -DskipTests'
+                            }
+                        }
+                    },
+                    vehiclesService: {
+                        dir('VehiclesService') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                sh 'echo "Clean install on VehiclesService"'
                                 sh './mvnw clean install -DskipTests'
                             }
                         }
