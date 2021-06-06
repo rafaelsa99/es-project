@@ -7,6 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+//    static String FreeSpace(int today) {
+//        if (today <= 349 && today >= 51) {
+//            return "Park is Free";
+//        } else if (today <= 50 && today >= 1) {
+//            return "Park is almost Full";
+//        } else {
+//            return "Park is Full";
+//        }
+//    }
+
+
 public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
     private int n1;
@@ -29,7 +40,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
         int freePark = 52;
 
-        if (freePark <= n1 && freePark >= n2) {
+        if (freePark == 349) {
             System.out.println("Park space is -> " + freePark);
             test = true;
         } else {
