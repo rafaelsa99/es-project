@@ -30,7 +30,11 @@ public class AlarmsController {
 	@GetMapping("/events/last/")
 	public String getLastEvents(){
 		logger.info("Request for the last event");
-		return new Gson().toJson(lastEvent);
+		List<String> last = new ArrayList<>();
+		if(lastEvent.length() > 0)
+			last.add(lastEvent);
+		lastEvent = "";
+		return new Gson().toJson(last);
 	}
 	
 	@KafkaListener(topics = "events", groupId = "lametro")
