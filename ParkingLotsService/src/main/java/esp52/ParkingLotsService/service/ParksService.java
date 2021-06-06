@@ -35,6 +35,18 @@ public class ParksService {
 		}
 		logger.info("Updating Parking Lotations from Parking Lot " + pl.getName());
 	}
+
+	public ParkingLotation getTestPark(int total, int free, int dfree, int dtotal) {
+		ParkingLotation p1 = new ParkingLotation();
+		p1.setUpdated(0);
+		p1.setName("testPark1");
+		p1.setDisabledtotal(dtotal);
+		p1.setDisabledfree(dfree);
+		p1.setFree(free);
+		p1.setTotal(total);
+		
+		return p1;
+	}
 	
 	public long getUnixTime() {
 		long unixTime = System.currentTimeMillis() / 1000L;
