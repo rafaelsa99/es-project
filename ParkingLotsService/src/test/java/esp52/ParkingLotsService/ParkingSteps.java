@@ -6,9 +6,7 @@ import io.cucumber.java.en.When;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-//@ContextConfiguration
-//@SpringBootTest
-public class ParkingSteps {
+public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
     private int n1;
     private int n2;
