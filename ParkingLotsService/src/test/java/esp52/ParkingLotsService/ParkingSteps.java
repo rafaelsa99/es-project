@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 class FreeSpace {
 
     static String FreeSpace(int today) {
-        if (today <= 349 && today > 50) {
+        if (today == 349) {
             return "is totally free!";
         } else if (today <= 50 && today > 0) {
             return "has a reduced number of free parking spaces!";
@@ -24,9 +24,9 @@ class FreeSpace {
     }
 
     static String FreeDisabledSpace(int today2) {
-        if (today2 <= 7 && today2 >= 3) {
+        if (today2 == 7) {
             return "for disabled is totally free!";
-        } else if (today2 <= 2 && today2 >= 1) {
+        } else if (today2 <= 3 && today2 > 0) {
             return "has a reduced number of free parking spaces for disabled!";
         } else {
             return "has the disabled parking spaces full!";
@@ -93,15 +93,15 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     /*-------------------------------------------------------------
     Scenario Outline: Park is or is not free (Disabled People)
     -------------------------------------------------------------*/
-    @Given("Disabled Parks space is 7")
+    @Given("Disabled parks space is 7")
     public void free_spaces_1d() {
     }
 
-    @Given("Disabled Parks space is between 3 and 1")
+    @Given("Disabled parks space is between 3 and 1")
     public void free_spaces_2d() {
     }
 
-    @Given("Disabled Parks space is 0")
+    @Given("Disabled parks space is 0")
     public void free_spaces_3d() {
     }
 
