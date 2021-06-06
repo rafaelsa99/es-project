@@ -75,6 +75,14 @@ pipeline {
                 )
             }
         }
+        stage('Deploy kafkaConsumer') {
+            dir('kafkaConsumer') {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    echo 'Deploying Artifact'
+                    sh './mvnw deploy -f pom.xml -s settings.xml'
+                }
+            }
+        }
         stage('Create Docker Image') {
             steps {
                 parallel(
@@ -164,5 +172,5 @@ pipeline {
                 }
             }
         }
-        }
     }
+}
