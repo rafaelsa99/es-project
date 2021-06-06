@@ -4,7 +4,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class ParkingSteps extends SpringIntegrationTest {
+public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
     private int n1;
     private int n2;
