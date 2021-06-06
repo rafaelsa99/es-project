@@ -7,6 +7,7 @@ pipeline {
 
     tools {
         maven 'maven36'
+        jdk 'jdk11'
     }
 
     environment {
@@ -75,7 +76,7 @@ pipeline {
                 )
             }
         }
-        stage('Deploy kafkaConsumer') {
+        /*stage('Deploy kafkaConsumer') {
             steps {
                 dir('kafkaConsumer') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -84,7 +85,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Create Docker Image') {
             steps {
                 parallel(
@@ -171,6 +172,8 @@ pipeline {
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectbackend5'
                     sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_projectbackend5 192.168.160.48:5000/es-project/projectbackend5'
                     sshCommand remote: remote, command: 'docker start esp52_projectbackend5'
+
+                    sshCommand remote: remote, command: 'docker-compose up -d esp20_dubaidash esp20_dubaidashapi esp20_react'
                 }
             }
         }
