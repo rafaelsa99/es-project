@@ -31,9 +31,9 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     ParkingLotation p1 = pS.getTestPark(349, 7);
     ParkingLotation p2 = pS.getTestPark(25, 3);
     ParkingLotation p3 = pS.getTestPark(0, 0);
-    public int idk = p1.getFree();
-    public int idk = p2.getFree();
-    public int idk = p3.getFree();
+    public int idk1 = p1.getFree();
+    public int idk2 = p2.getFree();
+    public int idk3 = p3.getFree();
 
     private int n1;
     private int n2;
@@ -51,7 +51,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
     @When("I ask whether there are free parks")
     public void i_ask_whether_it_s_Friday_yet() {
-        System.out.println("  Space is -> " + idk);
+        System.out.println("  Space is -> " + idk1);
         actualAnswer = FreeSpace.FreeSpace(int1);
     }
 
