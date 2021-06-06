@@ -86,6 +86,29 @@ pipeline {
                 }
             }
         }*/
+        /*stage('Deploying Artifact') {
+            steps {
+                parallel(
+                    kafkaConsumer: {
+                        dir('kafkaConsumer') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                echo 'Deploying Artifact'
+                                sh './mvnw deploy -f pom.xml -s settings.xml'
+                            }
+                        }
+                    },
+                    projectbackend: {
+                            dir('projectbackend') {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    echo 'Deploying Artifact'
+                                    sh './mvnw deploy -f pom.xml -s settings.xml'
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        }*/
         stage('Create Docker Image') {
             steps {
                 parallel(
