@@ -13,13 +13,14 @@ import esp52.ParkingLotsService.service.ParksService;
 @RequestMapping("/")
 public class ParksController {
 
-	private static final Logger logger = LogManager.getLogger(ParksController.class);
-	@Autowired ParksService parksService;
-	
-	@GetMapping("lotations/")
-	public String getLotations(){
-		logger.info("Request for parking lotations");
-		return parksService.getLotations();
-	}
-	
+    private static final Logger logger = LogManager.getLogger(ParksController.class);
+    @Autowired
+    ParksService parksService;
+
+    @GetMapping("lotations/")
+    public String getLotations() {
+        logger.info("Request for parking lotations");
+        return parksService.getLotations();
+    }
+
 }
