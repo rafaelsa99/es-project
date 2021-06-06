@@ -29,11 +29,11 @@ pipeline {
 
         stage('Test Stage') {
             steps {
-                dir('kafkaConsumer') {
+                dir('ParkingLotsService') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         sh "chmod +x -R ${env.WORKSPACE}"
-                        sh 'echo "Tests on kafkaConsumer"'
-                        sh './mvnw test -Dmaven.test.failure.ignore=true'
+                        sh 'echo "Tests on ParkingLotsService"'
+                        sh './mvnw test'
                     }
                 }
             }
@@ -67,7 +67,7 @@ pipeline {
                 dir('kafkaConsumer') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         echo 'Deploying Artifact'
-                        sh './mvnw deploy -f pom.xml -s settings.xml'
+                        sh './mvnw deploy -f pom.xml -s ../settings.xml'
                     }
                 }
             }
