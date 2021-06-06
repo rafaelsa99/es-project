@@ -90,7 +90,7 @@ import {
                                 e.preventDefault();
                                 setSelectedVehicle(vehicles);
                             }}>
-                            <img src="/metro1.png" alt="Metro Icon"/>
+                            <img src="/metro2.png" alt="Metro Icon"/>
                           </button>
                         </Marker>
                         ))))} 
@@ -107,7 +107,7 @@ import {
                                 e.preventDefault();
                                 setSelectedStop(stops);
                             }}>
-                            <img src="/estacao1.png" alt="Stop Icon"/>
+                            <img src="/estacao2.png" alt="Stop Icon"/>
                           </button>
                         </Marker>
                      ))))} 
