@@ -108,7 +108,7 @@ import {
                                 e.preventDefault();
                                 setSelectedStop(stops);
                             }}>
-                            <img src="/paragem1.png" alt="Stop Icon"/>
+                            <img src="/paragem2.png" alt="Stop Icon"/>
                           </button>
                         </Marker>
                      ))))} 
