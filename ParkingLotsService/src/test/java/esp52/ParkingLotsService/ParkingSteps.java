@@ -3,8 +3,12 @@ package esp52.ParkingLotsService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
-public class ParkingSteps extends ParkingLotsServiceApplicationTests {
+//@ContextConfiguration
+//@SpringBootTest
+public class ParkingSteps {
 
     private int n1;
     private int n2;
