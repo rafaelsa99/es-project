@@ -201,7 +201,7 @@ pipeline {
                     sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d '"*/
 
                     sh 'docker-compose down --rmi all'
-                    sh 'rm docker-compose.yml'
+                    //sh 'rm docker-compose.yml'
                     sh 'docker-compose up -d --build server consumer'
 
                 //sshCommand remote: remote, command: 'docker-compose up -d'
