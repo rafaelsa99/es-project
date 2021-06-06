@@ -76,7 +76,7 @@ pipeline {
                 )
             }
         }
-        stage('Deploy kafkaConsumer') {
+        /*stage('Deploy kafkaConsumer') {
             steps {
                 dir('kafkaConsumer') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -85,8 +85,8 @@ pipeline {
                     }
                 }
             }
-        }
-        /*stage('Deploying Artifact') {
+        }*/
+        stage('Deploying Artifact') {
             steps {
                 parallel(
                     kafkaConsumer: {
@@ -108,7 +108,7 @@ pipeline {
                     }
                 )
             }
-        }*/
+        }
         stage('Create Docker Image') {
             steps {
                 parallel(
