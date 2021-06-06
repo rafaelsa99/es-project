@@ -27,31 +27,17 @@ pipeline {
             }
         }
 
-        /* stage('Test Stage') {
+        stage('Test Stage') {
             steps {
-                parallel(
-                    kafkaConsumer: {
-                        dir('kafkaConsumer') {
-                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
-                                sh 'echo "Tests on kafkaConsumer"'
-                                sh './mvnw test -Dmaven.test.failure.ignore=true'
-                            }
-                        }
-                    },
-                    projectbackend: {
-                        dir('projectbackend') {
-                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
-                                sh 'echo "Tests on projectbackend"'
-                                sh 'echo "Error due to not having a database"'
-                                sh './mvnw test -Dmaven.test.failure.ignore=true'
-                            }
-                        }
+                dir('kafkaConsumer') {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        sh "chmod +x -R ${env.WORKSPACE}"
+                        sh 'echo "Tests on kafkaConsumer"'
+                        sh './mvnw test -Dmaven.test.failure.ignore=true'
                     }
-                )
+                }
             }
-        } */
+        }
         stage('Compilation kafkaConsumer') {
             steps {
                 parallel(
@@ -76,7 +62,7 @@ pipeline {
                 )
             }
         }
-        /*stage('Deploy kafkaConsumer') {
+        stage('Deploy kafkaConsumer') {
             steps {
                 dir('kafkaConsumer') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -85,7 +71,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
         /*stage('Deploying Artifact') {
             steps {
                 parallel(
@@ -200,16 +186,16 @@ pipeline {
                     sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
                     sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d '"*/
 
-                    sh 'docker-compose down --rmi all'
+                    //sh 'docker-compose down --rmi all'
                     //sh 'rm docker-compose.yml'
-                    sh 'docker-compose up -d --build server consumer'
+                    //sh 'docker-compose up -d --build server consumer'
 
                 //sshCommand remote: remote, command: 'docker-compose up -d'
                 }
             }
         }
     }
-    /*post {
+    post {
         always {
             echo "Pipeline execution ended: "
         }
@@ -220,5 +206,4 @@ pipeline {
             echo "Failed"
         }
     }
-    }*/
 }
