@@ -36,14 +36,14 @@ public class ParksService {
 		logger.info("Updating Parking Lotations from Parking Lot " + pl.getName());
 	}
 
-	public ParkingLotation getTestPark(int total, int free, int dfree, int dtotal) {
+	public ParkingLotation getTestPark(int free, int dfree) {
 		ParkingLotation p1 = new ParkingLotation();
 		p1.setUpdated(0);
 		p1.setName("testPark1");
-		p1.setDisabledtotal(dtotal);
-		p1.setDisabledfree(dfree);
+		p1.setTotal(349);
+		p1.setDisabledtotal(7);
 		p1.setFree(free);
-		p1.setTotal(total);
+		p1.setDisabledfree(dfree);
 		
 		return p1;
 	}
