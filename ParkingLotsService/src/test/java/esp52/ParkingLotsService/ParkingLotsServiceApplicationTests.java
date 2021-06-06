@@ -16,22 +16,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @CucumberContextConfiguration
 @ContextConfiguration
 class ParkingLotsServiceApplicationTests {
 
-//    @Autowired
-//    private MockMvc mockMvc;
-//
+    @Autowired
+    private MockMvc mockMvc;
+
     @Test
     void contextLoads() {
     }
-//
-//    @Test
-//    public void getReact() throws Exception {
-//        System.out.println("Request React");
-//        this.mockMvc.perform(get("http://localhost:8083/lotations/")).andDo(print()).andExpect(status().isOk());
-//    }
+
+    @Test
+    public void getReact() throws Exception {
+        System.out.println("Request React");
+        this.mockMvc.perform(get("http://localhost:8083/lotations/")).andDo(print()).andExpect(status().isOk());
+    }
 }
