@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources")
+@CucumberOptions(plugin = {"pretty"}, features = "src/test/resources", glue = {"com.whatever"})
 //@CucumberOptions(features = "src/test/resources", plugin = {"pretty"}, publish = true)
 public class CucumberIntegrationTest extends ParkingLotsServiceApplicationTests {
 
