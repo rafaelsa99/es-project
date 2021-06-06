@@ -167,9 +167,26 @@ public class ManagementService {
 
 	private String getRouteName(String agency, String route_id) {
 		for(Route ir: routes.get(agency).getItems()) {
-			if(ir.getId() == route_id)
+			if(ir.getId().equals(route_id))
 				return ir.getDisplay_name();
 		}
 		return "";
 	}
+
+	public String getEvents(boolean lastEvent) {
+		String url;
+		if(lastEvent)
+			url = URL_EVENTS + "events/last/";
+		else
+			url = URL_EVENTS + "events/";
+		List<String> events = new ArrayList<>();
+		try {
+			String response = restTemplate.getForObject(url, String.class);
+			events = Arrays.asList(mapper.readValue(response, String[].class));
+		} catch (JsonProcessingException e) {
+			System.out.println(e.toString());
+		}
+		return new Gson().toJson(events);
+	}
+
 }
