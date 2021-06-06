@@ -195,10 +195,12 @@ pipeline {
                     sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_projectbackend5 192.168.160.48:5000/es-project/projectbackend5'
                     sshCommand remote: remote, command: 'docker start esp52_projectbackend5'
 
-                    sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
+                    /*sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
                     sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
                     sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
-                    sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d'"
+                    sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d '"*/
+
+                    sh 'docker-compose up -d esp52_kafkaconsumer5 esp52_projectbackend5'
 
                     //sshCommand remote: remote, command: 'docker-compose up -d'
                 }
