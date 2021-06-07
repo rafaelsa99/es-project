@@ -234,7 +234,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on VehiclesService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage8 = docker.build('es-project/vehiclesservice9', 'VehiclesService')
+                                    dockerImage8 = docker.build('es-project/vehiclesservice8', 'VehiclesService')
                                 }
                             }
                         }
@@ -404,12 +404,12 @@ pipeline {
                     sshCommand remote: remote, command: 'docker create -p 52044:52044 --name esp52_staticinfo9 192.168.160.48:5000/es-project/staticinfo9'
                     sshCommand remote: remote, command: 'docker start esp52_staticinfo9'
 
-                    sshCommand remote: remote, command: "docker stop esp52_vehiclesservice9 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: "docker rm esp52_vehiclesservice9 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice9'
-                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/vehiclesservice9'
-                    sshCommand remote: remote, command: 'docker create -p 52039:52039 --name esp52_vehiclesservice9 192.168.160.48:5000/es-project/vehiclesservice9'
-                    sshCommand remote: remote, command: 'docker start esp52_vehiclesservice9'
+                    //sshCommand remote: remote, command: "docker stop esp52_vehiclesservice8 || echo 'Do not have that image'"
+                    //sshCommand remote: remote, command: "docker rm esp52_vehiclesservice8 || echo 'Do not have that image'"
+                    //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice8'
+                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/vehiclesservice8'
+                    sshCommand remote: remote, command: 'docker create -p 52038:52038 --name esp52_vehiclesservice8 192.168.160.48:5000/es-project/vehiclesservice8'
+                    sshCommand remote: remote, command: 'docker start esp52_vehiclesservice8'
 
                     /*sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
                     sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
