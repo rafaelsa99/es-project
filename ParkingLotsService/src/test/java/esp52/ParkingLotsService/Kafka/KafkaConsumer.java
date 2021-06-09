@@ -33,8 +33,8 @@ public class KafkaConsumer {
     //@KafkaListener(topics = "${test.topic}")
     @KafkaListener(topics = "events")
     public void receive(String consumerRecord) {
-        logger.info("received payload='{}'", consumerRecord.toString());
-        System.out.println("consumerRecord -> " + consumerRecord.toString());
+        //logger.info("received payload='{}'", consumerRecord.toString());
+        //System.out.println("consumerRecord -> " + consumerRecord.toString());
         setMessage(consumerRecord.toString());
         latch.countDown();
     }

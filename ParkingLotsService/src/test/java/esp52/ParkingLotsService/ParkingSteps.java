@@ -61,10 +61,11 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     /*-------------------------------------------------------------
     Scenario Outline: Park is or is not free
     -------------------------------------------------------------*/
-    @Given("Parks space is 349")
-    public void free_spaces_1() {
-        p1 = pS.getTestPark(349, 7);
-
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces")
+    public void free_spaces_1(int total, int totald, int free, int freed) {
+        p1 = pS.getTestPark(total, free, totald, freed);
+        String msg = new Gson().toJson(p1);
+        kafkaProducer2.sendMessage(topic, msg);
     }
 
 //    @Given("Parks space is between 50 and 1")
@@ -74,10 +75,10 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 //    @Given("Parks space is 0")
 //    public void free_spaces_3() {
 //    }
-    @When("I ask whether there are free parks")
-    public void fp1() {
-        String msg = new Gson().toJson(p1);
-        kafkaProducer2.sendMessage(topic, msg);
+    @When("the event is received through kafka topic \"events\"")
+    public void fp1() throws InterruptedException {
+        KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
+        actualAnswer = KafkaConsumer.getMessage();
 //        System.out.println("  Park space is -> " + idk1);
 //        actualAnswer = FreeSpace.FreeSpace(idk1);
     }
@@ -94,9 +95,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 //        actualAnswer = FreeSpace.FreeSpace(idk3);
 //    }
     @Then("I should be told that {string}")
-    public void answer_is(String expectedAnswer) throws InterruptedException {
-        KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
-        actualAnswer = KafkaConsumer.getMessage();
+    public void answer_is(String expectedAnswer) {
         //System.out.println("actualAnswer ->" + actualAnswer);
         assertEquals(expectedAnswer, actualAnswer);
 

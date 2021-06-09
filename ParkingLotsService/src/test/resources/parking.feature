@@ -3,9 +3,10 @@ Feature: LAMetro 1
     #https://api.metro.net/agencies/lametro/parking/5ba05e7e00000029464d31c1/
 
     Scenario: Parks are or not free 1
-        Given Parks space is 349
-        When I ask whether there are free parks
+        Given a parking lot with a total of 349 parking spaces and 7 disabled parking spaces and with 349 free parking spaces and 7 disabled free parking spaces
+        When the event is received through kafka topic "events"
         Then I should be told that "Park testPark1 is totally free!"
+
 
     #Scenario: Parks are or not free 2
     #    Given Parks space is between 50 and 1

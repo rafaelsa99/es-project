@@ -16,8 +16,8 @@ public class KafkaProducer2 {
     private static final Logger logger = LogManager.getLogger(KafkaProducer2.class);
 
     public void sendMessage(String topic, String message) {
-        logger.info(message);
-        System.out.println("sending payload");
+        //logger.info(message);
+        //System.out.println("sending payload");
         kafkaTemplate.send(topic, message);
     }
 
