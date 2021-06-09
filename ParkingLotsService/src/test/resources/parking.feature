@@ -5,32 +5,32 @@ Feature: LAMetro 1
     Scenario: Parks are or not free 1
         Given Parks space is 349
         When I ask whether there are free parks
-        Then I should be told that "is totally free!"
+        Then I should be told that "Park testPark1 is totally free!"
 
-    Scenario: Parks are or not free 2
-        Given Parks space is between 50 and 1
-        When I ask whether there are free parkss
-        Then I should be told that "has a reduced number of free parking spaces!"
+    #Scenario: Parks are or not free 2
+    #    Given Parks space is between 50 and 1
+    #    When I ask whether there are free parkss
+    #    Then I should be told that "has a reduced number of free parking spaces!"
 
-    Scenario: Parks are or not free 3
-        Given Parks space is 0
-        When I ask whether there are free parksss
-        Then I should be told that "has the parking spaces full!"
+    #Scenario: Parks are or not free 3
+    #    Given Parks space is 0
+    #    When I ask whether there are free parksss
+    #    Then I should be told that "has the parking spaces full!"
 
-    Scenario: Disabled Parks are or not free 1
-        Given Disabled parks space is 7
-        When I ask whether there are free disabled parks
-        Then I should be told "for disabled is totally free!"
+    #Scenario: Disabled Parks are or not free 1
+    #    Given Disabled parks space is 7
+    #    When I ask whether there are free disabled parks
+    #    Then I should be told "for disabled is totally free!"
 
-    Scenario: Disabled Parks are or not free 2
-        Given Disabled parks space is between 3 and 1
-        When I ask whether there are free disabled parkss
-        Then I should be told "has a reduced number of free parking spaces for disabled!"
+    #Scenario: Disabled Parks are or not free 2
+    #    Given Disabled parks space is between 3 and 1
+    #    When I ask whether there are free disabled parkss
+    #    Then I should be told "has a reduced number of free parking spaces for disabled!"
 
-    Scenario: Disabled Parks are or not free 3
-        Given Disabled parks space is 0
-        When I ask whether there are free disabled parksss
-        Then I should be told "has the disabled parking spaces full!"
+    #Scenario: Disabled Parks are or not free 3
+    #    Given Disabled parks space is 0
+    #    When I ask whether there are free disabled parksss
+    #    Then I should be told "has the disabled parking spaces full!"
 
     #######################################################
 
