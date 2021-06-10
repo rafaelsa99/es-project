@@ -56,17 +56,14 @@ import {
             const [viewport, setViewport] = this.props.viewport;
             const [selectedVehicle, setSelectedVehicle] = this.props.seleted;
             const [selectedStop, setSelectedStop] = this.props.seleted;
-            
+            const headletter = {
+                fontSize: 20
+        }
             return (
                 <div id="listcomponent">
-                    <h1 className="text-center">Metro/Bus in Metropolitan Los Angeles </h1>
+                    <p className="text-center" style={headletter} >Metro e Estações da zona metropolitana de Los Angeles</p>
                     
-                    <div className="btns" >
-                        <Link to="/live" className="btn btn-primary">All</Link>
-                        <Link to="/autocarro" className="btn btn-primary">Bus/Stops</Link>
-                        <Link to="/metro" className="btn btn-primary">Metro/Stations</Link>
-                        
-                    </div>
+                    
                     <ReactMapGL 
                     mapStyle={'mapbox://styles/mapbox/dark-v9'}
                     mapboxApiAccessToken={
