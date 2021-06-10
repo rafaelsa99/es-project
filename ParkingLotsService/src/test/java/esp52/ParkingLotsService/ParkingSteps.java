@@ -68,19 +68,10 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
         kafkaProducer2.sendMessage(topic, msg);
     }
 
-//    @Given("Parks space is between 50 and 1")
-//    public void free_spaces_2() {
-//    }
-//
-//    @Given("Parks space is 0")
-//    public void free_spaces_3() {
-//    }
     @When("the event is received through kafka topic \"events\"")
     public void fp1() throws InterruptedException {
         KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
         actualAnswer = KafkaConsumer.getMessage();
-//        System.out.println("  Park space is -> " + idk1);
-//        actualAnswer = FreeSpace.FreeSpace(idk1);
     }
 
 //    @When("I ask whether there are free parkss")
