@@ -21,13 +21,16 @@ class Historic extends Component {
         );
         }
         render() {
+            const headletter = {
+                fontSize: 20
+        }
         
         
        
                       
             return (
                <div id="parkinglots">
-                    <h2 className="text-center">Lista dos PArques de Estacionamento da cidade de LA</h2>
+                    <p className="text-center" style={headletter} >Lista de Parques da zona metropolitana de Los Angeles</p>
                     <p><b>Número Total de Parques:</b> 3</p>
                     <div className="row">
                         <table className="table table-striped table-bordered">
