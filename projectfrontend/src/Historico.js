@@ -47,7 +47,7 @@ class Historico extends Component {
             {
               label: "Média de Veículos por Rota",
               data:this.state.history.avg_vehicles,
-              backgroundColor: 'rgba(54, 162, 235, 1)',
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1,
             },
@@ -82,8 +82,8 @@ class Historico extends Component {
             {
               label: "Média de Lugares Livres por Parque de Estacionamento",
               data: this.state.history.avg_parks,
-              backgroundColor: 'rgba(75, 192, 192, 1)',
-              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(255, 206, 86, 0.2)',
+              borderColor: 'rgba(255, 206, 86, 1)',
               borderWidth: 1,
             },
            
