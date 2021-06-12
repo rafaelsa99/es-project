@@ -17,29 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.ContextConfiguration;
 
-//class FreeSpace {
-//
-//    static String FreeSpace(int today) {
-//        if (today == 349) {
-//            return "is totally free!";
-//        } else if (today <= 50 && today > 0) {
-//            return "has a reduced number of free parking spaces!";
-//        } else {
-//            return "has the parking spaces full!";
-//        }
-//    }
-//
-//    static String FreeDisabledSpace(int today2) {
-//        if (today2 == 7) {
-//            return "for disabled is totally free!";
-//        } else if (today2 <= 3 && today2 > 0) {
-//            return "has a reduced number of free parking spaces for disabled!";
-//        } else {
-//            return "has the disabled parking spaces full!";
-//        }
-//    }
-//
-//}
 public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
     //@Autowired
@@ -55,63 +32,62 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     private String topic;
 
     ParkingLotation p1 = new ParkingLotation();
-    //ParkingLotation p2 = new ParkingLotation();
 
-    private String actualAnswer, actualAnswer2;
+    private String actualAnswer;
 
     /*-------------------------------------------------------------
     Scenario Outline: Park is or is not free
     -------------------------------------------------------------*/
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test1")
     public void free_spaces1(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
         kafkaProducer2.sendMessage(topic, msg);
     }
 
-    @When("the event is received through kafka topic \"events\"")
+    @When("the event is received through kafka topic \"events\" test1")
     public void fp1() throws InterruptedException {
         KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
         actualAnswer = KafkaConsumer.getMessage();
     }
 
-    @Then("I should be told that {string}")
+    @Then("I should be told that test1 {string}")
     public void answer_is1(String expectedAnswer) {
         assertEquals(expectedAnswer, actualAnswer);
     }
 
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spacess")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test2")
     public void free_spaces2(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
         kafkaProducer2.sendMessage(topic, msg);
     }
 
-    @When("the event is received through kafka topic \"eventss\"")
+    @When("the event is received through kafka topic \"events\" test2")
     public void fp2() throws InterruptedException {
         KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
         actualAnswer = KafkaConsumer.getMessage();
     }
 
-    @Then("I should be told thatt {string}")
+    @Then("I should be told that test2 {string}")
     public void answer_is2(String expectedAnswer) {
         assertEquals(expectedAnswer, actualAnswer);
     }
 
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spacesss")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test3")
     public void free_spaces3(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
         kafkaProducer2.sendMessage(topic, msg);
     }
 
-    @When("the event is received through kafka topic \"eventsss\"")
+    @When("the event is received through kafka topic \"events\" test3")
     public void fp3() throws InterruptedException {
         KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
         actualAnswer = KafkaConsumer.getMessage();
     }
 
-    @Then("I should be told thattt {string}")
+    @Then("I should be told that test3 {string}")
     public void answer_is_3(String expectedAnswer) {
         assertEquals(expectedAnswer, actualAnswer);
     }
@@ -120,39 +96,57 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     /*-------------------------------------------------------------
     Scenario Outline: Park is or is not free (Disabled People)
     -------------------------------------------------------------*/
-//    @Given("Disabled parks space is 7")
-//    public void free_spaces_1d() {
-//    }
-//
-//    @Given("Disabled parks space is between 3 and 1")
-//    public void free_spaces_2d() {
-//    }
-//
-//    @Given("Disabled parks space is 0")
-//    public void free_spaces_3d() {
-//    }
-//
-//    @When("I ask whether there are free disabled parks")
-//    public void fp1d() {
-//        System.out.println("  Disabled park space is -> " + idk1d);
-//        actualAnswer = FreeSpace.FreeDisabledSpace(idk1d);
-//    }
-//
-//    @When("I ask whether there are free disabled parkss")
-//    public void fp2d() {
-//        System.out.println("  Disabled park space is -> " + idk2d);
-//        actualAnswer = FreeSpace.FreeDisabledSpace(idk2d);
-//    }
-//
-//    @When("I ask whether there are free disabled parksss")
-//    public void fp3d() {
-//        System.out.println("  Disabled park space is -> " + idk3d);
-//        actualAnswer = FreeSpace.FreeDisabledSpace(idk3d);
-//    }
-//
-//    @Then("I should be told {string}")
-//    public void answer_isd(String expectedAnswer) {
-//        assertEquals(expectedAnswer, actualAnswer);
-//
-//    }
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test4")
+    public void free_spaces4(int total, int totald, int free, int freed) {
+        p1 = pS.getTestPark(total, free, totald, freed);
+        String msg = new Gson().toJson(p1);
+        kafkaProducer2.sendMessage(topic, msg);
+    }
+
+    @When("the event is received through kafka topic \"events\" test4")
+    public void fp4() throws InterruptedException {
+        KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
+        actualAnswer = KafkaConsumer.getMessage();
+    }
+
+    @Then("I should be told that test4 {string}")
+    public void answer_is4(String expectedAnswer) {
+        assertEquals(expectedAnswer, actualAnswer);
+    }
+
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test5")
+    public void free_spaces5(int total, int totald, int free, int freed) {
+        p1 = pS.getTestPark(total, free, totald, freed);
+        String msg = new Gson().toJson(p1);
+        kafkaProducer2.sendMessage(topic, msg);
+    }
+
+    @When("the event is received through kafka topic \"events\" test5")
+    public void fp5() throws InterruptedException {
+        KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
+        actualAnswer = KafkaConsumer.getMessage();
+    }
+
+    @Then("I should be told that test5 {string}")
+    public void answer_is5(String expectedAnswer) {
+        assertEquals(expectedAnswer, actualAnswer);
+    }
+
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test6")
+    public void free_spaces6(int total, int totald, int free, int freed) {
+        p1 = pS.getTestPark(total, free, totald, freed);
+        String msg = new Gson().toJson(p1);
+        kafkaProducer2.sendMessage(topic, msg);
+    }
+
+    @When("the event is received through kafka topic \"events\" test6")
+    public void fp6() throws InterruptedException {
+        KafkaConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
+        actualAnswer = KafkaConsumer.getMessage();
+    }
+
+    @Then("I should be told that test6 {string}")
+    public void answer_is_6(String expectedAnswer) {
+        assertEquals(expectedAnswer, actualAnswer);
+    }
 }
