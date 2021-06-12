@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map.Entry;
 
 //import org.apache.logging.log4j.LogManager;
@@ -52,8 +53,10 @@ public class LiveInfoService {
 	
 	public LiveInfoService() {
 		ObjectMapper mapper = new ObjectMapper();
+		agencies = new ArrayList<>();
+		agencies.add(new Agency("lametro-rail", "Los Angeles Metro Rail"));
 		try {
-			agencies = Arrays.asList(mapper.readValue(getAgencies(), Agency[].class));
+			//agencies = Arrays.asList(mapper.readValue(getAgencies(), Agency[].class));
 			parkingLots = Arrays.asList(mapper.readValue(getParkingLots("lametro"), ParkingLot[].class));
 		} catch (JsonProcessingException e) {
 			System.out.println(e.toString());

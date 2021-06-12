@@ -17,6 +17,10 @@ class MetroService{
     getMetro(){
         return axios.get(LAMETRO_API_BASE_URL + "agencies/lametro-rail");
     }
+
+    getHistory(){
+        return axios.get(LAMETRO_API_BASE_URL + "history");
+    }
 }
 
 export default new MetroService();

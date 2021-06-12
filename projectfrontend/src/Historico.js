@@ -11,9 +11,8 @@ class Historico extends Component {
   constructor(){
       super();
       this.state = {
-          vehicles :[],
-          stops:[]
-      }
+          history :[]
+       }
   }   
 
   componentDidMount(){
@@ -23,9 +22,8 @@ class Historico extends Component {
       clearTimeout(this.intervalID);
   }
   getData(){
-      MetroService.getMetro().then((res) => {
-          this.setState({vehicles: res.data});
-          this.setState({stops: res.data});
+      MetroService.getHistory().then((res) => {
+          this.setState({history: res.data});
           this.intervalID = setTimeout(this.getData.bind(this), 5000);
       }
       
@@ -42,29 +40,15 @@ class Historico extends Component {
     <div>
       <p className="text-center" style={headletter} >Histórico de Informações da zona metropolitana de Los Angeles</p>
 
-      <Line 
+      <Bar 
         data={{
-          labels: ['Linha A', 'Linha B', 'Linha C', 'Linha D', 'Linha E', 'Linha F'],
+          labels: this.state.history.routes_names,
           datasets: [
             {
-
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-              ],
-              borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-              ],
+              label: "Média de Veículos por Rota",
+              data:this.state.history.avg_vehicles,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1,
             },
            
@@ -91,34 +75,15 @@ class Historico extends Component {
         
       />
 
-
-
-
-
-
       <Bar 
         data={{
-          labels: ['Linha A', 'Linha B', 'Linha C', 'Linha D', 'Linha E', 'Linha F'],
+          labels: this.state.history.parks_names,
           datasets: [
             {
-
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-              ],
+              label: "Média de Lugares Livres por Parque de Estacionamento",
+              data: this.state.history.avg_parks,
+              backgroundColor: 'rgba(255, 206, 86, 0.2)',
+              borderColor: 'rgba(255, 206, 86, 1)',
               borderWidth: 1,
             },
            

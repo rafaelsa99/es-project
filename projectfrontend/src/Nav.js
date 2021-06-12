@@ -23,7 +23,7 @@ function Nav() {
                     </div>
                     <nav id="mainav" class="fl_right">
                       <ul class="clear">
-                        <li class="active"><Link to="/">Página Inicial</Link></li>
+                        <li><Link to="/">Página Inicial</Link></li>
                         
                         <li ><Link to="/metro">Informação Live</Link></li>
                         <li ><Link to="/parques">Parques</Link></li>

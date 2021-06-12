@@ -28,4 +28,10 @@ public class VehiclesController {
 		logger.info("Request for predictions from agency " + agency);
 		return vehiclesService.getPredictions(agency);
 	}
+	
+	@GetMapping("history/")
+	public String getHistory() {
+		logger.info("Request for history information");
+		return vehiclesService.getHistory();
+	}
 }

@@ -4,6 +4,15 @@ public class Agency {
 	private String id;
 	private String display_name; 
 	private String localtime;
+	
+	public Agency() {}
+	
+	public Agency(String id, String display_name) {
+		super();
+		this.id = id;
+		this.display_name = display_name;
+		this.localtime = "";
+	}
 	public String getId() {
 		return id;
 	}

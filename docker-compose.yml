@@ -2,26 +2,6 @@
 version: '3.3'
 # Define services
 services:
-  # App backend service
-  server:
-    # Configuration for building the docker image for the backend service
-    build:
-      context: projectbackend # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "8080:8080" # Forward the exposed port 8080 on the container (docker) to port 8080 on the host machine
-    
-    depends_on:
-      - db # This service depends on mysql. Start that first.
-      - zookeeper
-      - kafka
-    environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/opensky?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: palavrapasse
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.3
   # External API service
   externalapi:
     # Configuration for building the docker image for the External API service
@@ -47,6 +27,10 @@ services:
     depends_on:
       - zookeeper
       - kafka
+      - externalapi
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
     networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
       kafka-net:
         ipv4_address: 172.0.0.21
@@ -75,6 +59,7 @@ services:
     depends_on:
       - zookeeper
       - kafka
+      - externalapi
     networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
       kafka-net:
         ipv4_address: 172.0.0.10
@@ -89,6 +74,10 @@ services:
     depends_on:
       - zookeeper
       - kafka
+      - externalapi
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
     networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
       kafka-net:
         ipv4_address: 172.0.0.11
@@ -103,6 +92,7 @@ services:
     depends_on:
       - zookeeper
       - kafka
+      - externalapi
     networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
       kafka-net:
         ipv4_address: 172.0.0.12
@@ -115,24 +105,10 @@ services:
       - "3000:3000" # Map the exposed port 80 on the container to port 80 on the host machine
     
     depends_on:
-      - server
+      - managementservice
     networks:
       kafka-net:
         ipv4_address: 172.0.0.4
-        
-  # Kafka Consumer Backend
-  consumer:
-    # Configuration for building the docker image for the backend service
-    build:
-      context: kafkaConsumer # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "8081:8081" # Forward the exposed port 8081 on the container (docker) to port 8081 on the host machine
-    depends_on:
-      - server
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.7
   # Database Service (Mysql)
   db:
     image: mysql:5.7
@@ -140,7 +116,7 @@ services:
       - "3306"
     
     environment:
-      MYSQL_DATABASE: opensky
+      MYSQL_DATABASE: lametro
       MYSQL_ROOT_PASSWORD: palavrapasse
     volumes: # volumes could help in case we lost stored data (it persist data in host machine in the db-data directory)
       - db-data:/var/lib/mysql
