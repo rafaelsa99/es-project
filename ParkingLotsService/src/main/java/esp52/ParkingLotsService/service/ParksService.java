@@ -9,12 +9,16 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
+import esp52.ParkingLotsService.Repository.ParkingLotationRepository;
 import esp52.ParkingLotsService.kafka.KafkaProducer;
 import esp52.ParkingLotsService.models.ParkingLotation;
+import esp52.ParkingLotsService.models.ParkingLotationFree;
 
 @Component
 public class ParksService {
 
+	@Autowired ParkingLotationRepository parkingLotationRepository;
+	
 	private static final String TOPIC_EVENTS = "events";
 	private static final Logger logger = LogManager.getLogger(ParksService.class);
 	private HashMap<String, ParkingLotation> lotations = new HashMap<>();
@@ -29,9 +33,12 @@ public class ParksService {
 		if(lotations.containsKey(pl.getName())) {
 			ParkingLotation old = lotations.replace(pl.getName(), pl);
 			checkParkingEvents(pl, old);
+			if(old.getFree() != pl.getFree())
+				saveHistory(pl);
 		} else {
 			lotations.put(pl.getName(), pl);
 			checkParkingEvents(pl);
+			saveHistory(pl);
 		}
 		logger.info("Updating Parking Lotations from Parking Lot " + pl.getName());
 	}
@@ -90,5 +97,14 @@ public class ParksService {
 			kafkaProducer.sendMessage(TOPIC_EVENTS, "Park " + pl.getName() + " has the parking spaces full!");
 		if(pl.getDisabledfree() == 0 && oldLotation.getDisabledfree() != 0)
 			kafkaProducer.sendMessage(TOPIC_EVENTS, "Park " + pl.getName() + " has the disabled parking spaces full!");
+	}
+	
+	private void saveHistory(ParkingLotation park) {
+		ParkingLotationFree pf = new ParkingLotationFree(park.getName(), park.getFree());
+		parkingLotationRepository.save(pf);
+	}
+	
+	public String getHistory(){
+		return new Gson().toJson(parkingLotationRepository.findAll());
 	}
 }

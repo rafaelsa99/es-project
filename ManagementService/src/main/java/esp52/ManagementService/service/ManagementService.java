@@ -14,11 +14,13 @@ import com.google.gson.Gson;
 
 import esp52.ManagementService.models.Agency;
 import esp52.ManagementService.models.AgencyInfo;
+import esp52.ManagementService.models.History;
 import esp52.ManagementService.models.ItemsPredictionsStop;
 import esp52.ManagementService.models.ItemsRoutes;
 import esp52.ManagementService.models.ItemsStops;
 import esp52.ManagementService.models.ItemsVehiclesAgency;
 import esp52.ManagementService.models.ParkingLotation;
+import esp52.ManagementService.models.ParkingLotationFree;
 import esp52.ManagementService.models.PredictionInfo;
 import esp52.ManagementService.models.PredictionStop;
 import esp52.ManagementService.models.Route;
@@ -26,6 +28,7 @@ import esp52.ManagementService.models.Stop;
 import esp52.ManagementService.models.StopInfo;
 import esp52.ManagementService.models.Vehicle;
 import esp52.ManagementService.models.VehicleInfo;
+import esp52.ManagementService.models.VehiclesRoute;
 
 public class ManagementService {
 
@@ -187,6 +190,69 @@ public class ManagementService {
 			System.out.println(e.toString());
 		}
 		return new Gson().toJson(events);
+	}
+
+	public String getHistory() {
+		if(agencies == null)
+			fillAgencies();
+		if(routes.isEmpty())
+			fillRoutes();
+		if(stops.isEmpty())
+			fillRoutesStops();
+		History history = new History();
+		String urlVehicles = URL_VEHICLES + "history/";
+		String urlParks = URL_PARKING + "history/";
+		List<VehiclesRoute> vR = new ArrayList<>();
+		List<ParkingLotationFree> pF = new ArrayList<>();
+		HashMap<String, Integer> sums = new HashMap<>();
+		HashMap<String, Integer> counters = new HashMap<>();
+		try {
+			String response = restTemplate.getForObject(urlVehicles, String.class);
+			vR = Arrays.asList(mapper.readValue(response, VehiclesRoute[].class));
+			response = restTemplate.getForObject(urlParks, String.class);
+			pF =  Arrays.asList(mapper.readValue(response, ParkingLotationFree[].class));
+		} catch (JsonProcessingException e) {
+			System.out.println(e.toString());
+		}
+		for(VehiclesRoute v: vR) {
+			if(sums.containsKey(v.getRoute_id())) {
+				 sums.replace(v.getRoute_id(), sums.get(v.getRoute_id()) + v.getNum_vehicles());
+				 counters.replace(v.getRoute_id(), counters.get(v.getRoute_id()) + 1);
+			} else {
+				sums.put(v.getRoute_id(), v.getNum_vehicles());
+				counters.put(v.getRoute_id(), 1);
+			}
+		}
+		List<Integer> avgsVehicles = new ArrayList<>();
+		List<String> namesRoutes = new ArrayList<>();
+		List<Integer> avgsParks = new ArrayList<>();
+		List<String> namesParks = new ArrayList<>();
+		for(Map.Entry<String, Integer> s: sums.entrySet()) {
+			namesRoutes.add(getRouteName("lametro-rail", s.getKey()));
+			Integer roundedAvg = s.getValue() / counters.get(s.getKey());
+			avgsVehicles.add(roundedAvg);
+		}
+		history.setAvg_vehicles(avgsVehicles);
+		history.setRoutes_names(namesRoutes);
+		sums.clear();
+		counters.clear();
+		for(ParkingLotationFree p: pF) {
+			if(sums.containsKey(p.getName())) {
+				 sums.replace(p.getName(), sums.get(p.getName()) + p.getFree());
+				 counters.replace(p.getName(), counters.get(p.getName()) + 1);
+			} else {
+				sums.put(p.getName(), p.getFree());
+				counters.put(p.getName(), 1);
+			}
+		}
+		for(Map.Entry<String, Integer> s: sums.entrySet()) {
+			Integer roundedAvg = sums.get(s.getKey()) / counters.get(s.getKey());
+			avgsParks.add(roundedAvg);
+			namesParks.add(s.getKey());
+		}
+		history.setAvg_parks(avgsParks);
+		history.setParks_names(namesParks);
+		return new Gson().toJson(history);
 	}
 
 }

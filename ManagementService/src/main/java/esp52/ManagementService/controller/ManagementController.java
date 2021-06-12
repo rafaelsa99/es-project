@@ -42,6 +42,12 @@ public class ManagementController {
 		return managementService.getEvents(true);
 	}
 	
+	@GetMapping("/history")
+	public String getHistory(){
+		logger.info("Request for history information");
+		return managementService.getHistory();
+	}
+	
 	@GetMapping("/agencies/{agency}")
 	public String getAgency(@PathVariable("agency") String agency){
 		logger.info("Request for informations about the agency " + agency);

@@ -60,8 +60,8 @@ class Historic extends Component {
                             
                         </table>
 
-
-                        <article class="one_third"><a class="legenda" href="#"><img src="legenda2.png" alt=""/></a>
+                        
+                         <article class="one_third"><a class="legenda" href="#"><img src="legenda2.png" alt=""/></a>
                             </article>
 
                         

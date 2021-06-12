@@ -22,5 +22,11 @@ public class ParksController {
         logger.info("Request for parking lotations");
         return parksService.getLotations();
     }
+    
+    @GetMapping("history/")
+	public String getHistory() {
+		logger.info("Request for history information");
+		return parksService.getHistory();
+	}
 
 }
