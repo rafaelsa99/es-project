@@ -4,12 +4,12 @@
         <server>
             <username>dev</username>
             <password>dev_ES2021</password>
-            <id>central123</id>
+            <id>centralesp52</id>
         </server>
         <server>
             <username>dev</username>
             <password>dev_ES2021</password>
-            <id>snapshots123</id>
+            <id>snapshotsesp52</id>
         </server>
     </servers>
     <profiles>
@@ -19,13 +19,13 @@
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
-                    <id>central123</id>
+                    <id>centralesp52</id>
                     <name>es2021</name>
                     <url>http://192.168.160.49:8082/artifactory/maven_es2021/</url>
                 </repository>
                 <repository>
                     <snapshots />
-                    <id>snapshots123</id>
+                    <id>snapshotsesp52</id>
                     <name>es2021</name>
                     <url>http://192.168.160.49:8082/artifactory/maven_es2021/</url>
                 </repository>
@@ -35,13 +35,13 @@
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
-                    <id>central123</id>
+                    <id>centralesp52</id>
                     <name>es2021</name>
                     <url>http://192.168.160.49:8082/artifactory/maven_es2021/</url>
                 </pluginRepository>
                 <pluginRepository>
                     <snapshots />
-                    <id>snapshots123</id>
+                    <id>snapshotsesp52</id>
                     <name>es2021</name>
                     <url>http://192.168.160.49:8082/artifactory/maven_es2021/</url>
                 </pluginRepository>

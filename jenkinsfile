@@ -11,8 +11,6 @@ pipeline {
     }
 
     environment {
-        //dockerImage = ''
-        //dockerImage2 = ''
         dockerImage3 = ''
         dockerImage4 = ''
         dockerImage5 = ''
@@ -47,26 +45,6 @@ pipeline {
         stage('Compilation') {
             steps {
                 parallel(
-                    /*           
-                    kafkaConsumer: {
-                        dir('kafkaConsumer') {
-                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
-                                sh 'echo "Clean install on kafkaConsumer"'
-                                sh './mvnw clean install -DskipTests'
-                            }
-                        }
-                    },
-                    projectbackend: {
-                        dir('projectbackend') {
-                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
-                                sh 'echo "Clean install on projectbackend"'
-                                sh './mvnw clean install -DskipTests'
-                            }
-                        }
-                    },
-                    */
                     alarmsService: {
                         dir('AlarmsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -118,6 +96,8 @@ pipeline {
                                 sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on VehiclesService"'
                                 sh './mvnw clean install -DskipTests'
+                                echo 'Deploying Artifact'
+                                sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
                         }
                     }
@@ -127,18 +107,56 @@ pipeline {
         stage('Deploying Artifact') {
             steps {
                 parallel(
-                    kafkaConsumer: {
-                        dir('kafkaConsumer') {
+                    alarmsService: {
+                        dir('AlarmsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                echo 'Deploying Artifact'
-                                sh './mvnw deploy -f pom.xml -s ../settings.xml'
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                echo 'Deploying Artifact on AlarmsService'
+                                sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
                         }
                     },
-                    projectbackend: {
-                        dir('projectbackend') {
+                    externalAPI: {
+                        dir('externalAPI') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                echo 'Deploying Artifact'
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                echo 'Deploying Artifact on externalAPI'
+                                sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
+                            }
+                        }
+                    },
+                    managementService: {
+                        dir('ManagementService') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                echo 'Deploying Artifact on ManagementService'
+                                sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
+                            }
+                        }
+                    },
+                    parkingLotsService: {
+                        dir('parkingLotsService') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                echo 'Deploying Artifact on parkingLotsService'
+                                sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
+                            }
+                        }
+                    },
+                    staticInfo: {
+                        dir('StaticInfo') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                echo 'Deploying Artifact on StaticInfo'
+                                sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
+                            }
+                        }
+                    },
+                    vehiclesService: {
+                        dir('VehiclesService') {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh "chmod +x -R ${env.WORKSPACE}"
+                                echo 'Deploying Artifact on VehiclesService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
                         }
@@ -149,30 +167,6 @@ pipeline {
         stage('Create Docker Image') {
             steps {
                 parallel(
-                    /*
-                    kafkaConsumer: {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
-                            sh 'echo "Creating Docker Image on kafkaConsumer"'
-                            script {
-                                docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage = docker.build('es-project/kafkaconsumer5', 'kafkaConsumer')
-                                }
-                            }
-                        }
-                    },
-                    projectbackend: {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
-                            sh 'echo "Creating Docker Image on projectbackend"'
-                            script {
-                                docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage2 = docker.build('es-project/projectbackend5', 'projectbackend')
-                                }
-                            }
-                        }
-                    },
-                    */
                     alarmsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh "chmod +x -R ${env.WORKSPACE}"
@@ -245,30 +239,6 @@ pipeline {
         stage('Pushing Docker Image') {
             steps {
                 parallel(
-                    /*
-                    kafkaConsumer: {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
-                            sh 'echo "Pushing Docker Image on kafkaConsumer"'
-                            script {
-                                docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage.push()
-                                }
-                            }
-                        }
-                    },
-                    projectbackend: {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
-                            sh 'echo "Pushing Docker Image on projectbackend"'
-                            script {
-                                docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage2.push()
-                                }
-                            }
-                        }
-                    },
-                    */
                     alarmsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh "chmod +x -R ${env.WORKSPACE}"
@@ -353,22 +323,6 @@ pipeline {
 
                     echo "$remote.user"
 
-                    /*
-                    sshCommand remote: remote, command: 'docker stop esp52_kafkaconsumer5 || echo "Do not have that image"'
-                    sshCommand remote: remote, command: 'docker rm esp52_kafkaconsumer5 || echo "Do not have that image"'
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/kafkaconsumer5 || echo "Do not have that image"'
-                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/kafkaconsumer5'
-                    sshCommand remote: remote, command: 'docker create -p 52025:52025 --name esp52_kafkaconsumer5 192.168.160.48:5000/es-project/kafkaconsumer5'
-                    sshCommand remote: remote, command: 'docker start esp52_kafkaconsumer5'
-
-                    sshCommand remote: remote, command: "docker stop esp52_projectbackend5 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: "docker rm esp52_projectbackend5 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/projectbackend5'
-                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectbackend5'
-                    sshCommand remote: remote, command: 'docker create -p 52026:52026 --name esp52_projectbackend5 192.168.160.48:5000/es-project/projectbackend5'
-                    sshCommand remote: remote, command: 'docker start esp52_projectbackend5'
-                    */
-
                     sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice9'
@@ -404,9 +358,9 @@ pipeline {
                     sshCommand remote: remote, command: 'docker create -p 52044:52044 --name esp52_staticinfo9 192.168.160.48:5000/es-project/staticinfo9'
                     sshCommand remote: remote, command: 'docker start esp52_staticinfo9'
 
-                    //sshCommand remote: remote, command: "docker stop esp52_vehiclesservice8 || echo 'Do not have that image'"
-                    //sshCommand remote: remote, command: "docker rm esp52_vehiclesservice8 || echo 'Do not have that image'"
-                    //sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice8'
+                    sshCommand remote: remote, command: "docker stop esp52_vehiclesservice8 || echo 'Do not have that image'"
+                    sshCommand remote: remote, command: "docker rm esp52_vehiclesservice8 || echo 'Do not have that image'"
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice8'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/vehiclesservice8'
                     sshCommand remote: remote, command: 'docker create -p 52038:52038 --name esp52_vehiclesservice8 192.168.160.48:5000/es-project/vehiclesservice8'
                     sshCommand remote: remote, command: 'docker start esp52_vehiclesservice8'
@@ -420,20 +374,20 @@ pipeline {
                     //sh 'rm docker-compose.yml'
                     //sh 'docker-compose up -d --build server consumer'
 
-                    //sshCommand remote: remote, command: 'docker-compose up -d'
+                //sshCommand remote: remote, command: 'docker-compose up -d'
                 }
             }
         }
     }
     post {
         always {
-            echo "Pipeline execution ended: "
+            echo 'Pipeline execution ended: '
         }
         success {
-            echo "Success"
+            echo 'Success'
         }
         failure {
-            echo "Failed"
+            echo 'Failed'
         }
     }
 }

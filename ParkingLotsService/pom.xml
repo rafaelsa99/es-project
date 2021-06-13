@@ -7,7 +7,7 @@
         <version>2.5.0</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>esp52.ParkingLotsService</groupId>
+    <groupId>pt.ua.deti.es.esp52</groupId>
     <artifactId>ParkingLotsService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ParkingLotsService</name>
@@ -15,13 +15,27 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>centralesp52</id>
+            <name>e7315e271819-releases</name>
+            <url>http://192.168.160.49:8081/artifactory/maven_es2021</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshotsesp52</id>
+            <name>e7315e271819-snapshots</name>
+            <url>http://192.168.160.49:8081/artifactory/maven_es2021</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -32,13 +46,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
             <version>2.6.7</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
@@ -46,7 +60,7 @@
             <version>2.6.7</version>
             <type>jar</type>
         </dependency>
-        
+
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>kafka</artifactId>
@@ -123,8 +137,8 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-        </dependency> 
-        
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -132,7 +146,7 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test-autoconfigure</artifactId>
@@ -140,7 +154,7 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
@@ -173,7 +187,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
