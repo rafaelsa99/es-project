@@ -308,7 +308,7 @@ pipeline {
                 )
             }
         }
-        stage('Deploying') {
+        stage('Deploying on VM') {
             steps {
                 sh "chmod +x -R ${env.WORKSPACE}"
                 sh 'echo "Deploying"'
