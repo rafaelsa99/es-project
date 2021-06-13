@@ -5,9 +5,7 @@
  */
 package esp52.ParkingLotsService.Kafka;
 
-import esp52.ParkingLotsService.kafka.*;
 import java.util.concurrent.CountDownLatch;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -29,12 +27,8 @@ public class KafkaConsumer {
         this.message = message;
     }
 
-    //@KafkaListener(topics = "parking")
-    //@KafkaListener(topics = "${test.topic}")
     @KafkaListener(topics = "events")
     public void receive(String consumerRecord) {
-        //logger.info("received payload='{}'", consumerRecord.toString());
-        //System.out.println("consumerRecord -> " + consumerRecord.toString());
         setMessage(consumerRecord.toString());
         latch.countDown();
     }

@@ -9,13 +9,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.util.concurrent.TimeUnit;
-import junit.framework.Assert;
 import static org.junit.Assert.assertEquals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.test.context.ContextConfiguration;
 
 public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
