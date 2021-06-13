@@ -34,7 +34,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     /*-------------------------------------------------------------
     Scenario Outline: Park is or is not free
     -------------------------------------------------------------*/
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test1")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces sended to the kafka topic \"parking\" test1")
     public void free_spaces1(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
@@ -52,7 +52,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
         assertEquals(expectedAnswer, actualAnswer);
     }
 
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test2")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces sended to the kafka topic \"parking\" test2")
     public void free_spaces2(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
@@ -70,7 +70,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
         assertEquals(expectedAnswer, actualAnswer);
     }
 
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test3")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces sended to the kafka topic \"parking\" test3")
     public void free_spaces3(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
@@ -92,7 +92,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
     /*-------------------------------------------------------------
     Scenario Outline: Park is or is not free (Disabled People)
     -------------------------------------------------------------*/
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test4")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces sended to the kafka topic \"parking\" test4")
     public void free_spaces4(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
@@ -110,7 +110,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
         assertEquals(expectedAnswer, actualAnswer);
     }
 
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test5")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces sended to the kafka topic \"parking\" test5")
     public void free_spaces5(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
@@ -128,7 +128,7 @@ public class ParkingSteps extends ParkingLotsServiceApplicationTests {
         assertEquals(expectedAnswer, actualAnswer);
     }
 
-    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces test6")
+    @Given("a parking lot with a total of {int} parking spaces and {int} disabled parking spaces and with {int} free parking spaces and {int} disabled free parking spaces sended to the kafka topic \"parking\" test6")
     public void free_spaces6(int total, int totald, int free, int freed) {
         p1 = pS.getTestPark(total, free, totald, freed);
         String msg = new Gson().toJson(p1);
