@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import esp52.ParkingLotsService.models.ParkingLotationFree;
 
 @Repository
-public interface ParkingLotationRepository extends JpaRepository<ParkingLotationFree, Integer>{
+public interface ParkingLotationRepository extends JpaRepository<ParkingLotationFree, Integer> {
 
 }

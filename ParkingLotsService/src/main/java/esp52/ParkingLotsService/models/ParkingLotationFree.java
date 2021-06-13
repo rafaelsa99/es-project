@@ -11,7 +11,8 @@ import javax.persistence.Table;
 @Table(name = "parkingLotation")
 public class ParkingLotationFree {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id
+        @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	@Column(name = "parking_name")
 	private String name; // Parking lot identifier
