@@ -365,11 +365,6 @@ pipeline {
                     sshCommand remote: remote, command: 'docker create -p 52038:52038 --name esp52_vehiclesservice8 192.168.160.48:5000/es-project/vehiclesservice8'
                     sshCommand remote: remote, command: 'docker start esp52_vehiclesservice8'
 
-                    /*sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
-                    sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
-                    sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
-                    sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d '"*/
-
                     //sh 'docker-compose down --rmi all'
                     //sh 'rm docker-compose.yml'
                     //sh 'docker-compose up -d --build server consumer'
