@@ -1,12 +1,13 @@
 package esp52.ManagementService.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import esp52.ManagementService.service.ManagementService;
 
@@ -16,7 +17,7 @@ import esp52.ManagementService.service.ManagementService;
 public class ManagementController {
 
 	private ManagementService managementService = new ManagementService();
-	private static final Logger logger = LogManager.getLogger(ManagementController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ManagementController.class);
 	
 	@GetMapping("/parkinglots")
 	public String getAllParks(){

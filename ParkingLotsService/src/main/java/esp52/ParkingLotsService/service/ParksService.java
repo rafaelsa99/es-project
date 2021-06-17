@@ -1,8 +1,6 @@
 package esp52.ParkingLotsService.service;
 
 import java.util.HashMap;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -14,13 +12,16 @@ import esp52.ParkingLotsService.kafka.KafkaProducer;
 import esp52.ParkingLotsService.models.ParkingLotation;
 import esp52.ParkingLotsService.models.ParkingLotationFree;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Component
 public class ParksService {
 
 	@Autowired ParkingLotationRepository parkingLotationRepository;
 	
 	private static final String TOPIC_EVENTS = "events";
-	private static final Logger logger = LogManager.getLogger(ParksService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ParksService.class);
 	private HashMap<String, ParkingLotation> lotations = new HashMap<>();
 	private ParkingLotation parklots;
 	@Autowired KafkaProducer kafkaProducer;

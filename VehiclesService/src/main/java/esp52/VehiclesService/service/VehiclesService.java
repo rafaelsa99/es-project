@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -20,13 +18,16 @@ import esp52.VehiclesService.models.StopAgency;
 import esp52.VehiclesService.models.Vehicle;
 import esp52.VehiclesService.models.VehiclesRoute;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Component
 public class VehiclesService {
 
 	@Autowired VehiclesRoutesRepository vehiclesRoutesRepository;
 	
-	private static final Logger logger = LogManager.getLogger(VehiclesService.class);
+	private static final Logger logger = LoggerFactory.getLogger(VehiclesService.class);
 	private HashMap<String, ItemsVehiclesAgency> vehiclesInfo = new HashMap<>();
 	private HashMap<StopAgency, ItemsPredictionsStop> predictionsInfo = new HashMap<>();
 	HashMap<String, VehiclesRoute> counters = new HashMap<>();
