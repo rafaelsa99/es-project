@@ -9,7 +9,7 @@ services:
       context: externalAPI # Use an image built from the specified dockerfile in the `app-server` directory.
       dockerfile: Dockerfile # Specify the Dockerfile path
     ports:
-      - "8082:8082" # Forward the exposed port 8082 on the container (docker) to port 8082 on the host machine
+      - "52041:52041" # Forward the exposed port 52041 on the container (docker) to port 52041 on the host machine
     depends_on:
       - zookeeper
       - kafka
@@ -23,7 +23,7 @@ services:
       context: ParkingLotsService # Use an image built from the specified dockerfile in the `app-server` directory.
       dockerfile: Dockerfile # Specify the Dockerfile path
     ports:
-      - "8083:8083" # Forward the exposed port 8083 on the container (docker) to port 8083 on the host machine
+      - "52043:52043" # Forward the exposed port 52043 on the container (docker) to port 52043 on the host machine
     depends_on:
       - zookeeper
       - kafka
@@ -41,7 +41,7 @@ services:
       context: AlarmsService # Use an image built from the specified dockerfile in the `app-server` directory.
       dockerfile: Dockerfile # Specify the Dockerfile path
     ports:
-      - "8084:8084" # Forward the exposed port 8084 on the container (docker) to port 8084 on the host machine
+      - "52040:52040" # Forward the exposed port 52040 on the container (docker) to port 52040 on the host machine
     depends_on:
       - zookeeper
       - kafka
@@ -55,7 +55,7 @@ services:
       context: StaticInfo # Use an image built from the specified dockerfile in the `app-server` directory.
       dockerfile: Dockerfile # Specify the Dockerfile path
     ports:
-      - "8085:8085" # Forward the exposed port 8085 on the container (docker) to port 8085 on the host machine
+      - "52044:52044" # Forward the exposed port 52044 on the container (docker) to port 52044 on the host machine
     depends_on:
       - zookeeper
       - kafka
@@ -70,7 +70,7 @@ services:
       context: VehiclesService # Use an image built from the specified dockerfile in the `app-server` directory.
       dockerfile: Dockerfile # Specify the Dockerfile path
     ports:
-      - "8086:8086" # Forward the exposed port 8086 on the container (docker) to port 8086 on the host machine
+      - "52038:52038" # Forward the exposed port 52038 on the container (docker) to port 52038 on the host machine
     depends_on:
       - zookeeper
       - kafka
@@ -88,7 +88,7 @@ services:
       context: ManagementService # Use an image built from the specified dockerfile in the `app-server` directory.
       dockerfile: Dockerfile # Specify the Dockerfile path
     ports:
-      - "8087:8087" # Forward the exposed port 8087 on the container (docker) to port 8087 on the host machine
+      - "52042:52042" # Forward the exposed port 52042 on the container (docker) to port 52042 on the host machine
     depends_on:
       - zookeeper
       - kafka

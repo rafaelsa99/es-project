@@ -1,9 +1,10 @@
 server:
-  port: 8082
+  port: 52041
 spring:
   task.scheduling.pool.size: 10
   kafka:
     producer:
-      bootstrap-servers: 172.0.0.16:9092
+      #bootstrap-servers: 172.0.0.16:9092
+      bootstrap-servers: 192.168.160.18:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
