@@ -313,10 +313,12 @@ pipeline {
         }*/
         stage('Copying Files') {
             steps {
-                sh "chmod +x -R ${env.WORKSPACE}"
-                sh 'echo "Deploying"'
-                sh 'scp -r ./logstash esp52@192.168.160.87:./'
-                sh 'scp ./docker-compose.yml ./'
+                sshagent (credentials: ['esp52_ssh']) {
+                    sh "chmod +x -R ${env.WORKSPACE}"
+                    sh 'echo "Deploying"'
+                    sh 'scp -r ./logstash esp52@192.168.160.87:./'
+                    sh 'scp ./docker-compose.yml esp52@192.168.160.87:./'
+                }
             }
         }
 
