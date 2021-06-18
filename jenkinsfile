@@ -318,7 +318,7 @@ pipeline {
                     sh 'echo "Copying Files"'
                     sh 'scp -r ./logstash esp52@192.168.160.87:./'
                     sh 'scp docker-compose.yml esp52@192.168.160.87:./'
-                    ss 'esp52@192.168.160.87 docker compose up --build'
+                    //sh 'esp52@192.168.160.87 docker compose up --build'
                     sh 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
                 }
             }
