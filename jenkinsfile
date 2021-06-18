@@ -29,6 +29,7 @@ pipeline {
                     url: 'https://github.com/rafaelsa99/es-project'
 
                 )
+                sh "chmod +x -R ${env.WORKSPACE}"
             }
         }
 
@@ -50,7 +51,6 @@ pipeline {
                     alarmsService: {
                         dir('AlarmsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on AlarmsService"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -59,7 +59,6 @@ pipeline {
                     externalAPI: {
                         dir('externalAPI') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on externalAPI"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -68,7 +67,6 @@ pipeline {
                     managementService: {
                         dir('ManagementService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on ManagementService"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -77,7 +75,6 @@ pipeline {
                     parkingLotsService: {
                         dir('ParkingLotsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on ParkingLotsService"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -86,7 +83,6 @@ pipeline {
                     staticInfo: {
                         dir('StaticInfo') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on StaticInfo"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -95,7 +91,6 @@ pipeline {
                     vehiclesService: {
                         dir('VehiclesService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on VehiclesService"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -110,7 +105,6 @@ pipeline {
                     alarmsService: {
                         dir('AlarmsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on AlarmsService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -119,7 +113,6 @@ pipeline {
                     externalAPI: {
                         dir('externalAPI') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on externalAPI'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -128,7 +121,6 @@ pipeline {
                     managementService: {
                         dir('ManagementService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on ManagementService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -137,7 +129,6 @@ pipeline {
                     parkingLotsService: {
                         dir('ParkingLotsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on ParkingLotsService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -146,7 +137,6 @@ pipeline {
                     staticInfo: {
                         dir('StaticInfo') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on StaticInfo'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -155,7 +145,6 @@ pipeline {
                     vehiclesService: {
                         dir('VehiclesService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on VehiclesService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -169,7 +158,6 @@ pipeline {
                 parallel(
                     alarmsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on AlarmsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -180,7 +168,6 @@ pipeline {
                     },
                     externalAPI: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on externalAPI"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -191,7 +178,6 @@ pipeline {
                     },
                     managementService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on managementService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -202,7 +188,6 @@ pipeline {
                     },
                     parkingLotsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on ParkingLotsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -213,7 +198,6 @@ pipeline {
                     },
                     staticInfo: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on StaticInfo"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -224,7 +208,6 @@ pipeline {
                     },
                     vehiclesService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on VehiclesService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -235,7 +218,6 @@ pipeline {
                     },
                     projectfrontend: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on VehiclesService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -252,7 +234,6 @@ pipeline {
                 parallel(
                     alarmsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on AlarmsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -264,7 +245,6 @@ pipeline {
                     },
                     externalAPI: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on externalAPI"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -276,7 +256,6 @@ pipeline {
                     },
                     managementService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on managementService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -288,7 +267,6 @@ pipeline {
                     },
                     parkingLotsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on ParkingLotsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -300,7 +278,6 @@ pipeline {
                     },
                     staticInfo: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on StaticInfo"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -312,7 +289,6 @@ pipeline {
                     },
                     vehiclesService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on VehiclesService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -324,7 +300,6 @@ pipeline {
                     },
                     projectfrontend: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on projectfrontend"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -400,6 +375,11 @@ pipeline {
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker create -p 52045:52045 --name esp52_projectfrontend9 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
+
+
+                    sh 'scp -r ./logstash esp52@192.168.160.87:./'
+		            sh 'scp esp52@192.168.160.87:./docker-compose.yml ./'
+                    sh 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
 
                     //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"

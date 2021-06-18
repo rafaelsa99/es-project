@@ -6,8 +6,12 @@ services:
   logstash:
     build:
       context: logstash/
-    container_name: esp52_logstash9
-    ports:                                                                                
+    container_name: esp52_logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5000:5000"
       - "52520:52520/tcp"
     expose:
       - "52520"
@@ -19,9 +23,7 @@ services:
     ports: 
       - "52040:52040"
     expose:
-      - "52040" 
-    #depends_on: 
-    #  - esp20_logstash
+      - "52040"
   # External API service
   externalapi:
     # Configuration for building the docker image for the External API service
@@ -31,9 +33,6 @@ services:
       - "52041:52041"
     expose:
       - "52041" 
-    #depends_on: 
-    #  - esp20_logstash
-  # Management Service
   managementservice:
     # Configuration for building the docker image for the Management service
     image: 192.168.160.48:5000/es-project/managementservice9:latest
@@ -42,8 +41,6 @@ services:
       - "52042:52042"
     expose:
       - "52042" 
-    #depends_on: 
-    #  - esp20_logstash
   # Parking Lots service
   parkinglotservice:
     # Configuration for building the docker image for the Parking Lots service
@@ -68,8 +65,6 @@ services:
       - "52044:52044"
     expose:
       - "52044" 
-    #depends_on: 
-    #  - esp20_logstash
   # Vehicles Service
   vehicleservice:
     # Configuration for building the docker image for the vehicles service
@@ -79,8 +74,6 @@ services:
       - "52038:52038"
     expose:
       - "52038" 
-    #depends_on: 
-    #  - esp20_logstash
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
