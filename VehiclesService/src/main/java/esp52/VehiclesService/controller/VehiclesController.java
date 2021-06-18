@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import esp52.VehiclesService.service.VehiclesService;
 
@@ -15,7 +15,7 @@ import esp52.VehiclesService.service.VehiclesService;
 @RequestMapping("/")
 public class VehiclesController {
 
-	private static final Logger logger = LoggerFactory.getLogger(VehiclesController.class);
+	private static final Logger logger = LogManager.getLogger(VehiclesController.class);
 	@Autowired VehiclesService vehiclesService;
 	
 	@GetMapping("{agency}/vehicles/")
