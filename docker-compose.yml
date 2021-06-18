@@ -85,5 +85,5 @@ services:
      # - "3000:3000" # Map the exposed port 80 on the container to port 80 on the host machine
   
 # Define Volumes to be created
-volumes:
-  db-data:
+#volumes:
+ # db-data:
