@@ -18,8 +18,8 @@ import esp52.VehiclesService.models.StopAgency;
 import esp52.VehiclesService.models.Vehicle;
 import esp52.VehiclesService.models.VehiclesRoute;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 @Component
@@ -27,7 +27,7 @@ public class VehiclesService {
 
 	@Autowired VehiclesRoutesRepository vehiclesRoutesRepository;
 	
-	private static final Logger logger = LoggerFactory.getLogger(VehiclesService.class);
+	private static final Logger logger = LogManager.getLogger(VehiclesService.class);
 	private HashMap<String, ItemsVehiclesAgency> vehiclesInfo = new HashMap<>();
 	private HashMap<StopAgency, ItemsPredictionsStop> predictionsInfo = new HashMap<>();
 	HashMap<String, VehiclesRoute> counters = new HashMap<>();
