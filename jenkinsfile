@@ -378,9 +378,9 @@ pipeline {
                     */
 
 
-                    sshCommand remote: remote, command: 'scp -r ./logstash -o StrictHostKeyChecking=no esp52@192.168.160.87:./'
-		            sshCommand remote: remote, command: 'scp -o StrictHostKeyChecking=no esp52@192.168.160.87:./docker-compose.yml ./'
-                    sshCommand remote: remote, command: 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
+                    sshCommand remote: remote, command: 'scp -r ./logstash ./'
+		            sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
+                    sshCommand remote: remote, command: 'docker-compose up'
 
                     //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
