@@ -45,7 +45,7 @@ pipeline {
             }
         }*/
 
-        stage('Compilation') {
+        /*stage('Compilation') {
             steps {
                 parallel(
                     alarmsService: {
@@ -311,7 +311,7 @@ pipeline {
                     }
                 )
             }
-        }
+        }*/
         stage('Deploying on VM') {
             steps {
                 sh "chmod +x -R ${env.WORKSPACE}"
@@ -377,9 +377,9 @@ pipeline {
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
 
 
-                    sh 'scp -r ./logstash esp52@192.168.160.87:./'
-		            sh 'scp esp52@192.168.160.87:./docker-compose.yml ./'
-                    sh 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
+                    sshCommand remote: remote, command: 'scp -r ./logstash esp52@192.168.160.87:./'
+		            sshCommand remote: remote, command: 'scp esp52@192.168.160.87:./docker-compose.yml ./'
+                    sshCommand remote: remote, command: 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
 
                     //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
