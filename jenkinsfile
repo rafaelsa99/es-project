@@ -23,7 +23,6 @@ pipeline {
     stages {
         stage('Cloning repository') {
             steps {
-                sh "chmod +x -R ${env.WORKSPACE}"
                 git(
                     branch: 'main',
                     url: 'https://github.com/rafaelsa99/es-project'
@@ -312,6 +311,14 @@ pipeline {
                 )
             }
         }*/
+        stage('Copying Files') {
+            steps {
+                sh "chmod +x -R ${env.WORKSPACE}"
+                sh 'echo "Deploying"'
+                sh 'scp ./docker-compose.yml ./'
+            }
+        }
+
         stage('Deploying on VM') {
             steps {
                 sh 'echo "Deploying"'
@@ -378,8 +385,8 @@ pipeline {
                     */
 
 
-                    sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
-                    sshCommand remote: remote, command: 'scp -r /logstash ./'
+                    //sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
+                    //sshCommand remote: remote, command: 'scp -r /logstash ./'
 		            //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
                     sshCommand remote: remote, command: 'docker-compose up'
 
