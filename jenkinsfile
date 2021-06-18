@@ -31,7 +31,7 @@ pipeline {
             }
         }
 
-        stage('Testing Cucumber / MockMVC on Parking Lots Service') {
+        /*stage('Testing Cucumber / MockMVC on Parking Lots Service') {
             steps {
                 dir('ParkingLotsService') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -41,7 +41,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Compilation') {
             steps {
                 parallel(
@@ -244,6 +244,7 @@ pipeline {
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage3.push()
+                                    dockerImage3.push('latest')
                                 }
                             }
                         }
@@ -255,6 +256,7 @@ pipeline {
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage4.push()
+                                    dockerImage4.push('latest')
                                 }
                             }
                         }
@@ -266,6 +268,7 @@ pipeline {
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage5.push()
+                                    dockerImage5.push('latest')
                                 }
                             }
                         }
@@ -277,6 +280,7 @@ pipeline {
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage6.push()
+                                    dockerImage6.push('latest')
                                 }
                             }
                         }
@@ -288,6 +292,7 @@ pipeline {
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage7.push()
+                                    dockerImage7.push('latest')
                                 }
                             }
                         }
@@ -299,6 +304,7 @@ pipeline {
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage8.push()
+                                    dockerImage8.push('latest')
                                 }
                             }
                         }
@@ -367,7 +373,7 @@ pipeline {
                     //sh 'rm docker-compose.yml'
                     //sh 'docker-compose up -d --build server consumer'
 
-                    //sshCommand remote: remote, command: 'docker-compose up -d'
+                    sshCommand remote: remote, command: 'docker-compose up -d --build'
                 }
             }
         }
