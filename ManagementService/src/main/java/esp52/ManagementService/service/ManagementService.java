@@ -38,10 +38,10 @@ public class ManagementService {
 	private static final String URL_PARKING = "http://172.0.0.21:8083/";
 	private static final String URL_EVENTS = "http://172.0.0.22:8084/";
 	private static final String URL_INFO = "http://172.0.0.10:8085/";*/
-	private static final String URL_VEHICLES = "http://192.168.160.48:52038/";
-	private static final String URL_PARKING = "http://192.168.160.48:52043/";
-	private static final String URL_EVENTS = "http://192.168.160.48:52040/";
-	private static final String URL_INFO = "http://192.168.160.48:52044/";
+	private static final String URL_VEHICLES = "http://192.168.160.87:52038/";
+	private static final String URL_PARKING = "http://192.168.160.87:52043/";
+	private static final String URL_EVENTS = "http://192.168.160.87:52040/";
+	private static final String URL_INFO = "http://192.168.160.87:52044/";
 	
 	private List<Agency> agencies = null;
 	private HashMap<String, ItemsRoutes> routes = new HashMap<>();
