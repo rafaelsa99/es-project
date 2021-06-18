@@ -2,6 +2,15 @@
 version: '2'
 # Define services
 services:
+  # Logstash Service
+  logstash:
+    build:
+      context: logstash/
+    container_name: esp52_logstash9
+    ports:                                                                                
+      - "52520:52520/tcp"
+    expose:
+      - "52520"
   # Alarms service
   alarmsservice:
     # Configuration for building the docker image for the alarms service
@@ -44,8 +53,8 @@ services:
       - "52043:52043"
     expose:
       - "52043" 
-    #depends_on: 
-    #  - esp20_logstash
+    depends_on: 
+      - logstash
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
@@ -84,15 +93,3 @@ services:
       - "52045:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
-  # Logstash Service
-  logstash:
-    build:
-      context: logstash/
-    container_name: esp52_logstash9
-    volumes:
-      - ./logstash/config/logstash.yml
-      - ./logstash/pipeline
-    ports:                                                                                
-      - "52520:52520/tcp"
-    expose:
-      - "52520"
