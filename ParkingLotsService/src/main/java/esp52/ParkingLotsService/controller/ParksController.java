@@ -5,28 +5,31 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import esp52.ParkingLotsService.service.ParksService;
 
 @RestController
 @RequestMapping("/")
 public class ParksController {
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final Logger logger = LogManager.getLogger(ParksController.class);
+    //private static final Logger logger = LogManager.getLogger(ParksController.class);
     @Autowired
     ParksService parksService;
 
     @GetMapping("lotations/")
     public String getLotations() {
-        logger.info("Request for parking lotations");
+        this.logger.info("Request for parking lotations");
         return parksService.getLotations();
     }
 
     @GetMapping("history/")
     public String getHistory() {
-        logger.info("Request for history information");
+        this.logger.info("Request for history information");
         return parksService.getHistory();
     }
 

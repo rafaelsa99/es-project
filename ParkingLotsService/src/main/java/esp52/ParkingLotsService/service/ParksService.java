@@ -12,17 +12,21 @@ import esp52.ParkingLotsService.kafka.KafkaProducer;
 import esp52.ParkingLotsService.models.ParkingLotation;
 import esp52.ParkingLotsService.models.ParkingLotationFree;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Component
 public class ParksService {
+    
+        private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired ParkingLotationRepository parkingLotationRepository;
 	
 	private static final String TOPIC_EVENTS = "events";
-	private static final Logger logger = LogManager.getLogger(ParksService.class);
+	//private static final Logger logger = LogManager.getLogger(ParksService.class);
 	private HashMap<String, ParkingLotation> lotations = new HashMap<>();
 	private ParkingLotation parklots;
 	@Autowired KafkaProducer kafkaProducer;
@@ -42,7 +46,7 @@ public class ParksService {
 			checkParkingEvents(pl);
 			saveHistory(pl);
 		}
-		logger.info("Updating Parking Lotations from Parking Lot " + pl.getName());
+		this.logger.info("Updating Parking Lotations from Parking Lot " + pl.getName());
 	}
 
 	public ParkingLotation getTestPark(int total, int free, int totald, int dfree) {

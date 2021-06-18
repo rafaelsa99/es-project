@@ -31,10 +31,12 @@
 
     <dependencies>
 
-<!--        <dependency>
+        <!--LOG ELK-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>-->
+        </dependency>
+        
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -76,6 +78,12 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
             <version>6.10.4</version>
             <scope>test</scope>
         </dependency>
