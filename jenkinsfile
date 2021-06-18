@@ -313,7 +313,7 @@ pipeline {
         }*/
         stage('Copying Files') {
             steps {
-                sshagent (credentials: ['esp52_ssh']) {
+                sshagent (credentials: ['esp52_playground_ssh']) {
                     sh "chmod +x -R ${env.WORKSPACE}"
                     sh 'echo "Deploying"'
                     sh 'scp -r ./logstash esp52@192.168.160.87:./'
