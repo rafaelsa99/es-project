@@ -314,7 +314,6 @@ pipeline {
         }*/
         stage('Deploying on VM') {
             steps {
-                sh "chmod +x -R ${env.WORKSPACE}"
                 sh 'echo "Deploying"'
                 withCredentials([usernamePassword(credentialsId: 'esp52_ssh', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "$remote.host"
@@ -327,7 +326,7 @@ pipeline {
 
                     echo "$remote.user"
 
-                    sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
+                                        sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/alarmsservice9'
@@ -376,10 +375,16 @@ pipeline {
                     //sshCommand remote: remote, command: 'docker create -p 52045:52045 --name esp52_projectfrontend9 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
 
+                
+                }
 
-                    sshCommand remote: remote, command: 'scp -r ./logstash esp52@192.168.160.87:./'
-		            sshCommand remote: remote, command: 'scp esp52@192.168.160.87:./docker-compose.yml ./'
-                    sshCommand remote: remote, command: 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
+                // asdadasda
+
+                sshagent (credentials: ['esp52_ssh']) {
+
+                    sh 'scp -r ./logstash esp52@192.168.160.87:./'
+		            sh 'scp esp52@192.168.160.87:./docker-compose.yml ./'
+                    sh 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
 
                     //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
