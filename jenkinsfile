@@ -315,9 +315,9 @@ pipeline {
             steps {
                 sshagent (credentials: ['esp52_playground_ssh']) {
                     sh "chmod +x -R ${env.WORKSPACE}"
-                    sh 'echo "Deploying"'
+                    sh 'echo "Copying Files"'
                     sh 'scp -r ./logstash esp52@192.168.160.87:./'
-                    sh 'scp ./docker-compose.yml esp52@192.168.160.87:./'
+                    sh 'scp docker-compose.yml esp52@192.168.160.87:./'
                 }
             }
         }
@@ -336,7 +336,7 @@ pipeline {
 
                     echo "$remote.user"
 
-                    /*
+                    
                     sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice9 || echo "Do not have that image"'
@@ -385,8 +385,6 @@ pipeline {
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker create -p 52045:52045 --name esp52_projectfrontend9 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
-                    */
-
 
                     //sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
                     //sshCommand remote: remote, command: 'scp -r /logstash ./'
