@@ -11,7 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 import esp52.ManagementService.service.ManagementService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.160.87:52045")
 @RestController
 @RequestMapping("/")
 public class ManagementController {

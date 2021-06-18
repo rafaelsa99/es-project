@@ -17,6 +17,7 @@ pipeline {
         dockerImage6 = ''
         dockerImage7 = ''
         dockerImage8 = ''
+        dockerImage9 = ''
     }
 
     stages {
@@ -42,6 +43,7 @@ pipeline {
                 }
             }
         }*/
+
         stage('Compilation') {
             steps {
                 parallel(
@@ -230,6 +232,17 @@ pipeline {
                                 }
                             }
                         }
+                    },
+                    projectfrontend: {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh "chmod +x -R ${env.WORKSPACE}"
+                            sh 'echo "Creating Docker Image on VehiclesService"'
+                            script {
+                                docker.withRegistry('http://192.168.160.48:5000') {
+                                    dockerImage9 = docker.build('es-project/projectfrontend9', './app')
+                                }
+                            }
+                        }
                     }
                 )
             }
@@ -308,6 +321,18 @@ pipeline {
                                 }
                             }
                         }
+                    },
+                    projectfrontend: {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh "chmod +x -R ${env.WORKSPACE}"
+                            sh 'echo "Pushing Docker Image on projectfrontend"'
+                            script {
+                                docker.withRegistry('http://192.168.160.48:5000') {
+                                    dockerImage9.push()
+                                    dockerImage9.push('latest')
+                                }
+                            }
+                        }
                     }
                 )
             }
@@ -331,43 +356,50 @@ pipeline {
                     sshCommand remote: remote, command: "docker rm esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/alarmsservice9'
-                    sshCommand remote: remote, command: 'docker create -p 52040:52040 --name esp52_alarmsservice9 192.168.160.48:5000/es-project/alarmsservice9'
+                    //sshCommand remote: remote, command: 'docker create -p 52040:52040 --name esp52_alarmsservice9 192.168.160.48:5000/es-project/alarmsservice9'
                     //sshCommand remote: remote, command: 'docker start esp52_alarmsservice9'
 
                     sshCommand remote: remote, command: "docker stop esp52_externalapi9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_externalapi9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/externalapi9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/externalapi9'
-                    sshCommand remote: remote, command: 'docker create -p 52041:52041 --name esp52_externalapi9 192.168.160.48:5000/es-project/externalapi9'
+                    //sshCommand remote: remote, command: 'docker create -p 52041:52041 --name esp52_externalapi9 192.168.160.48:5000/es-project/externalapi9'
                     //sshCommand remote: remote, command: 'docker start esp52_externalapi9'
 
                     sshCommand remote: remote, command: "docker stop esp52_managementservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_managementservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/managementservice9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/managementservice9'
-                    sshCommand remote: remote, command: 'docker create -p 52042:52042 --name esp52_managementservice9 192.168.160.48:5000/es-project/managementservice9'
+                    //sshCommand remote: remote, command: 'docker create -p 52042:52042 --name esp52_managementservice9 192.168.160.48:5000/es-project/managementservice9'
                     //sshCommand remote: remote, command: 'docker start esp52_managementservice9'
 
                     sshCommand remote: remote, command: "docker stop esp52_parkinglotsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_parkinglotsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/parkinglotsservice9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/parkinglotsservice9'
-                    sshCommand remote: remote, command: 'docker create -p 52043:52043 --name esp52_parkinglotsservice9 192.168.160.48:5000/es-project/parkinglotsservice9'
+                    //sshCommand remote: remote, command: 'docker create -p 52043:52043 --name esp52_parkinglotsservice9 192.168.160.48:5000/es-project/parkinglotsservice9'
                     //sshCommand remote: remote, command: 'docker start esp52_parkinglotsservice9'
 
                     sshCommand remote: remote, command: "docker stop esp52_staticinfo9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_staticinfo9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/staticinfo9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/staticinfo9'
-                    sshCommand remote: remote, command: 'docker create -p 52044:52044 --name esp52_staticinfo9 192.168.160.48:5000/es-project/staticinfo9'
+                    //sshCommand remote: remote, command: 'docker create -p 52044:52044 --name esp52_staticinfo9 192.168.160.48:5000/es-project/staticinfo9'
                     //sshCommand remote: remote, command: 'docker start esp52_staticinfo9'
 
                     sshCommand remote: remote, command: "docker stop esp52_vehiclesservice8 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_vehiclesservice8 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice8 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/vehiclesservice8'
-                    sshCommand remote: remote, command: 'docker create -p 52038:52038 --name esp52_vehiclesservice8 192.168.160.48:5000/es-project/vehiclesservice8'
+                    //sshCommand remote: remote, command: 'docker create -p 52038:52038 --name esp52_vehiclesservice8 192.168.160.48:5000/es-project/vehiclesservice8'
                     //sshCommand remote: remote, command: 'docker start esp52_vehiclesservice8'
+
+                    sshCommand remote: remote, command: "docker stop esp52_projectfrontend9 || echo 'Do not have that image'"
+                    sshCommand remote: remote, command: "docker rm esp52_projectfrontend9 || echo 'Do not have that image'"
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/projectfrontend9 || echo "Do not have that image"'
+                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectfrontend9'
+                    //sshCommand remote: remote, command: 'docker create -p 52045:52045 --name esp52_projectfrontend9 192.168.160.48:5000/es-project/projectfrontend9'
+                    //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
 
                     //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
