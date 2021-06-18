@@ -372,7 +372,7 @@ pipeline {
                     //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
-                    sshCommand remote: remote, command: 'docker-compose up -d'
+                    //sshCommand remote: remote, command: 'docker-compose up -d'
 
                     //sshCommand remote: remote, command: 'docker compose up --build'
                 }

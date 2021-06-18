@@ -47,9 +47,9 @@ services:
     #depends_on: 
     #  - esp20_logstash
     environment:
-      - SPRING_DATASOURCE_URL= jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME= root
-      - SPRING_DATASOURCE_PASSWORD= mysql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql
   # Static info
   staticinfo:
     # Configuration for building the docker image for the Static info service
@@ -73,9 +73,9 @@ services:
     #depends_on: 
     #  - esp20_logstash
     environment:
-      - SPRING_DATASOURCE_URL= jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME= root
-      - SPRING_DATASOURCE_PASSWORD= mysql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql
   # Frontend Service
   #client:
    # build:
