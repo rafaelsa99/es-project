@@ -90,8 +90,8 @@ services:
       context: logstash/
     container_name: esp52_logstash9
     volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/config/logstash.yml
+      - ./logstash/pipeline
     ports:                                                                                
       - "52520:52520/tcp"
     expose:
