@@ -378,7 +378,7 @@ pipeline {
                     */
 
 
-                    sshCommand remote: remote, command: 'scp /es-project/docker-compose.yml ./'
+                    sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
                     sshCommand remote: remote, command: 'scp -r /logstash ./'
 		            //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
                     sshCommand remote: remote, command: 'docker-compose up'
