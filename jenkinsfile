@@ -378,7 +378,7 @@ pipeline {
                     */
 
 
-                    sshCommand remote: remote, command: 'scp -r ./logstash 192.168.160.87:./'
+                    sshCommand remote: remote, command: 'scp -r ./logstash StrictHostKeyChecking=no esp52@host192.168.160.87:./'
 		            sshCommand remote: remote, command: 'scp 192.168.160.87:./docker-compose.yml ./'
                     sshCommand remote: remote, command: 'ssh -o StrictHostKeyChecking=no 192.168.160.87 docker-compose up'
 
