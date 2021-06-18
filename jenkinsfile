@@ -311,7 +311,7 @@ pipeline {
                 )
             }
         }*/
-        stage('Copying Files') {
+        /*stage('Copying Files') {
             steps {
                 sshagent (credentials: ['esp52_playground_ssh']) {
                     sh "chmod +x -R ${env.WORKSPACE}"
@@ -322,12 +322,12 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
                 }
             }
-        }
+        }*/
 
-        /*stage('Deploying on VM') {
+        stage('Deploying on VM') {
             steps {
                 sh 'echo "Deploying"'
-                //withCredentials([usernamePassword(credentialsId: 'esp52_ssh', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'esp52_ssh', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "$remote.host"
 
                     script {
@@ -401,7 +401,7 @@ pipeline {
                     //sshCommand remote: remote, command: 'docker compose up --build'
                 }
             }
-        }*/
+        }
     }
     post {
         always {
