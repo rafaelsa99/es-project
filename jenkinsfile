@@ -239,7 +239,7 @@ pipeline {
                             sh 'echo "Creating Docker Image on VehiclesService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
-                                    dockerImage9 = docker.build('es-project/projectfrontend9', './app')
+                                    dockerImage9 = docker.build('es-project/projectfrontend9', 'projectfrontend')
                                 }
                             }
                         }
