@@ -373,7 +373,7 @@ pipeline {
                     //sh 'rm docker-compose.yml'
                     //sh 'docker-compose up -d --build server consumer'
 
-                    sshCommand remote: remote, command: 'docker-compose up alarmsservice externalapi managementservice parkinglotservice staticinfo vehicleservice'
+                    sshCommand remote: remote, command: 'docker-compose up -d alarmsservice externalapi managementservice parkinglotservice staticinfo vehicleservice'
                 }
             }
         }
