@@ -12,6 +12,8 @@ services:
       - ./logstash:/bitnami/logstash/config
     expose:
       - "52005"
+    networks:
+      - esp52
   # Alarms service
   alarmsservice:
     # Configuration for building the docker image for the alarms service
@@ -21,6 +23,8 @@ services:
       - "52040:52040"
     expose:
       - "52040"
+    networks:
+      - esp52
   # External API service
   externalapi:
     # Configuration for building the docker image for the External API service
@@ -30,6 +34,8 @@ services:
       - "52041:52041"
     expose:
       - "52041" 
+    networks:
+      - esp52
   managementservice:
     # Configuration for building the docker image for the Management service
     image: 192.168.160.48:5000/es-project/managementservice9:latest
@@ -38,6 +44,8 @@ services:
       - "52042:52042"
     expose:
       - "52042" 
+    networks:
+      - esp52
   # Parking Lots service
   parkinglotservice:
     # Configuration for building the docker image for the Parking Lots service
@@ -54,7 +62,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=mysql
     networks:
-      - esp52_net
+      - esp52
   # Static info
   staticinfo:
     # Configuration for building the docker image for the Static info service
@@ -64,6 +72,8 @@ services:
       - "52044:52044"
     expose:
       - "52044" 
+    networks:
+      - esp52
   # Vehicles Service
   vehicleservice:
     # Configuration for building the docker image for the vehicles service
@@ -77,6 +87,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=mysql
+    networks:
+      - esp52
   # Frontend Service
   frontend:
     image: 192.168.160.48:5000/es-project/projectfrontend9:latest
@@ -85,6 +97,8 @@ services:
       - "52045:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
+    networks:
+      - esp52
 networks:
-  esp52_net:
+  esp52:
     driver: bridge
