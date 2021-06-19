@@ -1,174 +1,88 @@
 # Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
-version: '3.3'
+version: '2'
 # Define services
 services:
-  # External API service
-  externalapi:
-    # Configuration for building the docker image for the External API service
+  # Logstash Service
+  logstash:
     build:
-      context: externalAPI # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
+      context: logstash/
+    container_name: esp52_logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
     ports:
-      - "8082:8082" # Forward the exposed port 8082 on the container (docker) to port 8082 on the host machine
-    depends_on:
-      - zookeeper
-      - kafka
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.20
-  # Parking Lots service
-  parkinglotservice:
-    # Configuration for building the docker image for the Parking Lots service
-    build:
-      context: ParkingLotsService # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "8083:8083" # Forward the exposed port 8083 on the container (docker) to port 8083 on the host machine
-    depends_on:
-      - zookeeper
-      - kafka
-      - externalapi
-      - db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.21
+      - "5000:5000"
+      - "52520:52520/tcp"
+    expose:
+      - "52520"
   # Alarms service
   alarmsservice:
     # Configuration for building the docker image for the alarms service
-    build:
-      context: AlarmsService # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "8084:8084" # Forward the exposed port 8084 on the container (docker) to port 8084 on the host machine
-    depends_on:
-      - zookeeper
-      - kafka
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.22
+    image: 192.168.160.48:5000/es-project/alarmsservice9:latest
+    container_name: esp52_alarmsservice9
+    ports: 
+      - "52040:52040"
+    expose:
+      - "52040"
+  # External API service
+  externalapi:
+    # Configuration for building the docker image for the External API service
+    image: 192.168.160.48:5000/es-project/externalapi9:latest
+    container_name: esp52_externalapi9
+    ports: 
+      - "52041:52041"
+    expose:
+      - "52041" 
+  managementservice:
+    # Configuration for building the docker image for the Management service
+    image: 192.168.160.48:5000/es-project/managementservice9:latest
+    container_name: esp52_managementservice9
+    ports: 
+      - "52042:52042"
+    expose:
+      - "52042" 
+  # Parking Lots service
+  parkinglotservice:
+    # Configuration for building the docker image for the Parking Lots service
+    image: 192.168.160.48:5000/es-project/parkinglotsservice9:latest
+    container_name: esp52_parkinglotsservice9
+    ports: 
+      - "52043:52043"
+    expose:
+      - "52043" 
+    depends_on: 
+      - logstash
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql
   # Static info
   staticinfo:
     # Configuration for building the docker image for the Static info service
-    build:
-      context: StaticInfo # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "8085:8085" # Forward the exposed port 8085 on the container (docker) to port 8085 on the host machine
-    depends_on:
-      - zookeeper
-      - kafka
-      - externalapi
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.10
+    image: 192.168.160.48:5000/es-project/staticinfo9:latest
+    container_name: esp52_staticinfo9
+    ports: 
+      - "52044:52044"
+    expose:
+      - "52044" 
   # Vehicles Service
   vehicleservice:
     # Configuration for building the docker image for the vehicles service
-    build:
-      context: VehiclesService # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "8086:8086" # Forward the exposed port 8086 on the container (docker) to port 8086 on the host machine
-    depends_on:
-      - zookeeper
-      - kafka
-      - externalapi
-      - db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.11
-  # Management Service
-  managementservice:
-    # Configuration for building the docker image for the Management service
-    build:
-      context: ManagementService # Use an image built from the specified dockerfile in the `app-server` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "8087:8087" # Forward the exposed port 8087 on the container (docker) to port 8087 on the host machine
-    depends_on:
-      - zookeeper
-      - kafka
-      - externalapi
-      - alarmsservice
-      - vehicleservice
-      - staticinfo
-      - parkinglotservice
-    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
-      kafka-net:
-        ipv4_address: 172.0.0.12
-  # Frontend Service
-  client:
-    build:
-      context: projectfrontend # Use an image built from the specified dockerfile in the `app-client` directory.
-      dockerfile: Dockerfile # Specify the Dockerfile path
-    ports:
-      - "3000:3000" # Map the exposed port 80 on the container to port 80 on the host machine
-    
-    depends_on:
-      - managementservice
-    networks:
-      kafka-net:
-        ipv4_address: 172.0.0.4
-  # Database Service (Mysql)
-  db:
-    image: mysql:5.7
-    ports:
-      - "3306"
-    
-    environment:
-      MYSQL_DATABASE: lametro
-      MYSQL_ROOT_PASSWORD: palavrapasse
-    volumes: # volumes could help in case we lost stored data (it persist data in host machine in the db-data directory)
-      - db-data:/var/lib/mysql
-    networks:
-      kafka-net:
-        ipv4_address: 172.0.0.2
-
-  zookeeper:
-    image: 'wurstmeister/zookeeper'
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    networks:
-      kafka-net:
-        ipv4_address: 172.0.0.5
-    ports:
-      - '2181:2181'
-    expose: 
-      - '2181'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
-
-  kafka:
-    image: 'wurstmeister/kafka'
-    networks:
-      kafka-net:
-        ipv4_address: 172.0.0.16
-    ports:
-      - '9092:9092'
+    image: 192.168.160.48:5000/es-project/vehiclesservice8:latest
+    container_name: esp52_vehiclesservice8
+    ports: 
+      - "52038:52038"
     expose:
-      - '9092'
+      - "52038" 
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 172.0.0.16
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "vehicles:1:1"
-      KAFKA_CREATE_TOPICS: "predictions:1:1"
-      KAFKA_CREATE_TOPICS: "parking:1:1"
-      KAFKA_CREATE_TOPICS: "events:1:1"
-    depends_on:
-      - zookeeper
-  
-# Define Volumes to be created
-volumes:
-  db-data:
-# Define Networks to be created to facilitate communication between containers
-networks:
-  kafka-net:
-    ipam:
-      driver: default
-      config: 
-        - subnet: 172.0.0.0/24
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql
+  # Frontend Service
+  frontend:
+    image: 192.168.160.48:5000/es-project/projectfrontend9:latest
+    container_name: esp52_projectfrontend9
+    ports:
+      - "52045:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true

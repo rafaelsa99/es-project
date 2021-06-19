@@ -17,21 +17,22 @@ pipeline {
         dockerImage6 = ''
         dockerImage7 = ''
         dockerImage8 = ''
+        dockerImage9 = ''
     }
 
     stages {
         stage('Cloning repository') {
             steps {
-                sh "chmod +x -R ${env.WORKSPACE}"
                 git(
                     branch: 'main',
                     url: 'https://github.com/rafaelsa99/es-project'
 
                 )
+                sh "chmod +x -R ${env.WORKSPACE}"
             }
         }
 
-        stage('Testing Cucumber / MockMVC on Parking Lots Service') {
+        /*stage('Testing Cucumber / MockMVC on Parking Lots Service') {
             steps {
                 dir('ParkingLotsService') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -41,14 +42,14 @@ pipeline {
                     }
                 }
             }
-        }
-        stage('Compilation') {
+        }*/
+
+        /*stage('Compilation') {
             steps {
                 parallel(
                     alarmsService: {
                         dir('AlarmsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on AlarmsService"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -57,7 +58,6 @@ pipeline {
                     externalAPI: {
                         dir('externalAPI') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on externalAPI"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -66,7 +66,6 @@ pipeline {
                     managementService: {
                         dir('ManagementService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on ManagementService"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -75,7 +74,6 @@ pipeline {
                     parkingLotsService: {
                         dir('ParkingLotsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on ParkingLotsService"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -84,7 +82,6 @@ pipeline {
                     staticInfo: {
                         dir('StaticInfo') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on StaticInfo"'
                                 sh './mvnw clean install -DskipTests'
                             }
@@ -93,11 +90,8 @@ pipeline {
                     vehiclesService: {
                         dir('VehiclesService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 sh 'echo "Clean install on VehiclesService"'
                                 sh './mvnw clean install -DskipTests'
-                                echo 'Deploying Artifact'
-                                sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
                         }
                     }
@@ -110,7 +104,6 @@ pipeline {
                     alarmsService: {
                         dir('AlarmsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on AlarmsService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -119,7 +112,6 @@ pipeline {
                     externalAPI: {
                         dir('externalAPI') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on externalAPI'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -128,7 +120,6 @@ pipeline {
                     managementService: {
                         dir('ManagementService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on ManagementService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -137,7 +128,6 @@ pipeline {
                     parkingLotsService: {
                         dir('ParkingLotsService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on ParkingLotsService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -146,7 +136,6 @@ pipeline {
                     staticInfo: {
                         dir('StaticInfo') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on StaticInfo'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -155,7 +144,6 @@ pipeline {
                     vehiclesService: {
                         dir('VehiclesService') {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "chmod +x -R ${env.WORKSPACE}"
                                 echo 'Deploying Artifact on VehiclesService'
                                 sh './mvnw deploy -DskipTests -f pom.xml -s ../settings.xml'
                             }
@@ -169,7 +157,6 @@ pipeline {
                 parallel(
                     alarmsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on AlarmsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -180,7 +167,6 @@ pipeline {
                     },
                     externalAPI: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on externalAPI"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -191,7 +177,6 @@ pipeline {
                     },
                     managementService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on managementService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -202,7 +187,6 @@ pipeline {
                     },
                     parkingLotsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on ParkingLotsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -213,7 +197,6 @@ pipeline {
                     },
                     staticInfo: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on StaticInfo"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
@@ -224,11 +207,20 @@ pipeline {
                     },
                     vehiclesService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Creating Docker Image on VehiclesService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage8 = docker.build('es-project/vehiclesservice8', 'VehiclesService')
+                                }
+                            }
+                        }
+                    },
+                    projectfrontend: {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh 'echo "Creating Docker Image on VehiclesService"'
+                            script {
+                                docker.withRegistry('http://192.168.160.48:5000') {
+                                    dockerImage9 = docker.build('es-project/projectfrontend9', 'projectfrontend')
                                 }
                             }
                         }
@@ -241,76 +233,99 @@ pipeline {
                 parallel(
                     alarmsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on AlarmsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage3.push()
+                                    dockerImage3.push('latest')
                                 }
                             }
                         }
                     },
                     externalAPI: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on externalAPI"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage4.push()
+                                    dockerImage4.push('latest')
                                 }
                             }
                         }
                     },
                     managementService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on managementService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage5.push()
+                                    dockerImage5.push('latest')
                                 }
                             }
                         }
                     },
                     parkingLotsService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on ParkingLotsService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage6.push()
+                                    dockerImage6.push('latest')
                                 }
                             }
                         }
                     },
                     staticInfo: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on StaticInfo"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage7.push()
+                                    dockerImage7.push('latest')
                                 }
                             }
                         }
                     },
                     vehiclesService: {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "chmod +x -R ${env.WORKSPACE}"
                             sh 'echo "Pushing Docker Image on VehiclesService"'
                             script {
                                 docker.withRegistry('http://192.168.160.48:5000') {
                                     dockerImage8.push()
+                                    dockerImage8.push('latest')
+                                }
+                            }
+                        }
+                    },
+                    projectfrontend: {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh 'echo "Pushing Docker Image on projectfrontend"'
+                            script {
+                                docker.withRegistry('http://192.168.160.48:5000') {
+                                    dockerImage9.push()
+                                    dockerImage9.push('latest')
                                 }
                             }
                         }
                     }
                 )
             }
-        }
+        }*/
+        /*stage('Copying Files') {
+            steps {
+                sshagent (credentials: ['esp52_playground_ssh']) {
+                    sh "chmod +x -R ${env.WORKSPACE}"
+                    sh 'echo "Copying Files"'
+                    sh 'scp -r ./logstash esp52@192.168.160.87:./'
+                    sh 'scp docker-compose.yml esp52@192.168.160.87:./'
+                    //sh 'esp52@192.168.160.87 docker compose up --build'
+                    sh 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
+                }
+            }
+        }*/
+
         stage('Deploying on VM') {
             steps {
-                sh "chmod +x -R ${env.WORKSPACE}"
                 sh 'echo "Deploying"'
                 withCredentials([usernamePassword(credentialsId: 'esp52_ssh', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "$remote.host"
@@ -323,58 +338,67 @@ pipeline {
 
                     echo "$remote.user"
 
+                    
                     sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_alarmsservice9 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice9'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/alarmsservice9'
-                    sshCommand remote: remote, command: 'docker create -p 52040:52040 --name esp52_alarmsservice9 192.168.160.48:5000/es-project/alarmsservice9'
-                    sshCommand remote: remote, command: 'docker start esp52_alarmsservice9'
+                    //sshCommand remote: remote, command: 'docker create -p 52040:52040 --name esp52_alarmsservice9 192.168.160.48:5000/es-project/alarmsservice9'
+                    //sshCommand remote: remote, command: 'docker start esp52_alarmsservice9'
 
                     sshCommand remote: remote, command: "docker stop esp52_externalapi9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_externalapi9 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/externalapi9'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/externalapi9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/externalapi9'
-                    sshCommand remote: remote, command: 'docker create -p 52041:52041 --name esp52_externalapi9 192.168.160.48:5000/es-project/externalapi9'
-                    sshCommand remote: remote, command: 'docker start esp52_externalapi9'
+                    //sshCommand remote: remote, command: 'docker create -p 52041:52041 --name esp52_externalapi9 192.168.160.48:5000/es-project/externalapi9'
+                    //sshCommand remote: remote, command: 'docker start esp52_externalapi9'
 
                     sshCommand remote: remote, command: "docker stop esp52_managementservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_managementservice9 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/managementservice9'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/managementservice9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/managementservice9'
-                    sshCommand remote: remote, command: 'docker create -p 52042:52042 --name esp52_managementservice9 192.168.160.48:5000/es-project/managementservice9'
-                    sshCommand remote: remote, command: 'docker start esp52_managementservice9'
+                    //sshCommand remote: remote, command: 'docker create -p 52042:52042 --name esp52_managementservice9 192.168.160.48:5000/es-project/managementservice9'
+                    //sshCommand remote: remote, command: 'docker start esp52_managementservice9'
 
                     sshCommand remote: remote, command: "docker stop esp52_parkinglotsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_parkinglotsservice9 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/parkinglotsservice9'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/parkinglotsservice9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/parkinglotsservice9'
-                    sshCommand remote: remote, command: 'docker create -p 52043:52043 --name esp52_parkinglotsservice9 192.168.160.48:5000/es-project/parkinglotsservice9'
-                    sshCommand remote: remote, command: 'docker start esp52_parkinglotsservice9'
+                    //sshCommand remote: remote, command: 'docker create -p 52043:52043 --name esp52_parkinglotsservice9 192.168.160.48:5000/es-project/parkinglotsservice9'
+                    //sshCommand remote: remote, command: 'docker start esp52_parkinglotsservice9'
 
                     sshCommand remote: remote, command: "docker stop esp52_staticinfo9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_staticinfo9 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/staticinfo9'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/staticinfo9 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/staticinfo9'
-                    sshCommand remote: remote, command: 'docker create -p 52044:52044 --name esp52_staticinfo9 192.168.160.48:5000/es-project/staticinfo9'
-                    sshCommand remote: remote, command: 'docker start esp52_staticinfo9'
+                    //sshCommand remote: remote, command: 'docker create -p 52044:52044 --name esp52_staticinfo9 192.168.160.48:5000/es-project/staticinfo9'
+                    //sshCommand remote: remote, command: 'docker start esp52_staticinfo9'
 
                     sshCommand remote: remote, command: "docker stop esp52_vehiclesservice8 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_vehiclesservice8 || echo 'Do not have that image'"
-                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice8'
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/vehiclesservice8 || echo "Do not have that image"'
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/vehiclesservice8'
-                    sshCommand remote: remote, command: 'docker create -p 52038:52038 --name esp52_vehiclesservice8 192.168.160.48:5000/es-project/vehiclesservice8'
-                    sshCommand remote: remote, command: 'docker start esp52_vehiclesservice8'
+                    //sshCommand remote: remote, command: 'docker create -p 52038:52038 --name esp52_vehiclesservice8 192.168.160.48:5000/es-project/vehiclesservice8'
+                    //sshCommand remote: remote, command: 'docker start esp52_vehiclesservice8'
 
-                    /*sshCommand remote: remote, command: "/bin/bash -c 'docker-compose down --rmi all || true'"
-                    sshCommand remote: remote, command: "/bin/bash -c 'rm docker-compose.yml || true'"
-                    sshPut remote: remote, from: 'docker-compose.yml', into: './', override: true
-                    sshCommand remote: remote, command: "/bin/bash -c 'docker-compose up -d '"*/
+                    sshCommand remote: remote, command: "docker stop esp52_projectfrontend9 || echo 'Do not have that image'"
+                    sshCommand remote: remote, command: "docker rm esp52_projectfrontend9 || echo 'Do not have that image'"
+                    sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/projectfrontend9 || echo "Do not have that image"'
+                    sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectfrontend9'
+                    //sshCommand remote: remote, command: 'docker create -p 52045:52045 --name esp52_projectfrontend9 192.168.160.48:5000/es-project/projectfrontend9'
+                    //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
 
-                    //sh 'docker-compose down --rmi all'
-                    //sh 'rm docker-compose.yml'
-                    //sh 'docker-compose up -d --build server consumer'
+                    //sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
+                    //sshCommand remote: remote, command: 'scp -r /logstash ./'
+		            //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
+                    sshCommand remote: remote, command: 'docker-compose up'
 
-                //sshCommand remote: remote, command: 'docker-compose up -d'
+                    //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
+                    //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
+                    //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
+                    //sshCommand remote: remote, command: 'docker-compose up -d'
+
+                    //sshCommand remote: remote, command: 'docker compose up --build'
                 }
             }
         }

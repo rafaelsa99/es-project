@@ -1,0 +1,170 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3.3'
+# Define services
+services:
+  # External API service
+  externalapi:
+    # Configuration for building the docker image for the External API service
+    build:
+      context: externalAPI # Use an image built from the specified dockerfile in the `app-server` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "52041:52041" # Forward the exposed port 52041 on the container (docker) to port 52041 on the host machine
+    depends_on:
+      - zookeeper
+      - kafka
+    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
+      kafka-net:
+        ipv4_address: 172.0.0.20
+  # Parking Lots service
+  parkinglotservice:
+    # Configuration for building the docker image for the Parking Lots service
+    build:
+      context: ParkingLotsService # Use an image built from the specified dockerfile in the `app-server` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "52043:52043" # Forward the exposed port 52043 on the container (docker) to port 52043 on the host machine
+    depends_on:
+      - zookeeper
+      - kafka
+      - externalapi
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
+      kafka-net:
+        ipv4_address: 172.0.0.21
+  # Alarms service
+  alarmsservice:
+    # Configuration for building the docker image for the alarms service
+    build:
+      context: AlarmsService # Use an image built from the specified dockerfile in the `app-server` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "52040:52040" # Forward the exposed port 52040 on the container (docker) to port 52040 on the host machine
+    depends_on:
+      - zookeeper
+      - kafka
+    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
+      kafka-net:
+        ipv4_address: 172.0.0.22
+  # Static info
+  staticinfo:
+    # Configuration for building the docker image for the Static info service
+    build:
+      context: StaticInfo # Use an image built from the specified dockerfile in the `app-server` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "52044:52044" # Forward the exposed port 52044 on the container (docker) to port 52044 on the host machine
+    depends_on:
+      - zookeeper
+      - kafka
+      - externalapi
+    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
+      kafka-net:
+        ipv4_address: 172.0.0.10
+  # Vehicles Service
+  vehicleservice:
+    # Configuration for building the docker image for the vehicles service
+    build:
+      context: VehiclesService # Use an image built from the specified dockerfile in the `app-server` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "52038:52038" # Forward the exposed port 52038 on the container (docker) to port 52038 on the host machine
+    depends_on:
+      - zookeeper
+      - kafka
+      - externalapi
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
+      kafka-net:
+        ipv4_address: 172.0.0.11
+  # Management Service
+  managementservice:
+    # Configuration for building the docker image for the Management service
+    build:
+      context: ManagementService # Use an image built from the specified dockerfile in the `app-server` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "52042:52042" # Forward the exposed port 52042 on the container (docker) to port 52042 on the host machine
+    depends_on:
+      - zookeeper
+      - kafka
+      - externalapi
+    networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
+      kafka-net:
+        ipv4_address: 172.0.0.12
+  # Frontend Service
+  client:
+    build:
+      context: projectfrontend # Use an image built from the specified dockerfile in the `app-client` directory.
+      dockerfile: Dockerfile # Specify the Dockerfile path
+    ports:
+      - "3000:3000" # Map the exposed port 80 on the container to port 80 on the host machine
+    
+    depends_on:
+      - managementservice
+    networks:
+      kafka-net:
+        ipv4_address: 172.0.0.4
+  # Database Service (Mysql)
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306"
+    
+    environment:
+      MYSQL_DATABASE: lametro
+      MYSQL_ROOT_PASSWORD: palavrapasse
+    volumes: # volumes could help in case we lost stored data (it persist data in host machine in the db-data directory)
+      - db-data:/var/lib/mysql
+    networks:
+      kafka-net:
+        ipv4_address: 172.0.0.2
+
+  zookeeper:
+    image: 'wurstmeister/zookeeper'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      kafka-net:
+        ipv4_address: 172.0.0.5
+    ports:
+      - '2181:2181'
+    expose: 
+      - '2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'wurstmeister/kafka'
+    networks:
+      kafka-net:
+        ipv4_address: 172.0.0.16
+    ports:
+      - '9092:9092'
+    expose:
+      - '9092'
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 172.0.0.16
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "vehicles:1:1"
+      KAFKA_CREATE_TOPICS: "predictions:1:1"
+      KAFKA_CREATE_TOPICS: "parking:1:1"
+      KAFKA_CREATE_TOPICS: "events:1:1"
+    depends_on:
+      - zookeeper
+  
+# Define Volumes to be created
+volumes:
+  db-data:
+# Define Networks to be created to facilitate communication between containers
+networks:
+  kafka-net:
+    ipam:
+      driver: default
+      config: 
+        - subnet: 172.0.0.0/24

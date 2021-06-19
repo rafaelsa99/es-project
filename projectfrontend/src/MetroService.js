@@ -1,5 +1,6 @@
 import axios from "axios"
-const LAMETRO_API_BASE_URL = "http://localhost:8087/";
+//const LAMETRO_API_BASE_URL = "http://localhost:52042/";
+const LAMETRO_API_BASE_URL = "http://192.168.160.87:52042/";
 
 class MetroService{
     getParks(){

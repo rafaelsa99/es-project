@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -19,6 +17,9 @@ import esp52.VehiclesService.models.ItemsVehiclesAgency;
 import esp52.VehiclesService.models.StopAgency;
 import esp52.VehiclesService.models.Vehicle;
 import esp52.VehiclesService.models.VehiclesRoute;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 @Component

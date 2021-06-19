@@ -21,7 +21,8 @@ public class StaticInfoData {
 	private HashMap<String, ItemsRoutes> routes = new HashMap<>();
 	private HashMap<String, ItemsStops> stops = new HashMap<>();
 	private RestTemplate restTemplate = new RestTemplate();
-	private static final String  BASE_URL = "http://172.0.0.20:8082/";
+	//private static final String  BASE_URL = "http://172.0.0.20:8082/";
+	private static final String  BASE_URL = "http://192.168.160.87:52041/";
 	
 	public String getAgencies() {
 		if(agencies == null) {
