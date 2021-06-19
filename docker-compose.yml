@@ -53,6 +53,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.18:3306/lametro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=mysql
+    networks:
+      - esp52_net
   # Static info
   staticinfo:
     # Configuration for building the docker image for the Static info service
@@ -83,3 +85,6 @@ services:
       - "52045:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
+networks:
+  esp52_net:
+    driver: bridge
