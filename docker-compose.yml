@@ -4,14 +4,12 @@ version: '2'
 services:
   # Logstash Service
   logstash:
-    build:
-      context: logstash/
-    container_name: esp52_logstash
+    image: bitnami/logstash:latest
+    #build:
+    #  context: logstash/
+    #container_name: esp52_logstash
     volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
-    ports:
-      - "52005:52005/tcp"
+      - ./logstash:/bitnami/logstash/config
     expose:
       - "52005"
   # Alarms service
