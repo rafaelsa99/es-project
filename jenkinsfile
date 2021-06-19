@@ -389,8 +389,8 @@ pipeline {
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
                     */
 
-                    sshPut(from: './logstash/', remote: remote, into: '/home/esp52/')
-                    sshPut(from: 'docker-compose.yml', remote: remote, into: '/home/esp52/')
+                    sshPut(from: './logstash/', remote: remote, into: '/home/esp52')
+                    sshPut(from: 'docker-compose.yml', remote: remote, into: '/home/esp52')
                     sshCommand remote: remote, command: '/bin/bash -c \'docker-compose pull\''
                     sshCommand remote: remote, command: '/bin/bash -c \'docker-compose up -d\''
 
