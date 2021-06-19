@@ -338,7 +338,7 @@ pipeline {
 
                     echo "$remote.user"
 
-                    
+                    /*
                     sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: "docker rm esp52_alarmsservice9 || echo 'Do not have that image'"
                     sshCommand remote: remote, command: 'docker rmi 192.168.160.48:5000/es-project/alarmsservice9 || echo "Do not have that image"'
@@ -387,9 +387,10 @@ pipeline {
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker create -p 52045:52045 --name esp52_projectfrontend9 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
+                    */
 
-                    sshPut(from: './logstash', remote: remote, into: './')
-                    sshPut(from: 'Logstash/logstash.conf', remote: remote, into: '/home/esp34/Logstash')
+                    sshPut(from: './logstash', remote: remote, into: '.')
+                    sshPut(from: 'docker-compose.yml', remote: remote, into: '/home/esp34/')
                     sshCommand remote: remote, command: '/bin/bash -c \'docker-compose pull\''
                     sshCommand remote: remote, command: '/bin/bash -c \'docker-compose up -d\''
 
