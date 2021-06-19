@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import MetroService from './MetroService';
 import './App.css';
 import { Bar ,Pie, Line,  defaults } from 'react-chartjs-2';
-  
+import ReactNotification from 'react-notifications-component'
+import {store} from  'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 
 
@@ -11,7 +13,8 @@ class Historico extends Component {
   constructor(){
       super();
       this.state = {
-          history :[]
+          history :[],
+          last :[]
        }
   }   
 
@@ -24,10 +27,14 @@ class Historico extends Component {
   getData(){
       MetroService.getHistory().then((res) => {
           this.setState({history: res.data});
-          this.intervalID = setTimeout(this.getData.bind(this), 5000);
       }
       
       ); 
+      MetroService.getLastEvent().then((res) => {
+        this.setState({last: res.data});
+        this.intervalID = setTimeout(this.getData.bind(this), 5000);
+    }
+    );
   }
         
   render() {
@@ -38,6 +45,26 @@ class Historico extends Component {
     
   return (
     <div>
+      {
+                        this.state.last.map(event=>
+                            store.addNotification({
+                                title: "Notificação Parque de Estacionamento",
+                                message: event, 
+                                type: "info",
+                                container: "top-right",
+                                insert: "top",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+
+                                dismiss: {
+                                    duration: 2000
+                                },
+
+                                width: 400
+                            })
+                        )
+                        }
+                    <ReactNotification />
       <p className="text-center" style={headletter} >Histórico de Informações da zona metropolitana de Los Angeles</p>
 
       <Bar 

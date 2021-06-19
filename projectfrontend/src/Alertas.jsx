@@ -1,94 +1,88 @@
-import ReactMapGL from 'react-map-gl';
-import {useState} from 'react';
-import React, { Component }from 'react';
+import React, { Component } from 'react';
 import MetroService from './MetroService';
-import {Marker, Popup} from 'react-map-gl';
-import './App.css';
-import styled from 'styled-components';
-import ee from 'event-emitter';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+import ReactNotification from 'react-notifications-component'
+import {store} from  'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
-
-const Container = styled.div`
-    background-color: #444;
-    color: white;
-    padding: 16px;
-    position: absolute;
-    top: ${props => props.top}px;
-    right: 16px;
-    z-index: 999;
-    transition: top 0.5s ease;
-`;
-
-const emitter = new ee();
-
-export const notify = (msg) => {
-    emitter.emit('notification', msg);
-}
-  class Alertas extends Component {
+class Events extends Component {
     intervalID;
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {
-            top: -100,
-            alertas :[],
-            msg: '',
-        };
-        this.timeout = null;
-        emitter.on('notification', (msg) =>{
-            this.onShow(msg);        
-        });
-    }
-
-
-    onShow = (msg) =>{
-        if(this.timeout){
-            clearTimeout(this.timeout);
-            this.setState({ top: -100}, ()=>{
-                this.timeout = setTimeout(() => {
-                    this.showNotification(msg);
-                }, 500);
-            });
-        }else {
-            this.showNotification(msg);
+            events :[],
+            last :[]
         }
     }
 
-    showNotification = (msg) => {
-        this.setState({
-            top: 16,
-            msg
-        }, () => {
-            this.timeout = setTimeout(() => {
-                this.setState({
-                    top: -100,
-                });
-            }, 3000);
-        
-        });
+    componentDidMount(){
+        this.getData();
     }
+    componentWillUnmount() {
+        clearTimeout(this.intervalID);
+    }
+    getData(){
+        MetroService.getEvents().then((res) => {
+            this.setState({events: res.data});
+        }
+        );
+        MetroService.getLastEvent().then((res) => {
+            this.setState({last: res.data});
+            this.intervalID = setTimeout(this.getData.bind(this), 5000);
+        }
+        );
+        }
+        render() {
 
-    
-    
-    render() {
-            
-                return (
-               
-                   <React.Fragment>
-                        <button className="btn btn-primary" onClick={this.onShow}>Clique para Notificar!</button>
-                        <Container top={this.state.top}>Lugar Disponível no Parque 2! <i className="fa fa-bell"></i> </Container>
-                   </React.Fragment>
-                    
-                 
-                
-                
+            const headletter = {
+                fontSize: 20
+        }
+
+            return (
+               <div>
+                    {
+                        this.state.last.map(event=>
+                            store.addNotification({
+                                title: "Notificação Parque de Estacionamento",
+                                message: event, 
+                                type: "info",
+                                container: "top-right",
+                                insert: "top",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+
+                                dismiss: {
+                                    duration: 2000
+                                },
+
+                                width: 400
+                            })
+                        )
+                        }
+                    <ReactNotification />
+                    <p className="text-center" style={headletter} >Notificações</p>
+                    <div className="row">
+                        <table className="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                   <td>Eventos dos Parques de Estacionamento</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.state.events.map(
+                                        events=>
+                                        <tr key={events}>
+                                            <td>{events}</td>
+                                            
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             );
         }
     }
     
-    export default Alertas;
+    export default Events;

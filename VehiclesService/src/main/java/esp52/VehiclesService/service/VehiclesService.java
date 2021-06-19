@@ -28,7 +28,8 @@ public class VehiclesService {
 	
 	private static final Logger logger = LogManager.getLogger(VehiclesService.class);
 	private HashMap<String, ItemsVehiclesAgency> vehiclesInfo = new HashMap<>();
-	private HashMap<StopAgency, ItemsPredictionsStop> predictionsInfo = new HashMap<>();
+	private HashMap<String, ItemsPredictionsStop> predictionsInfo = new HashMap<>();
+	private HashMap<String, StopAgency> stops = new HashMap<>();
 	HashMap<String, VehiclesRoute> counters = new HashMap<>();
 	
 	@KafkaListener(topics = "vehicles", groupId = "lametro")
@@ -47,10 +48,13 @@ public class VehiclesService {
 	public void predictionUpdate(String message) {
 		ItemsPredictionsStop iP = new Gson().fromJson(message, ItemsPredictionsStop.class);
 		StopAgency sa = new StopAgency(iP.getStop_id(), iP.getAgency_id());
-		if(predictionsInfo.containsKey(sa))
-			predictionsInfo.replace(sa, iP);
-		else
-			predictionsInfo.put(sa, iP);
+		if(predictionsInfo.containsKey(sa.getStop_id())) {
+			predictionsInfo.replace(sa.getStop_id(), iP);
+			stops.replace(sa.getStop_id(), sa);
+		} else {
+			predictionsInfo.put(sa.getStop_id(), iP);
+			stops.put(sa.getStop_id(), sa);
+		}
 		logger.info("Updating predictions information from stop " + sa.getStop_id() + " of the agency " + sa.getAgency_id());
 	}
 
@@ -61,8 +65,8 @@ public class VehiclesService {
 
 	public String getPredictions(String agency) {
 		List<ItemsPredictionsStop> listPredictions = new ArrayList<>();
-		for(Entry<StopAgency, ItemsPredictionsStop> e : predictionsInfo.entrySet())
-			if(e.getKey().getAgency_id().equals(agency))
+		for(Entry<String, ItemsPredictionsStop> e : predictionsInfo.entrySet())
+			if(stops.get(e.getKey()).getAgency_id().equals(agency))
 				listPredictions.add(e.getValue());
 		String predictionsJson =  new Gson().toJson(listPredictions);
 		return predictionsJson;

@@ -93,6 +93,10 @@ services:
       - zookeeper
       - kafka
       - externalapi
+      - alarmsservice
+      - vehicleservice
+      - staticinfo
+      - parkinglotservice
     networks: # Networks to join (Services on the same network can communicate with each other using their name and no need of address)
       kafka-net:
         ipv4_address: 172.0.0.12

@@ -21,6 +21,14 @@ class MetroService{
     getHistory(){
         return axios.get(LAMETRO_API_BASE_URL + "history");
     }
+
+    getEvents(){
+        return axios.get(LAMETRO_API_BASE_URL + "events");
+    }
+
+    getLastEvent(){
+        return axios.get(LAMETRO_API_BASE_URL + "events/last");
+    }
 }
 
 export default new MetroService();

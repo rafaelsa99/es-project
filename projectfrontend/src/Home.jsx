@@ -1,15 +1,58 @@
 import React, {Component} from "react";
+import MetroService from './MetroService';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import ReactNotification from 'react-notifications-component'
+import {store} from  'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 class Home extends React.Component {
-    
+  intervalID;
+  constructor(){
+      super();
+      this.state = {
+          last :[]
+      }
+  }
+
+  componentDidMount(){
+      this.getData();
+  }
+  componentWillUnmount() {
+      clearTimeout(this.intervalID);
+  }
+  getData(){
+      MetroService.getLastEvent().then((res) => {
+          this.setState({last: res.data});
+          this.intervalID = setTimeout(this.getData.bind(this), 5000);
+      }
+      );
+      }
     render() {
       const headletter = {
         fontSize: 20 
       }
         return (
             <div id="home">
-                
+                {
+                        this.state.last.map(event=>
+                            store.addNotification({
+                                title: "Notificação Parque de Estacionamento",
+                                message: event, 
+                                type: "info",
+                                container: "top-right",
+                                insert: "top",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+
+                                dismiss: {
+                                    duration: 2000
+                                },
+
+                                width: 400
+                            })
+                        )
+                        }
+                    <ReactNotification />
                 <div class="bgded overlay light" style={{backgroundImage:"url('template/images/exelametro.jpg')"}}>
   
                   <div class="wrapper row0">
@@ -24,7 +67,7 @@ class Home extends React.Component {
     
                   <article>
                   <p style={headletter} >LAMetro é um sistema que exibe informação sobre os metros e estações em tempo real. 
-                  É possível ver as rotas e paragens disponíveis e a posição de cada autocarro/metro. Além disso, será possível ver a informação sobre a ocupação de alguns parques de estacionamento.<br></br></p>
+                  É possível ver as paragens disponíveis e a posição de cada metro na cidade. Além disso, é possível ver a informação sobre a ocupação de alguns parques de estacionamento.<br></br></p>
                   <footer><btns><Link to="/metro" className="btn btn-primary">Descobre já!</Link></btns></footer>
                   </article>
               
@@ -37,17 +80,17 @@ class Home extends React.Component {
                         <article class="one_third first"><a class="imgover btmspace-30" href="#"><img src="template/images/exelametro.jpg" alt=""/></a>
                           <p>Visualizar Metros!</p>
                           <p></p>
-                          <footer><a href="#">Verificar &raquo;</a></footer>
+                          <footer><Link to="/metro">Ver Metros</Link></footer>
                         </article>
                         <article class="one_third"><a class="imgover btmspace-30" href="#"><img src="template/images/buslametro.jpg" alt=""/></a>
-                          <p>Visualizar Autocarros!</p>
+                          <p>Visualizar Histórico!</p>
                           <p></p>
-                          <footer><a href="#">Verificar &raquo;</a></footer>
+                          <footer><Link to="/historico">Ver Histórico</Link></footer>
                         </article>
                         <article class="one_third"><a class="imgover btmspace-30" href="#"><img src="template/images/porto.jpg" alt="" /></a>
                           <p>Visualizar Parques Estacionamento!</p>
                           <p></p>
-                          <footer><a href="#">Verificar &raquo;</a></footer>
+                          <footer><Link to="/parques">Ver Parques</Link></footer>
                         </article>
                       </div>
                     
@@ -66,43 +109,43 @@ class Home extends React.Component {
                       </div>
                       <ul class="nospace group overview">
                         <li class="one_third">
-                          <article><a href="#"><i class="fa fa-bus"></i></a>
-                          <p><a href="#">Autocarros e Paragens</a></p>
-                            <p>Verificar informação sobre os Autocarros da cidade e das suas paragens!</p>
-                            
-                          </article>
-                        </li>
-                        <li class="one_third">
-                          <article><a href="#"><i class="fa fa-train"></i></a>
-                          <p><a href="#">Metro e Estações</a></p>
-                            <p>Verificar informação sobre os Metros da cidade e das suas Estações!</p>
-                            
-                          </article>
-                        </li>
-                        <li class="one_third">
-                          <article><a href="#"><i class="fa fa-info-circle"></i></a>
-                          <p><a href="#">Parques de Estacionamento</a></p>
-                            <p>Pesquisar informações sobre os Parques de Estacionamento (Nº lugares disponíveis, ocupados)!</p>
-                            
-                          </article>
-                        </li>
-                        <li class="one_third">
-                          <article><a href="#"><i class="fa fa-arrows"></i></a>
-                          <p><a href="#">Rotas e Trajetórias</a></p>
-                            <p>É possível observar a trajetória dos Autocarros e dos Metros da cidade, bem como ver a rota qu estes vão percorrer!</p>
-                            
-                          </article>
-                        </li>
-                        <li class="one_third">
-                          <article><a href="#"><i class="fa fa-calendar"></i></a>
-                          <p><a href="#">Prever Tempo de Viagem</a></p>
-                            <p>É possível verificar o tempo de duração das viagens dos autocarros em cada paragem!</p>
+                          <article><a href="#"><i class="fa fa-subway"></i></a>
+                          <p><Link to="/metro">Metros</Link></p>
+                            <p>É possível ver informação sobre os metros a circular na cidade!</p>
                             
                           </article>
                         </li>
                         <li class="one_third">
                           <article><a href="#"><i class="fa fa-check-square-o"></i></a>
-                          <p><a href="#">Ajudar o Utilizador</a></p>
+                          <p><Link to="/metro">Estações de Metro</Link></p>
+                            <p>É possível ver informação sobre as estações de metro da cidade!</p>
+                            
+                          </article>
+                        </li>
+                        <li class="one_third">
+                          <article><a href="#"><i class="fa fa-car"></i></a>
+                          <p><Link to="/parques">Parques de Estacionamento</Link></p>
+                            <p>É possível ver informações sobre os Parques de Estacionamento (Nº lugares disponíveis, ocupados)!</p>
+                            
+                          </article>
+                        </li>
+                        <li class="one_third">
+                          <article><a href="#"><i class="fa fa-history"></i></a>
+                          <p><Link to="/historico">Histórico</Link></p>
+                            <p>É possível ver informação acerca do número médio de metros por rota e do número médio de lugares livres por parque de estacionamento!</p>
+                            
+                          </article>
+                        </li>
+                        <li class="one_third">
+                          <article><a href="#"><i class="fa fa-calendar"></i></a>
+                          <p><Link to="/parques">Previsões de Chegada</Link></p>
+                            <p>É possível ver as previsões de chegada dos próximos metros às estações!</p>
+                            
+                          </article>
+                        </li>
+                        <li class="one_third">
+                          <article><a href="#"><i class="fa fa-info-circle"></i></a>
+                          <p><Link to="/parques">Ajudar o Utilizador</Link></p>
                             <p>Permite ajudar o utilizador a poupar tempo na procura deste tipo de informação!</p>
                             
                           </article>

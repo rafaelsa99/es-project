@@ -10,7 +10,9 @@ import {
 
 function Nav() {
     
-
+  const headletter = {
+    fontSize: 16
+} 
     return (
         
         <nav>
@@ -19,7 +21,7 @@ function Nav() {
                   <header id="header" class="hoc clear"> 
                     
                     <div id="logo" class="fl_left">
-                      <h1><Link to="/">LAMetro</Link></h1>
+                      <p style={headletter}><Link to="/"><b>LAMetro</b></Link></p>
                     </div>
                     <nav id="mainav" class="fl_right">
                       <ul class="clear">
@@ -28,6 +30,7 @@ function Nav() {
                         <li ><Link to="/metro">Informação Live</Link></li>
                         <li ><Link to="/parques">Parques</Link></li>
                         <li ><Link to="/historico">Histórico</Link></li>
+                        <li ><Link to="/alertas">Notificações</Link></li>
                       </ul>
                     </nav>
       

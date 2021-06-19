@@ -3,6 +3,9 @@ import {useState} from 'react';
 import React, { Component }from 'react';
 import MetroService from './MetroService';
 import {Marker, Popup} from 'react-map-gl';
+import ReactNotification from 'react-notifications-component'
+import {store} from  'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 import './App.css';
 import {
     BrowserRouter as Router,
@@ -23,7 +26,7 @@ import {
         const [selectedVehicle, setSelectedVehicle] = useState(null);
         const [selectedStop, setSelectedStop] = useState(null);
         
-        return <Component {...props} viewport={[viewport, setViewport]} seleted={[selectedVehicle, setSelectedVehicle], [selectedStop, setSelectedStop]} />;
+        return <Component {...props} viewport={[viewport, setViewport]} seleted={[selectedVehicle, setSelectedVehicle]} seletedStop={[selectedStop, setSelectedStop]} />;
     }
     }
 
@@ -33,7 +36,8 @@ import {
             super();
             this.state = {
                 vehicles :[],
-                stops:[]
+                stops:[],
+                last :[]
             }
         }   
     
@@ -47,20 +51,44 @@ import {
             MetroService.getMetro().then((res) => {
                 this.setState({vehicles: res.data});
                 this.setState({stops: res.data});
-                this.intervalID = setTimeout(this.getData.bind(this), 5000);
             }
             
             ); 
+            MetroService.getLastEvent().then((res) => {
+                this.setState({last: res.data});
+                this.intervalID = setTimeout(this.getData.bind(this), 5000);
+            }
+            );
         }
         render() {
             const [viewport, setViewport] = this.props.viewport;
             const [selectedVehicle, setSelectedVehicle] = this.props.seleted;
-            const [selectedStop, setSelectedStop] = this.props.seleted;
+            const [selectedStop, setSelectedStop] = this.props.seletedStop;
             const headletter = {
                 fontSize: 20
         }
             return (
                 <div id="listcomponent">
+                    {
+                        this.state.last.map(event=>
+                            store.addNotification({
+                                title: "Notificação Parque de Estacionamento",
+                                message: event, 
+                                type: "info",
+                                container: "top-right",
+                                insert: "top",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+
+                                dismiss: {
+                                    duration: 2000
+                                },
+
+                                width: 400
+                            })
+                        )
+                        }
+                    <ReactNotification />
                     <p className="text-center" style={headletter} >Metro e Estações da zona metropolitana de Los Angeles</p>
                     
                     
@@ -115,10 +143,11 @@ import {
                             setSelectedVehicle(null);
                         }}>
                             <div>
-                                
+                                <p><b>Rota: </b>{selectedVehicle.route_name}</p>
                                 <p><b>Latitude: </b>{selectedVehicle.latitude}</p>
                                 <p><b>Longitude: </b>{selectedVehicle.longitude}</p>
-                                <p><b>Atualizado à (s): </b>{selectedVehicle.seconds_since_report}</p>
+                                <p><b>Direção: </b>{selectedVehicle.heading}</p>
+                                <p><b>Atualizado há: </b>{selectedVehicle.seconds_since_report} segundos</p>
                             </div>
                         </Popup>
                     ) : null}
@@ -129,11 +158,13 @@ import {
                             setSelectedStop(null);
                         }}>
                             <div>
-                                
+                                <p><b>Estação: </b>{selectedStop.display_name}</p>
                                 <p><b>Latitude: </b>{selectedStop.latitude}</p>
                                 <p><b>Longitude: </b>{selectedStop.longitude}</p>
-                                <p><b>Nome da Estação: </b>{selectedStop.display_name}</p>
-                                
+                                <p><b>Próximas Chegadas:</b></p>
+                                {selectedStop.predictions.map(prediction=> (
+                                    <p>{prediction.route_name}: {prediction.minutes} minutos</p>
+                                ))} 
                             </div>
                         </Popup>
                     ) : null}
