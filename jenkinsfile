@@ -44,7 +44,7 @@ pipeline {
             }
         }*/
 
-        /*stage('Compilation') {
+        stage('Compilation') {
             steps {
                 parallel(
                     alarmsService: {
@@ -310,7 +310,7 @@ pipeline {
                     }
                 )
             }
-        }*/
+        }
         /*stage('Copying Files') {
             steps {
                 sshagent (credentials: ['esp52_playground_ssh']) {
@@ -391,7 +391,7 @@ pipeline {
                     //sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
                     //sshCommand remote: remote, command: 'scp -r /logstash ./'
 		            //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
-                    sshCommand remote: remote, command: 'docker-compose up'
+                    //sshCommand remote: remote, command: 'docker-compose up'
 
                     //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
                     //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
