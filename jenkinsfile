@@ -44,7 +44,7 @@ pipeline {
             }
         }*/
 
-        stage('Compilation') {
+        /*stage('Compilation') {
             steps {
                 parallel(
                     alarmsService: {
@@ -310,7 +310,7 @@ pipeline {
                     }
                 )
             }
-        }
+        }*/
         /*stage('Copying Files') {
             steps {
                 sshagent (credentials: ['esp52_playground_ssh']) {
@@ -387,6 +387,11 @@ pipeline {
                     sshCommand remote: remote, command: 'docker pull 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker create -p 52045:52045 --name esp52_projectfrontend9 192.168.160.48:5000/es-project/projectfrontend9'
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
+
+                    sshPut(from: './logstash', remote: remote, into: './')
+                    sshPut(from: 'Logstash/logstash.conf', remote: remote, into: '/home/esp34/Logstash')
+                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose pull\''
+                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose up -d\''
 
                     //sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
                     //sshCommand remote: remote, command: 'scp -r /logstash ./'
