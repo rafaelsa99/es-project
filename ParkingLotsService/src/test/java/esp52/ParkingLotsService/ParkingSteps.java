@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ParkingSteps extends ParkingLotsServiceApplicationTests {
 
-    //@Autowired
     ParksService pS = new ParksService();
 
     @Autowired
