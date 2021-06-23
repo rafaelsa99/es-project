@@ -98,7 +98,7 @@ pipeline {
                 )
             }
         }
-        /*stage('Deploying Artifact') {
+        stage('Deploying Artifact') {
             steps {
                 parallel(
                     alarmsService: {
@@ -151,7 +151,7 @@ pipeline {
                     }
                 )
             }
-        }*/
+        }
         stage('Create Docker Image') {
             steps {
                 parallel(
@@ -311,20 +311,6 @@ pipeline {
                 )
             }
         }
-
-        /*stage('Copying Files') {
-            steps {
-                sshagent (credentials: ['esp52_playground_ssh']) {
-                    sh "chmod +x -R ${env.WORKSPACE}"
-                    sh 'echo "Copying Files"'
-                    sh 'scp -r ./logstash esp52@192.168.160.87:./'
-                    sh 'scp docker-compose.yml esp52@192.168.160.87:./'
-                    //sh 'esp52@192.168.160.87 docker compose up --build'
-                    sh 'ssh -o StrictHostKeyChecking=no esp52@192.168.160.87 docker-compose up'
-                }
-            }
-        }*/
-
         stage('Deploying on VM') {
             steps {
                 sh 'echo "Deploying"'
@@ -338,6 +324,13 @@ pipeline {
                     }
 
                     echo "$remote.user"
+
+                    sshPut(from: './logstash/config/logstash.yml', remote: remote, into: '/home/esp52/logstash/config')
+                    sshPut(from: './logstash/pipeline/logstash.conf', remote: remote, into: '/home/esp52/logstash/pipeline')
+                    sshPut(from: './logstash/Dockerfile', remote: remote, into: '/home/esp52/logstash')
+                    sshPut(from: 'docker-compose_elk.yml', remote: remote, into: '/home/esp52')
+                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose_elk pull\''
+                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose_elk up -d\''
 
                     
                     sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
@@ -390,24 +383,12 @@ pipeline {
                     //sshCommand remote: remote, command: 'docker start esp52_projectfrontend9'
                     
 
-                    sshPut(from: './logstash/config/logstash.yml', remote: remote, into: '/home/esp52/logstash/config')
-                    sshPut(from: './logstash/pipeline/logstash.conf', remote: remote, into: '/home/esp52/logstash/pipeline')
-                    sshPut(from: './logstash/Dockerfile', remote: remote, into: '/home/esp52/logstash')
+                    //sshPut(from: './logstash/config/logstash.yml', remote: remote, into: '/home/esp52/logstash/config')
+                    //sshPut(from: './logstash/pipeline/logstash.conf', remote: remote, into: '/home/esp52/logstash/pipeline')
+                    //sshPut(from: './logstash/Dockerfile', remote: remote, into: '/home/esp52/logstash')
                     sshPut(from: 'docker-compose.yml', remote: remote, into: '/home/esp52')
                     sshCommand remote: remote, command: '/bin/bash -c \'docker-compose pull\''
                     sshCommand remote: remote, command: '/bin/bash -c \'docker-compose up -d\''
-
-                    //sshCommand remote: remote, command: 'scp ./docker-compose.yml ./'
-                    //sshCommand remote: remote, command: 'scp -r /logstash ./'
-		            //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
-                    //sshCommand remote: remote, command: 'docker-compose up'
-
-                    //sshCommand remote: remote, command: "docker-compose down --rmi all || echo 'Do not have that image'"
-                    //sshCommand remote: remote, command: "rm docker-compose.yml || echo 'Do not have that image'"
-                    //sshCommand remote: remote, command: 'scp docker-compose.yml ./'
-                    //sshCommand remote: remote, command: 'docker-compose up -d'
-
-                    //sshCommand remote: remote, command: 'docker compose up --build'
                 }
             }
         }
