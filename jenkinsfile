@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        /*stage('Testing Cucumber / MockMVC on Parking Lots Service') {
+        stage('Testing Cucumber / MockMVC on Parking Lots Service') {
             steps {
                 dir('ParkingLotsService') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -98,7 +98,7 @@ pipeline {
                 )
             }
         }
-        stage('Deploying Artifact') {
+        /*stage('Deploying Artifact') {
             steps {
                 parallel(
                     alarmsService: {
@@ -151,7 +151,7 @@ pipeline {
                     }
                 )
             }
-        }
+        }*/
         stage('Create Docker Image') {
             steps {
                 parallel(
@@ -310,7 +310,7 @@ pipeline {
                     }
                 )
             }
-        }*/
+        }
         stage('Deploying on VM') {
             steps {
                 sh 'echo "Deploying"'
