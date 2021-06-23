@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        stage('Testing Cucumber / MockMVC on Parking Lots Service') {
+        /*stage('Testing Cucumber / MockMVC on Parking Lots Service') {
             steps {
                 dir('ParkingLotsService') {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -310,7 +310,7 @@ pipeline {
                     }
                 )
             }
-        }
+        }*/
         stage('Deploying on VM') {
             steps {
                 sh 'echo "Deploying"'
@@ -329,8 +329,8 @@ pipeline {
                     sshPut(from: './logstash/pipeline/logstash.conf', remote: remote, into: '/home/esp52/logstash/pipeline')
                     sshPut(from: './logstash/Dockerfile', remote: remote, into: '/home/esp52/logstash')
                     sshPut(from: 'docker-compose_elk.yml', remote: remote, into: '/home/esp52')
-                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose_elk pull\''
-                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose_elk up -d\''
+                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose -f docker-compose_elk pull\''
+                    sshCommand remote: remote, command: '/bin/bash -c \'docker-compose -f docker-compose_elk up -d\''
 
                     
                     sshCommand remote: remote, command: "docker stop esp52_alarmsservice9 || echo 'Do not have that image'"
