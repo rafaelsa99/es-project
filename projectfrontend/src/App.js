@@ -3,7 +3,6 @@ import Nav from './Nav';
 import ListPlaneComponent from './ListPlaneComponent';
 import Historic from './Historic';
 import Historico from './Historico';
-import Events from './Events';
 import Home from './Home.jsx';
 import PaginaMetroComponent from './PaginaMetroComponent';
 import AllMapa from './AllMapa';
