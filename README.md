@@ -233,7 +233,7 @@ The approach was to create an interface that was mostly pleasant and intuitive, 
 
 ## Execution
 ### Preparation
-To run locally, changes must be made to the different services. Those chnages are described in the implementation details.</br>
+To run locally, changes must be made to the different services. Those changes are described in the implementation details.</br>
 The file ``docker-compose-local.yml`` must be used. So, the name of the file must be changed to ```docker-compose.yml ```</br> 
 
 For all springboot projects, the following command must be executed:</br>
